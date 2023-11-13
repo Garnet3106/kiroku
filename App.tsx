@@ -1,20 +1,23 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Platform, StatusBar } from 'react-native';
+import { StatusBar as ExpoStatusBar } from 'expo-status-bar';
+import { Provider } from 'react-redux';
+import Redux from './src/redux/redux';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import Root from './src/components/Root';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Provider store={Redux.store}>
+      <ExpoStatusBar style={Platform.OS === 'android' ? 'dark' : 'dark'} />
+      <SafeAreaProvider>
+        <SafeAreaView style={{
+          // Specify flexGrow not to prevent scroll in ScrollView.
+          flexGrow: 1,
+          paddingTop: StatusBar.currentHeight ?? 0,
+        }}>
+          <Root />
+        </SafeAreaView>
+      </SafeAreaProvider>
+    </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View } from "react-native";
-import Ui from "../../ui";
+import { StyleSheet, Text, View } from 'react-native';
+import Ui from '../../ui';
 
 export default function MenuBar() {
   return (
@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: Ui.color.white,
     borderTopColor: Ui.color.border.gray,
-    borderTopWidth: 1,
+    borderTopWidth: Ui.dimension.border.width,
     height: Ui.dimension.menuBar.height,
     position: 'absolute',
     left: 0,

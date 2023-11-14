@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { ColorValue, ScrollView, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
+import { ColorValue, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
 import { NavigationRoutePath } from '../navigation';
 import { useSelector } from 'react-redux';
 import Redux from '../redux/redux';
@@ -33,12 +33,12 @@ export default function RouteContainer(props: RouteContainerProps) {
       { display: navigation.path === props.path ? undefined : 'none' },
     ]}>
       {header}
-      <ScrollView style={[
+      <View style={[
         { backgroundColor: props.backgroundColor ?? Ui.color.background },
         styles.body,
       ]}>
         {props.children}
-      </ScrollView>
+      </View>
     </View>
   );
 }

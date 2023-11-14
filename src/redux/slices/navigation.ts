@@ -1,13 +1,24 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { NavigationRoute, NavigationRoutePath } from '../../navigation';
+import { InitializationPageIndex, NavigationRoute, NavigationRoutePath } from '../../navigation';
+
+const initialState: NavigationRoute = {
+  path: NavigationRoutePath.Initialization,
+  params: {
+    pageIndex: 0,
+  },
+};
 
 export const navigationSlice = createSlice({
   name: 'navigation',
-  initialState: {
-    path: NavigationRoutePath.Initialization,
-  },
+  initialState,
   reducers: {
     jumpTo: (_state, action: PayloadAction<NavigationRoute>) => action.payload,
+    jumpToInitialization: (_state, action: PayloadAction<InitializationPageIndex>) => ({
+      path: NavigationRoutePath.Initialization,
+      params: {
+        pageIndex: action.payload,
+      },
+    }),
   },
 });
 

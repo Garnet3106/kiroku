@@ -4,6 +4,7 @@ import Ui from '../../ui';
 import Top from './InitializationPage/Top';
 import RegistrationNickname from './InitializationPage/RegistrationNickname';
 import RegistrationServiceLinking from './InitializationPage/RegistrationServiceLinking';
+import RegistrationEmail from './InitializationPage/RegistrationEmail';
 
 export default function Initialization() {
   return (
@@ -15,6 +16,7 @@ export default function Initialization() {
       <Top />
       <RegistrationNickname />
       <RegistrationServiceLinking />
+      <RegistrationEmail />
     </RouteContainer>
   );
 }

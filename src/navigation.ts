@@ -19,4 +19,5 @@ export enum InitializationPageIndex {
   RegistrationNickname,
   RegistrationServiceLinking,
   RegistrationEmail,
+  Finish,
 }

@@ -22,6 +22,7 @@ export default function RectangleButton(props: RectangleButtonProps) {
       {props.icon}
       <Text style={[
         styles.text,
+        { marginLeft: props.icon ? 8 : 0 },
         props.textStyle,
       ]}>
         {props.text}
@@ -32,6 +33,7 @@ export default function RectangleButton(props: RectangleButtonProps) {
 
 const styles = StyleSheet.create({
   container: {
+    alignItems: 'center',
     backgroundColor: Ui.color.main,
     borderRadius: Ui.dimension.border.radius,
     display: 'flex',

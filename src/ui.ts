@@ -6,6 +6,7 @@ namespace Ui {
     main: '#02c94b',
     white: '#ffffff',
     black: '#333333',
+    gray: '#999999',
     border: {
       lightGray: '#cccccc',
     },

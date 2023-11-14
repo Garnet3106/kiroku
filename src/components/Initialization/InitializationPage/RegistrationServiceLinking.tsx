@@ -15,10 +15,10 @@ export default function RegistrationServiceLinking() {
       previous={InitializationPageIndex.RegistrationNickname}
     >
       <Text style={styles.message}>
-        アプリに連携させるサービスを選択してください
+        アカウントに連携させるサービスを選択してください。
       </Text>
       <Text style={styles.messageCaption}>
-        * 次回以降のログインで使用します
+        * 次回以降のログインで使用します。
       </Text>
       <RectangleButton
         text="Google"
@@ -37,9 +37,10 @@ export default function RegistrationServiceLinking() {
 const styles = StyleSheet.create({
   message: {
     fontSize: 20,
-    marginBottom: Ui.dimension.margin,
+    marginBottom: 5,
   },
   messageCaption: {
+    color: Ui.color.gray,
     fontSize: 16,
     marginBottom: Ui.dimension.margin * 1.5,
   },

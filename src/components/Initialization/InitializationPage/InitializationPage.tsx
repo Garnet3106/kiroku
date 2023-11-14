@@ -26,7 +26,7 @@ export default function InitializationPage(props: InitializationPageProps) {
       style={styles.previous}
       onPress={() => Redux.store.dispatch(navigationActions.jumpToInitialization(props.previous!))}
     >
-      <Ionicons name="chevron-back" color={Ui.color.white} size={23} style={{ marginLeft: -7 }} />
+      <Ionicons name="chevron-back" color={Ui.color.white} size={20} style={{ marginLeft: -7 }} />
       <Text style={styles.previousText}>
         前に戻る
       </Text>
@@ -45,7 +45,10 @@ export default function InitializationPage(props: InitializationPageProps) {
     <View style={[
       styles.container,
       props.style,
-      { display: displayed ? undefined : 'none' },
+      {
+        display: displayed ? undefined : 'none',
+        paddingBottom: props.previous !== undefined ? 50 : 0,
+      },
     ]}>
       {previousButton}
       {props.children}
@@ -67,12 +70,12 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     display: 'flex',
     flexDirection: 'row',
-    marginBottom: Ui.dimension.margin * 3,
+    marginBottom: Ui.dimension.margin * 2,
     paddingHorizontal: 12,
     paddingVertical: 5,
   },
   previousText: {
     color: Ui.color.white,
-    fontSize: 16,
+    fontWeight: 'bold',
   },
 });

@@ -1,20 +1,22 @@
 import { StyleSheet, Text, View } from 'react-native';
-import RouteElement from './RouteElement';
+import RouteContainer from './RouteContainer';
 import { NavigationRoutePath } from '../navigation';
+import Ui from '../ui';
 
 export default function Initialization() {
   return (
-    <RouteElement
+    <RouteContainer
       path={NavigationRoutePath.Initialization}
+      backgroundColor={Ui.color.white}
+      headerDisabled
       style={styles.container}
     >
-      <Text>kiroku</Text>
-    </RouteElement>
+      <Text>content</Text>
+    </RouteContainer>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    height: '100%',
   },
 });

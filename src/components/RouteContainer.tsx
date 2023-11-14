@@ -16,6 +16,7 @@ export type RouteContainerProps = {
 
 export default function RouteContainer(props: RouteContainerProps) {
   const navigation = useSelector((state: Redux.RootState) => state.navigation);
+  const menuBarDisplayed = NavigationRoutePath.getMenuBarDisplayed(navigation.path);
   const title = props.title ?? 'kiroku';
 
   const header = !props.headerDisabled && (
@@ -30,7 +31,10 @@ export default function RouteContainer(props: RouteContainerProps) {
     <View style={[
       styles.container,
       props.style,
-      { display: navigation.path === props.path ? undefined : 'none' },
+      {
+        display: navigation.path === props.path ? undefined : 'none',
+        paddingBottom: menuBarDisplayed ? Ui.dimension.menuBar.height : 0,
+      },
     ]}>
       {header}
       <View style={[
@@ -46,7 +50,6 @@ export default function RouteContainer(props: RouteContainerProps) {
 const styles = StyleSheet.create({
   container: {
     height: '100%',
-    paddingBottom: Ui.dimension.menuBar.height,
   },
   header: {
     alignItems: 'center',

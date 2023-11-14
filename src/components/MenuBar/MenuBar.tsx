@@ -1,9 +1,17 @@
 import { StyleSheet, Text, View } from 'react-native';
 import Ui from '../../ui';
+import { useSelector } from 'react-redux';
+import Redux from '../../redux/redux';
+import { NavigationRoutePath } from '../../navigation';
 
 export default function MenuBar() {
+  const displayed = useSelector((state: Redux.RootState) => NavigationRoutePath.getMenuBarDisplayed(state.navigation.path));
+
   return (
-    <View style={styles.container}>
+    <View style={[
+      styles.container,
+      { display: displayed ? undefined : 'none' },
+    ]}>
       <Text>MenuBar</Text>
     </View>
   );

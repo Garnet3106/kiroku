@@ -1,5 +1,5 @@
 import { GestureResponderEvent, Pressable, StyleProp, StyleSheet, Text, TextStyle, ViewStyle } from 'react-native';
-import Ui from '../ui';
+import Ui from '../../ui';
 import { ReactNode } from 'react';
 
 export type RectangleButtonProps = {

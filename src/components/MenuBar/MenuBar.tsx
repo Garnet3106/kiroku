@@ -20,7 +20,7 @@ export default function MenuBar() {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: Ui.color.white,
-    borderTopColor: Ui.color.border.gray,
+    borderTopColor: Ui.color.border.lightGray,
     borderTopWidth: Ui.dimension.border.width,
     height: Ui.dimension.menuBar.height,
     position: 'absolute',

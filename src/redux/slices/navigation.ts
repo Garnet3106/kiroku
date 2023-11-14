@@ -22,4 +22,4 @@ export const navigationSlice = createSlice({
   },
 });
 
-export default navigationSlice.actions;
+export const navigationActions = navigationSlice.actions;

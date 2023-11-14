@@ -1,12 +1,17 @@
-import { StyleProp, StyleSheet, ViewStyle, View } from 'react-native';
+import { StyleProp, StyleSheet, ViewStyle, View, Pressable, Text } from 'react-native';
 import { InitializationPageIndex } from '../../../navigation';
 import { ReactNode } from 'react';
 import Redux from '../../../redux/redux';
 import { useSelector } from 'react-redux';
 import Ui from '../../../ui';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import RectangleButton from '../../input/RectangleButton';
+import { navigationActions } from '../../../redux/slices/navigation';
 
 export type InitializationPageProps = {
   pageIndex: InitializationPageIndex,
+  previous?: InitializationPageIndex,
+  next?: InitializationPageIndex,
   style?: StyleProp<ViewStyle>,
   children: ReactNode,
 };
@@ -16,23 +21,58 @@ export default function InitializationPage(props: InitializationPageProps) {
   const pageIndex = navigation.params && navigation.params.pageIndex;
   const displayed = pageIndex === props.pageIndex;
 
+  const previousButton = props.previous !== undefined && (
+    <Pressable
+      style={styles.previous}
+      onPress={() => Redux.store.dispatch(navigationActions.jumpToInitialization(props.previous!))}
+    >
+      <Ionicons name="chevron-back" color={Ui.color.white} size={23} style={{ marginLeft: -7 }} />
+      <Text style={styles.previousText}>
+        前に戻る
+      </Text>
+    </Pressable>
+  );
+
+  const nextButton = props.next !== undefined && (
+    <RectangleButton
+      text="次へ進む"
+      style={{ marginTop: Ui.dimension.margin * 2 }}
+      onPress={() => Redux.store.dispatch(navigationActions.jumpToInitialization(props.next!))}
+    />
+  );
+
   return (
     <View style={[
       styles.container,
       props.style,
       { display: displayed ? undefined : 'none' },
     ]}>
+      {previousButton}
       {props.children}
+      {nextButton}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
     display: 'flex',
     height: '100%',
     justifyContent: 'center',
     paddingHorizontal: Ui.dimension.margin * 2,
+  },
+  previous: {
+    alignSelf: 'flex-start',
+    backgroundColor: Ui.color.main,
+    borderRadius: 100,
+    display: 'flex',
+    flexDirection: 'row',
+    marginBottom: Ui.dimension.margin * 1.5,
+    paddingHorizontal: 12,
+    paddingVertical: 5,
+  },
+  previousText: {
+    color: Ui.color.white,
+    fontSize: 16,
   },
 });

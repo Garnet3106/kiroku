@@ -9,11 +9,10 @@ import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function MenuBar() {
-  const displayed = useSelector((state: Redux.RootState) => NavigationRoutePath.getMenuBarDisplayed(state.navigation.path));
+  const navigationRoutePath = useSelector((state: Redux.RootState) => state.navigation.path);
+  const displayed = NavigationRoutePath.getMenuBarDisplayed(navigationRoutePath);
 
-  const iconProps = {
-    color: Ui.color.main,
-  };
+  const getColor = (path: NavigationRoutePath) => path === navigationRoutePath ? Ui.color.main : Ui.color.gray;
 
   return (
     <View style={[
@@ -22,26 +21,53 @@ export default function MenuBar() {
     ]}>
       <MenuBarItem
         text='ホーム'
-        textColor={Ui.color.main}
-        icon={<FontAwesome5 name='home' {...iconProps} size={Ui.dimension.menuBar.height - 39} bottom={2} />}
+        textColor={getColor(NavigationRoutePath.Home)}
+        icon={(
+          <FontAwesome5
+            name='home'
+            color={getColor(NavigationRoutePath.Home)}
+            size={Ui.dimension.menuBar.height - 39}
+            bottom={2}
+          />
+        )}
         route={{ path: NavigationRoutePath.Home }}
       />
       <MenuBarItem
         text='実績'
-        textColor={Ui.color.main}
-        icon={<MaterialCommunityIcons name='fire' {...iconProps} size={Ui.dimension.menuBar.height - 30} />}
+        textColor={getColor(NavigationRoutePath.Performance)}
+        icon={(
+          <MaterialCommunityIcons
+            name='fire'
+            color={getColor(NavigationRoutePath.Performance)}
+            size={Ui.dimension.menuBar.height - 30}
+          />
+        )}
         route={{ path: NavigationRoutePath.Performance }}
       />
       <MenuBarItem
         text='管理'
-        textColor={Ui.color.main}
-        icon={<FontAwesome5 name='pencil-alt' {...iconProps} size={Ui.dimension.menuBar.height - 42} bottom={5} />}
+        textColor={getColor(NavigationRoutePath.Management)}
+        icon={(
+          <FontAwesome5
+            name='pencil-alt'
+            color={getColor(NavigationRoutePath.Management)}
+            size={Ui.dimension.menuBar.height - 42}
+            bottom={5}
+          />
+        )}
         route={{ path: NavigationRoutePath.Management }}
       />
       <MenuBarItem
         text='設定'
-        textColor={Ui.color.main}
-        icon={<Ionicons name='settings-sharp' {...iconProps} size={Ui.dimension.menuBar.height - 37} bottom={2} />}
+        textColor={getColor(NavigationRoutePath.Settings)}
+        icon={(
+          <Ionicons
+            name='settings-sharp'
+            color={getColor(NavigationRoutePath.Settings)}
+            size={Ui.dimension.menuBar.height - 37}
+            bottom={2}
+          />
+        )}
         route={{ path: NavigationRoutePath.Settings }}
       />
     </View>

@@ -4,7 +4,7 @@ import { Text } from 'react-native';
 
 export default function Management() {
   return (
-    <RouteContainer path={NavigationRoutePath.Management}>
+    <RouteContainer path={NavigationRoutePath.Management} title='作業管理'>
       <Text>管理</Text>
     </RouteContainer>
   );

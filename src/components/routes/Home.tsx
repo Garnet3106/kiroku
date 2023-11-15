@@ -4,7 +4,7 @@ import { Text } from 'react-native';
 
 export default function Home() {
   return (
-    <RouteContainer path={NavigationRoutePath.Home}>
+    <RouteContainer path={NavigationRoutePath.Home} title='ホーム'>
       <Text>ホーム</Text>
     </RouteContainer>
   );

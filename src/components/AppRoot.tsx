@@ -11,7 +11,6 @@ export default function AppRoot() {
     <Initialization />
     <Home />
     <Performance />
-    <Initialization />
     <Management />
     <Settings />
     <MenuBar />

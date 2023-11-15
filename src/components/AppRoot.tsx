@@ -1,4 +1,4 @@
-import Initialization from './Initialization/Initialization';
+import Initialization from './routes/Initialization/Initialization';
 import MenuBar from './MenuBar/MenuBar';
 import Home from './routes/Home';
 import Management from './routes/Management';

@@ -1,13 +1,13 @@
 import { StyleProp, StyleSheet, ViewStyle, View, Text } from 'react-native';
-import { InitializationPageIndex } from '../../../navigation';
+import { InitializationPageIndex } from '../../../../navigation';
 import { ReactNode } from 'react';
-import Redux from '../../../redux/redux';
+import Redux from '../../../../redux/redux';
 import { useSelector } from 'react-redux';
-import Ui from '../../../ui';
+import Ui from '../../../../ui';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import RectangleButton from '../../input/RectangleButton';
-import { navigationActions } from '../../../redux/slices/navigation';
-import PressableHighlight from '../../pressable/PressableHighlight';
+import RectangleButton from '../../../input/RectangleButton';
+import { navigationActions } from '../../../../redux/slices/navigation';
+import PressableHighlight from '../../../pressable/PressableHighlight';
 
 export type InitializationPageProps = {
   pageIndex: InitializationPageIndex,

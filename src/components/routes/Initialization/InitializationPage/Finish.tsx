@@ -1,10 +1,10 @@
 import { StyleSheet, Text } from 'react-native';
-import { InitializationPageIndex, NavigationRoutePath } from '../../../navigation';
-import RectangleButton from '../../input/RectangleButton';
+import { InitializationPageIndex, NavigationRoutePath } from '../../../../navigation';
+import RectangleButton from '../../../input/RectangleButton';
 import InitializationPage from './InitializationPage';
-import Ui from '../../../ui';
-import Redux from '../../../redux/redux';
-import { navigationActions } from '../../../redux/slices/navigation';
+import Ui from '../../../../ui';
+import Redux from '../../../../redux/redux';
+import { navigationActions } from '../../../../redux/slices/navigation';
 
 export default function Finish() {
   return (

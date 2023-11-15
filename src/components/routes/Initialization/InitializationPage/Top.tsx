@@ -1,11 +1,11 @@
-import RectangleButton from '../../input/RectangleButton';
-import Ui from '../../../ui';
-import Redux from '../../../redux/redux';
-import { InitializationPageIndex, NavigationRoutePath } from '../../../navigation';
+import RectangleButton from '../../../input/RectangleButton';
+import Ui from '../../../../ui';
+import Redux from '../../../../redux/redux';
+import { InitializationPageIndex, NavigationRoutePath } from '../../../../navigation';
 import InitializationPage from './InitializationPage';
-import { navigationActions } from '../../../redux/slices/navigation';
+import { navigationActions } from '../../../../redux/slices/navigation';
 import { Linking, Pressable, StyleSheet, Text, View } from 'react-native';
-import AppLogo from '../../AppLogo';
+import AppLogo from '../../../AppLogo';
 
 export default function Top() {
   return (

@@ -1,11 +1,11 @@
-import { InitializationPageIndex } from '../../../navigation';
-import Ui from '../../../ui';
-import RectangleButton from '../../input/RectangleButton';
+import { InitializationPageIndex } from '../../../../navigation';
+import Ui from '../../../../ui';
+import RectangleButton from '../../../input/RectangleButton';
 import InitializationPage from './InitializationPage';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Feather from '@expo/vector-icons/Feather';
-import Redux from '../../../redux/redux';
-import { navigationActions } from '../../../redux/slices/navigation';
+import Redux from '../../../../redux/redux';
+import { navigationActions } from '../../../../redux/slices/navigation';
 import { StyleSheet, Text } from 'react-native';
 
 export default function RegistrationServiceLinking() {

@@ -1,6 +1,6 @@
-import { InitializationPageIndex } from '../../../navigation';
-import TextInput from '../../input/TextInput';
-import TitlePair from '../../input/TitlePair';
+import { InitializationPageIndex } from '../../../../navigation';
+import TextInput from '../../../input/TextInput';
+import TitlePair from '../../../input/TitlePair';
 import InitializationPage from './InitializationPage';
 
 export default function RegistrationNickname() {

@@ -6,6 +6,9 @@ export type NavigationRoute = {
 export enum NavigationRoutePath {
   Initialization = '/init',
   Home = '/home',
+  Performance = '/performance',
+  Management = '/management',
+  Settings = '/settings',
 }
 
 export namespace NavigationRoutePath {

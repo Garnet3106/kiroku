@@ -21,6 +21,9 @@ namespace Ui {
       radius: 6,
       width: 1,
     },
+    header: {
+      height: 40,
+    },
     menuBar: {
       height: 70,
     },

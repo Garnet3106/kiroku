@@ -33,7 +33,7 @@ export default function RouteContainer(props: RouteContainerProps) {
       props.style,
       {
         display: navigation.path === props.path ? undefined : 'none',
-        paddingBottom: menuBarDisplayed ? Ui.dimension.menuBar.height : 0,
+        paddingBottom: menuBarDisplayed ? Ui.dimension.header.height + Ui.dimension.menuBar.height : 0,
       },
     ]}>
       {header}
@@ -55,12 +55,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: Ui.color.white,
     display: 'flex',
-    paddingVertical: 10,
+    height: Ui.dimension.header.height,
+    justifyContent: 'center',
   },
   headerTitle: {
     fontSize: 16,
   },
   body: {
     height: '100%',
+    padding: Ui.dimension.margin,
   },
 });

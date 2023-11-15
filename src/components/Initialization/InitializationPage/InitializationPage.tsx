@@ -1,4 +1,4 @@
-import { StyleProp, StyleSheet, ViewStyle, View, Pressable, Text } from 'react-native';
+import { StyleProp, StyleSheet, ViewStyle, View, Text } from 'react-native';
 import { InitializationPageIndex } from '../../../navigation';
 import { ReactNode } from 'react';
 import Redux from '../../../redux/redux';
@@ -7,6 +7,7 @@ import Ui from '../../../ui';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import RectangleButton from '../../input/RectangleButton';
 import { navigationActions } from '../../../redux/slices/navigation';
+import PressableHighlight from '../../pressable/PressableHighlight';
 
 export type InitializationPageProps = {
   pageIndex: InitializationPageIndex,
@@ -23,7 +24,11 @@ export default function InitializationPage(props: InitializationPageProps) {
   const displayed = pageIndex === props.pageIndex;
 
   const previousButton = props.previous !== undefined && (
-    <Pressable
+    <PressableHighlight
+      underlayColor={{
+        from: Ui.color.main,
+        to: Ui.color.pressed.main,
+      }}
       style={styles.previous}
       onPress={() => Redux.store.dispatch(navigationActions.jumpToInitialization(props.previous!))}
     >
@@ -31,7 +36,7 @@ export default function InitializationPage(props: InitializationPageProps) {
       <Text style={styles.previousText}>
         前に戻る
       </Text>
-    </Pressable>
+    </PressableHighlight>
   );
 
   const nextButton = props.next !== undefined && (
@@ -67,7 +72,6 @@ const styles = StyleSheet.create({
   },
   previous: {
     alignSelf: 'flex-start',
-    backgroundColor: Ui.color.main,
     borderRadius: 100,
     display: 'flex',
     flexDirection: 'row',

@@ -10,6 +10,9 @@ namespace Ui {
     border: {
       lightGray: '#cccccc',
     },
+    pressed: {
+      main: '#09e058',
+    },
   };
 
   export const dimension = {

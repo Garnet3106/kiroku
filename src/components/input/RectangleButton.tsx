@@ -1,6 +1,7 @@
-import { GestureResponderEvent, Pressable, StyleProp, StyleSheet, Text, TextStyle, ViewStyle } from 'react-native';
+import { GestureResponderEvent, StyleProp, StyleSheet, Text, TextStyle, ViewStyle } from 'react-native';
 import Ui from '../../ui';
 import { ReactNode } from 'react';
+import PressableHighlight from '../pressable/PressableHighlight';
 
 export type RectangleButtonProps = {
   text: string,
@@ -12,7 +13,11 @@ export type RectangleButtonProps = {
 
 export default function RectangleButton(props: RectangleButtonProps) {
   return (
-    <Pressable
+    <PressableHighlight
+      underlayColor={{
+        from: Ui.color.main,
+        to: Ui.color.pressed.main,
+      }}
       style={[
         styles.container,
         props.style,
@@ -27,7 +32,7 @@ export default function RectangleButton(props: RectangleButtonProps) {
       ]}>
         {props.text}
       </Text>
-    </Pressable>
+    </PressableHighlight>
   );
 }
 

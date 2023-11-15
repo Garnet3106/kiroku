@@ -8,12 +8,12 @@ import { navigationActions } from '../../../redux/slices/navigation';
 
 export default function Finish() {
   return (
-    <InitializationPage pageIndex={InitializationPageIndex.Finish}>
+    <InitializationPage pageIndex={InitializationPageIndex.Finish} style={{ bottom: 35 }}>
       <Text style={styles.message}>
-        利用準備が完了しました！
+        {'利用準備が完了しました！\nさっそく kiroku を使ってみましょう'}
       </Text>
       <RectangleButton
-        text='kiroku を始める'
+        text='利用を始める'
         onPress={() => Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Home))}
       />
     </InitializationPage>
@@ -22,8 +22,8 @@ export default function Finish() {
 
 const styles = StyleSheet.create({
   message: {
-    alignSelf: 'center',
     fontSize: 18,
+    textAlign: 'center',
     marginBottom: Ui.dimension.margin * 2,
   },
 });

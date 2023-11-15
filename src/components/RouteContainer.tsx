@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { ColorValue, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
+import { ColorValue, ScrollView, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
 import { NavigationRoutePath } from '../navigation';
 import { useSelector } from 'react-redux';
 import Redux from '../redux/redux';
@@ -10,6 +10,7 @@ export type RouteContainerProps = {
   title?: string,
   backgroundColor?: ColorValue,
   headerDisabled?: boolean,
+  scrollable?: boolean,
   style?: StyleProp<ViewStyle>,
   children: ReactNode,
 };
@@ -27,6 +28,29 @@ export default function RouteContainer(props: RouteContainerProps) {
     </View>
   );
 
+  const bodyBackgroundColor = props.backgroundColor ?? Ui.color.background;
+
+  const body = props.scrollable ? (
+    <View style={{
+      backgroundColor: bodyBackgroundColor,
+      height: '100%',
+      overflow: 'hidden',
+    }}>
+      <ScrollView contentContainerStyle={{ padding: Ui.dimension.margin }}>
+        {props.children}
+      </ScrollView>
+    </View>
+  ) : (
+    <View style={{
+      backgroundColor: bodyBackgroundColor,
+      height: '100%',
+      overflow: 'hidden',
+      padding: Ui.dimension.margin,
+    }}>
+      {props.children}
+    </View>
+  );
+
   return (
     <View style={[
       styles.container,
@@ -37,12 +61,7 @@ export default function RouteContainer(props: RouteContainerProps) {
       },
     ]}>
       {header}
-      <View style={[
-        { backgroundColor: props.backgroundColor ?? Ui.color.background },
-        styles.body,
-      ]}>
-        {props.children}
-      </View>
+      {body}
     </View>
   );
 }
@@ -60,9 +79,5 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 16,
-  },
-  body: {
-    height: '100%',
-    padding: Ui.dimension.margin,
   },
 });

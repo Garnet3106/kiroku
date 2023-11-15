@@ -12,6 +12,7 @@ export type InitializationPageProps = {
   pageIndex: InitializationPageIndex,
   previous?: InitializationPageIndex,
   next?: InitializationPageIndex,
+  progress?: number,
   style?: StyleProp<ViewStyle>,
   children: ReactNode,
 };

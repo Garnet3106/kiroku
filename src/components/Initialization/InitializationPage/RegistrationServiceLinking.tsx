@@ -26,7 +26,7 @@ export default function RegistrationServiceLinking() {
       />
       <RectangleButton
         text="メールアドレス"
-        icon={<Feather name="mail" color={Ui.color.white} size={22} />}
+        icon={<Feather name="mail" color={Ui.color.white} size={22} style={{ top: 3 }} />}
         style={{ marginTop: Ui.dimension.margin }}
         onPress={() => Redux.store.dispatch(navigationActions.jumpToInitialization(InitializationPageIndex.RegistrationEmail))}
       />

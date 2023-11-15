@@ -12,7 +12,11 @@ export const navigationSlice = createSlice({
   name: 'navigation',
   initialState,
   reducers: {
-    jumpTo: (_state, action: PayloadAction<NavigationRoute>) => action.payload,
+    jumpTo: (_state, action: PayloadAction<NavigationRoutePath>) => ({
+      path: action.payload,
+      params: {},
+    }),
+    jumpToWithParams: (_state, action: PayloadAction<NavigationRoute>) => action.payload,
     jumpToInitialization: (_state, action: PayloadAction<InitializationPageIndex>) => ({
       path: NavigationRoutePath.Initialization,
       params: {

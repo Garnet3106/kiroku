@@ -21,12 +21,12 @@ export default function RegistrationServiceLinking() {
         * 次回以降のログインで使用します。
       </Text>
       <RectangleButton
-        text="Google"
-        icon={<FontAwesome name="google" color={Ui.color.white} size={22} />}
+        text='Google'
+        icon={<FontAwesome name='google' color={Ui.color.white} size={22} />}
       />
       <RectangleButton
-        text="メールアドレス"
-        icon={<Feather name="mail" color={Ui.color.white} size={22} style={{ top: 3 }} />}
+        text='メールアドレス'
+        icon={<Feather name='mail' color={Ui.color.white} size={22} style={{ top: 3 }} />}
         style={{ marginTop: Ui.dimension.margin }}
         onPress={() => Redux.store.dispatch(navigationActions.jumpToInitialization(InitializationPageIndex.RegistrationEmail))}
       />

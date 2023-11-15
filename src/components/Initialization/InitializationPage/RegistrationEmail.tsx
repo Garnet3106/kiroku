@@ -10,8 +10,8 @@ export default function RegistrationEmail() {
       previous={InitializationPageIndex.RegistrationServiceLinking}
       next={InitializationPageIndex.Finish}
     >
-      <TitlePair title="メールアドレス" required>
-        <TextInput placeholder="例）...@gmail.com" textContentType="emailAddress" keyboardType="email-address" />
+      <TitlePair title='メールアドレス' required>
+        <TextInput placeholder='例）...@gmail.com' textContentType='emailAddress' keyboardType='email-address' />
       </TitlePair>
     </InitializationPage>
   );

@@ -27,7 +27,7 @@ export default function InitializationPage(props: InitializationPageProps) {
       style={styles.previous}
       onPress={() => Redux.store.dispatch(navigationActions.jumpToInitialization(props.previous!))}
     >
-      <Ionicons name="chevron-back" color={Ui.color.white} size={20} style={{ marginLeft: -7 }} />
+      <Ionicons name='chevron-back' color={Ui.color.white} size={20} style={{ marginLeft: -7 }} />
       <Text style={styles.previousText}>
         前に戻る
       </Text>
@@ -36,7 +36,7 @@ export default function InitializationPage(props: InitializationPageProps) {
 
   const nextButton = props.next !== undefined && (
     <RectangleButton
-      text="次へ進む"
+      text='次へ進む'
       style={{ marginTop: Ui.dimension.margin * 2 }}
       onPress={() => Redux.store.dispatch(navigationActions.jumpToInitialization(props.next!))}
     />

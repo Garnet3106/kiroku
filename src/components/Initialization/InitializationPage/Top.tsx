@@ -9,13 +9,13 @@ export default function Top() {
   return (
     <InitializationPage pageIndex={InitializationPageIndex.Top}>
       <RectangleButton
-        text="初めての方はこちら"
+        text='初めての方はこちら'
         onPress={() => {
           Redux.store.dispatch(navigationActions.jumpToInitialization(InitializationPageIndex.RegistrationNickname));
         }}
       />
       <RectangleButton
-        text="ログイン"
+        text='ログイン'
         style={{ marginTop: Ui.dimension.margin }}
         onPress={() => {
         }}

@@ -10,8 +10,8 @@ export default function RegistrationNickname() {
       previous={InitializationPageIndex.Top}
       next={InitializationPageIndex.RegistrationServiceLinking}
     >
-      <TitlePair title="ニックネーム" required>
-        <TextInput placeholder="例）きろくたろー" />
+      <TitlePair title='ニックネーム' required>
+        <TextInput placeholder='例）きろくたろー' />
       </TitlePair>
     </InitializationPage>
   );

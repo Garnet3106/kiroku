@@ -1,6 +1,6 @@
-import { useRef } from "react";
-import { Animated, GestureResponderEvent, InteractionManager, Pressable, PressableProps } from "react-native";
-import Ui from "../../ui";
+import { useRef } from 'react';
+import { Animated, GestureResponderEvent, InteractionManager, Pressable, PressableProps } from 'react-native';
+import Ui from '../../ui';
 
 export type PressableHighlightProps = PressableProps & {
   underlayColor: {

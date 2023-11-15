@@ -27,29 +27,16 @@ export default function PressableHighlight(props: PressableHighlightProps) {
     <AnimatedPressable
       {...props}
       style={style}
-      onPress={onPress}
-      onLongPress={onLongPress}
+      onPress={() => {}}
       onPressIn={onPressIn}
       onPressOut={onPressOut}
     />
   );
 
-  function onPress(event: GestureResponderEvent) {
-    InteractionManager.runAfterInteractions(() => {
-      props.onPress && props.onPress(event);
-    });
-  }
-
-  function onLongPress(event: GestureResponderEvent) {
-    InteractionManager.runAfterInteractions(() => {
-      props.onLongPress && props.onLongPress(event);
-    });
-  }
-
   function onPressIn(event: GestureResponderEvent) {
     Animated.timing(animatedBackgroundColor, {
       toValue: 1,
-      duration: 30,
+      duration: 40,
       useNativeDriver: false,
     }).start();
 
@@ -61,12 +48,13 @@ export default function PressableHighlight(props: PressableHighlightProps) {
   function onPressOut(event: GestureResponderEvent) {
     Animated.timing(animatedBackgroundColor, {
       toValue: 0,
-      duration: 60,
+      duration: 80,
       useNativeDriver: false,
     }).start();
 
     InteractionManager.runAfterInteractions(() => {
       props.onPressOut && props.onPressOut(event);
+      props.onPress && props.onPress(event);
     });
   }
 }

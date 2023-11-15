@@ -11,7 +11,7 @@ namespace Ui {
       lightGray: '#cccccc',
     },
     pressed: {
-      main: '#09e058',
+      main: '#16db5e',
     },
   };
 

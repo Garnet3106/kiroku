@@ -1,5 +1,3 @@
-import { StyleProp } from 'react-native';
-
 namespace Ui {
   export const color = {
     background: '#eeeeee',
@@ -7,8 +5,9 @@ namespace Ui {
     white: '#ffffff',
     black: '#333333',
     gray: '#999999',
+    lightGray: '#dddddd',
     border: {
-      lightGray: '#cccccc',
+      lightGray: '#dddddd',
     },
     pressed: {
       main: '#3db56f',

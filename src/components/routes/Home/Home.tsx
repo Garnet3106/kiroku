@@ -1,10 +1,10 @@
-import RouteContainer from '../RouteContainer';
-import { NavigationRoutePath } from '../../navigation';
+import RouteContainer from '../../RouteContainer';
+import { NavigationRoutePath } from '../../../navigation';
 import { StyleSheet, Text, View } from 'react-native';
-import ContentArea from '../ContentArea';
-import Ui from '../../ui';
+import ContentArea from '../../ContentArea';
+import Ui from '../../../ui';
 import TaskItem from './TaskItem';
-import ContentTitle from '../ContentTitle';
+import ContentTitle from '../../ContentTitle';
 
 export default function Home() {
   const tasks = [undefined, undefined, undefined];

@@ -7,7 +7,7 @@ export default function TextInput(props: RNTextInputProps) {
       <RNTextInput
         cursorColor={Ui.color.black}
         {...props}
-        style={Ui.joinStyles<TextStyle>(styles.text, props.style)}
+        style={[styles.text, props.style]}
       />
     </View>
   );

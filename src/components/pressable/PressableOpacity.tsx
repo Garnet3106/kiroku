@@ -1,6 +1,5 @@
 import { useRef } from 'react';
 import { Animated, GestureResponderEvent, InteractionManager, Pressable, PressableProps } from 'react-native';
-import Ui from '../../ui';
 
 export type PressableOpacityProps = PressableProps & {
   activeOpacity?: number,
@@ -11,14 +10,13 @@ const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 export default function PressableOpacity(props: PressableOpacityProps) {
   const animatedOpacity = useRef(new Animated.Value(1)).current;
 
-  const style = Ui.joinStyles<any>({
-    opacity: animatedOpacity,
-  }, props.style);
-
   return (
     <AnimatedPressable
       {...props}
-      style={style}
+      style={[
+        props.style as any,
+        { opacity: animatedOpacity },
+      ]}
       onPress={() => {}}
       onPressIn={onPressIn}
       onPressOut={onPressOut}

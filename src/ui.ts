@@ -28,17 +28,6 @@ namespace Ui {
       height: 70,
     },
   };
-
-  export function joinStyles<T>(start: T, original: StyleProp<T>): StyleProp<T> {
-    if (!start) {
-      return original;
-    } else if (Array.isArray(start)) {
-      const array: StyleProp<T> = [original];
-      return array.concat(start);
-    } else {
-      return [original, start];
-    }
-  }
 }
 
 export default Ui;

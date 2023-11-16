@@ -1,6 +1,5 @@
 import { useRef } from 'react';
 import { Animated, GestureResponderEvent, InteractionManager, Pressable, PressableProps } from 'react-native';
-import Ui from '../../ui';
 
 export type PressableHighlightProps = PressableProps & {
   underlayColor: {
@@ -19,14 +18,13 @@ export default function PressableHighlight(props: PressableHighlightProps) {
     outputRange: [props.underlayColor.from, props.underlayColor.to],
   });
 
-  const style = Ui.joinStyles<any>({
-    backgroundColor: interpolatedBackgroundColor,
-  }, props.style);
-
   return (
     <AnimatedPressable
       {...props}
-      style={style}
+      style={[
+        props.style as any,
+        { backgroundColor: interpolatedBackgroundColor },
+      ]}
       onPress={() => {}}
       onPressIn={onPressIn}
       onPressOut={onPressOut}

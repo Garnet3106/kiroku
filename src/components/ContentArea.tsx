@@ -1,18 +1,35 @@
 import { ReactNode } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { GestureResponderEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import Ui from '../ui';
+import PressableHighlight from './pressable/PressableHighlight';
 
 export type ContentAreaProps = {
   insertBottomMargin?: boolean,
+  style?: StyleProp<ViewStyle>,
+  onPress?: (event: GestureResponderEvent) => void,
   children?: ReactNode,
 };
 
 export default function ContentArea(props: ContentAreaProps) {
-  return (
-    <View style={[
-      { marginBottom: props.insertBottomMargin ? Ui.dimension.margin : undefined },
-      styles.container,
-    ]}>
+  const containerStyle = [
+    { marginBottom: props.insertBottomMargin ? Ui.dimension.margin : undefined },
+    styles.container,
+    props.style,
+  ];
+
+  return props.onPress ? (
+    <PressableHighlight
+      underlayColor={{
+        from: Ui.color.white,
+        to: Ui.color.background,
+      }}
+      style={containerStyle}
+      onPress={props.onPress}
+    >
+      {props.children}
+    </PressableHighlight>
+  ) : (
+    <View style={containerStyle}>
       {props.children}
     </View>
   );

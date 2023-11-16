@@ -11,7 +11,7 @@ export default function Home() {
 
   const taskItems = tasks.map((_eachTask, index) => (
     <TaskItem
-      style={{ marginBottom: index + 1 === tasks.length ? 0 : Ui.dimension.margin }}
+      insertBottomMargin={index + 1 !== tasks.length}
       key={Math.random()} /* task id */
     />
   ));

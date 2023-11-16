@@ -8,12 +8,19 @@ import { navigationActions } from '../../../redux/slices/navigation';
 import { NavigationRoutePath } from '../../../navigation';
 
 export type TaskItemProps = {
+  insertBottomMargin?: boolean,
   style?: StyleProp<ViewStyle>,
 };
 
 export default function TaskItem(props: TaskItemProps) {
   return (
-    <ContentArea style={props.style} onPress={onPress}>
+    <ContentArea
+      style={[
+        { marginBottom: props.insertBottomMargin ? Ui.dimension.margin : undefined },
+        props.style,
+      ]}
+      onPress={onPress}
+    >
       <View style={styles.row}>
         <View style={styles.rowChild}>
           <Entypo name='book' color={Ui.color.black} size={20} top={2} style={{ marginRight: 3 }} />

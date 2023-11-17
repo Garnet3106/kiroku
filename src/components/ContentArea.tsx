@@ -20,7 +20,7 @@ export default function ContentArea(props: ContentAreaProps) {
     <PressableHighlight
       underlayColor={{
         from: Ui.color.white,
-        to: Ui.color.background,
+        to: Ui.color.pressed.mainOnWhite,
       }}
       style={containerStyle}
       onPress={props.onPress}

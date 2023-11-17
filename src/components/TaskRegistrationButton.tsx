@@ -11,7 +11,7 @@ export default function TaskRegistrationButton() {
     <PressableHighlight
       underlayColor={{
         from: Ui.color.white,
-        to: Ui.color.background,
+        to: Ui.color.pressed.mainOnWhite,
       }}
       style={styles.container}
       onPress={() => Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.TaskEdit))}

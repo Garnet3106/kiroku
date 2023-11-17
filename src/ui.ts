@@ -18,6 +18,7 @@ namespace Ui {
     },
     pressed: {
       main: '#3db56f',
+      mainOnWhite: '#edf5f1',
       red: '#fc3d3d',
       redOnWhite: '#ffebeb',
     },

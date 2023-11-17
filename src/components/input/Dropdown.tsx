@@ -30,7 +30,7 @@ export default function Dropdown(props: DropdownProps) {
       <PressableHighlight
         underlayColor={{
           from: Ui.color.white,
-          to: Ui.color.background,
+          to: Ui.color.pressed.mainOnWhite,
         }}
         style={styles.optionItem}
         onPress={() => {
@@ -57,7 +57,7 @@ export default function Dropdown(props: DropdownProps) {
       <PressableHighlight
         underlayColor={{
           from: disabled ? Ui.color.lightGray : Ui.color.white,
-          to: disabled ? Ui.color.lightGray : Ui.color.background,
+          to: disabled ? Ui.color.lightGray : Ui.color.pressed.mainOnWhite,
         }}
         style={[
           {

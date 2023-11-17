@@ -1,6 +1,10 @@
-import Toast from "react-native-root-toast";
+import Toast from 'react-native-root-toast';
 
 namespace Ui {
+  export type LayoutProps = {
+    insertBottomMargin?: boolean,
+  };
+
   export const color = {
     background: '#eeeeee',
     main: '#00ab69',

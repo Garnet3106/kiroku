@@ -1,8 +1,7 @@
 import { ColorValue, View } from 'react-native';
 import Ui from '../ui';
 
-export type ContentSeparatorProps = {
-  insertBottomMargin?: boolean,
+export type ContentSeparatorProps = Ui.LayoutProps & {
   color?: ColorValue,
 };
 

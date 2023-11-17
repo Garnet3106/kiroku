@@ -2,10 +2,9 @@ import { ReactNode } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Ui from '../../ui';
 
-export type NamedProps = {
+export type NamedProps = Ui.LayoutProps & {
   title: string,
   required?: boolean,
-  insertBottomMargin?: boolean,
   children: ReactNode,
 };
 

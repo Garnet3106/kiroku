@@ -3,7 +3,7 @@ import Ui from '../../ui';
 import { ReactNode } from 'react';
 import PressableHighlight from '../pressable/PressableHighlight';
 
-export type RectangleButtonProps = {
+export type RectangleButtonProps = Ui.LayoutProps & {
   text: string,
   color?: string,
   pressedColor?: string,
@@ -11,7 +11,6 @@ export type RectangleButtonProps = {
   icon?: ReactNode,
   style?: StyleProp<ViewStyle>,
   textStyle?: StyleProp<TextStyle>,
-  insertBottomMargin?: boolean,
   onPress?: (event: GestureResponderEvent) => void,
 };
 

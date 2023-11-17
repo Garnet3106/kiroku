@@ -3,8 +3,7 @@ import { GestureResponderEvent, StyleProp, StyleSheet, View, ViewStyle } from 'r
 import Ui from '../ui';
 import PressableHighlight from './pressable/PressableHighlight';
 
-export type ContentAreaProps = {
-  insertBottomMargin?: boolean,
+export type ContentAreaProps = Ui.LayoutProps & {
   style?: StyleProp<ViewStyle>,
   onPress?: (event: GestureResponderEvent) => void,
   children?: ReactNode,

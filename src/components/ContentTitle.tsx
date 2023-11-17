@@ -1,9 +1,8 @@
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
 import Ui from '../ui';
 
-export type ContentTitleProps = {
+export type ContentTitleProps = Ui.LayoutProps & {
   text: string,
-  insertBottomMargin?: boolean,
   style?: StyleProp<ViewStyle>,
 };
 

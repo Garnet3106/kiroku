@@ -9,10 +9,9 @@ export type DropdownItem = {
   text: string,
 };
 
-export type DropdownProps = {
+export type DropdownProps = Ui.LayoutProps & {
   options: DropdownItem[],
   selected?: string | number,
-  insertBottomMargin?: boolean,
   onChange?: (uniqueId: string | number) => void,
   style?: StyleProp<ViewStyle>,
 };

@@ -7,8 +7,7 @@ import Redux from '../../../redux/redux';
 import { navigationActions } from '../../../redux/slices/navigation';
 import { NavigationRoutePath } from '../../../navigation';
 
-export type TaskItemProps = {
-  insertBottomMargin?: boolean,
+export type TaskItemProps = Ui.LayoutProps & {
   style?: StyleProp<ViewStyle>,
 };
 

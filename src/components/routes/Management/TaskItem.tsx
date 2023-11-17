@@ -39,22 +39,20 @@ export default function TaskItem(props: TaskItemProps) {
   );
 
   function onPress() {
-    Redux.store.dispatch(navigationActions.jumpToWithParams({
-      path: NavigationRoutePath.TaskStart,
-    }));
+    Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.TaskEdit));
   }
 }
 
 const styles = StyleSheet.create({
   container: {
+    alignItems: 'center',
     borderRadius: Ui.dimension.border.radius,
     backgroundColor: Ui.color.background,
-    overflow: 'hidden',
-    padding: Ui.dimension.margin,
-    alignItems: 'center',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    overflow: 'hidden',
+    padding: Ui.dimension.margin,
   },
   content: {
     display: 'flex',

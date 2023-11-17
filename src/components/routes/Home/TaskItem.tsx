@@ -39,9 +39,7 @@ export default function TaskItem(props: TaskItemProps) {
   );
 
   function onPress() {
-    Redux.store.dispatch(navigationActions.jumpToWithParams({
-      path: NavigationRoutePath.TaskStart,
-    }));
+    Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.TaskStart));
   }
 }
 

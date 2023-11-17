@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import Redux from './src/redux/redux';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import AppRoot from './src/components/AppRoot';
+import { RootSiblingParent } from 'react-native-root-siblings';
 
 export default function App() {
   return (
@@ -12,7 +13,9 @@ export default function App() {
       <SafeAreaProvider>
         {/* Specify flexGrow not to prevent scroll in ScrollView. */}
         <SafeAreaView style={{ flexGrow: 1 }}>
-          <AppRoot />
+          <RootSiblingParent>
+            <AppRoot />
+          </RootSiblingParent>
         </SafeAreaView>
       </SafeAreaProvider>
     </Provider>

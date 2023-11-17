@@ -4,6 +4,7 @@ import Home from './routes/Home/Home';
 import Management from './routes/Management/Management';
 import Performance from './routes/Performance';
 import Settings from './routes/Settings';
+import TaskEdit from './routes/TaskEdit';
 
 export default function AppRoot() {
   return (
@@ -13,6 +14,7 @@ export default function AppRoot() {
     <Performance />
     <Management />
     <Settings />
+    <TaskEdit />
     <MenuBar />
     </>
   );

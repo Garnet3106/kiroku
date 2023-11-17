@@ -1,3 +1,5 @@
+import Toast from "react-native-root-toast";
+
 namespace Ui {
   export const color = {
     background: '#eeeeee',
@@ -6,11 +8,14 @@ namespace Ui {
     black: '#333333',
     gray: '#999999',
     lightGray: '#dddddd',
+    red: '#eb2626',
     border: {
       lightGray: '#dddddd',
     },
     pressed: {
       main: '#3db56f',
+      red: '#fc3d3d',
+      redOnWhite: '#ffebeb',
     },
   };
 
@@ -27,6 +32,14 @@ namespace Ui {
       height: 70,
     },
   };
+
+  export function showToast(message: string) {
+    Toast.show(message, {
+      backgroundColor: color.main,
+      duration: Toast.durations.SHORT,
+      position: Toast.positions.BOTTOM - dimension.menuBar.height,
+    });
+  }
 }
 
 export default Ui;

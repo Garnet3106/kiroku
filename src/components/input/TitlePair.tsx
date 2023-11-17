@@ -1,9 +1,11 @@
 import { ReactNode } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import Ui from '../../ui';
 
 export type TitlePairProps = {
   title: string,
   required?: boolean,
+  insertBottomMargin?: boolean,
   children: ReactNode,
 };
 
@@ -11,7 +13,10 @@ export default function TitlePair(props: TitlePairProps) {
   const title = props.required ? props.title + ' *' : props.title;
 
   return (
-    <View style={styles.container}>
+    <View style={[
+      { marginBottom: props.insertBottomMargin ? Ui.dimension.margin : undefined },
+      styles.container,
+    ]}>
       <Text style={styles.title}>
         {title}
       </Text>

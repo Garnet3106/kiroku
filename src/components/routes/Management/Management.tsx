@@ -9,16 +9,10 @@ import { useState } from 'react';
 export default function Management() {
   const [sortStyle, setSortStyle] = useState(TaskSortStyle.WorkingDay);
 
-  const sortDropdownItems = [
-    {
-      uniqueId: TaskSortStyle.Name,
-      text: '名前',
-    },
-    {
-      uniqueId: TaskSortStyle.WorkingDay,
-      text: '作業日が近い順',
-    },
-  ];
+  const sortDropdownItems = TaskSortStyle.enumerate().map((v) => ({
+    uniqueId: v,
+    text: TaskSortStyle.translate(v),
+  }));
 
   const tasks = [undefined, undefined, undefined];
 

@@ -5,6 +5,7 @@ import ContentArea from '../../ContentArea';
 import Ui from '../../../ui';
 import TaskItem from './TaskItem';
 import ContentTitle from '../../ContentTitle';
+import TaskRegistrationButton from '../../TaskRegistrationButton';
 
 export default function Home() {
   const tasks = [undefined, undefined, undefined];
@@ -17,7 +18,12 @@ export default function Home() {
   ));
 
   return (
-    <RouteContainer path={NavigationRoutePath.Home} title='ホーム' scrollable>
+    <RouteContainer
+      path={NavigationRoutePath.Home}
+      title='ホーム'
+      scrollable
+      containerChildren={<TaskRegistrationButton />}
+    >
       <ContentTitle text='今日の実績' insertBottomMargin />
       <ContentArea insertBottomMargin>
       </ContentArea>

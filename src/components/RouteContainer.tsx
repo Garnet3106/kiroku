@@ -13,6 +13,7 @@ export type RouteContainerProps = {
   scrollable?: boolean,
   style?: StyleProp<ViewStyle>,
   children: ReactNode,
+  containerChildren?: ReactNode,
 };
 
 export default function RouteContainer(props: RouteContainerProps) {
@@ -39,6 +40,7 @@ export default function RouteContainer(props: RouteContainerProps) {
       <ScrollView contentContainerStyle={{ padding: Ui.dimension.margin }}>
         {props.children}
       </ScrollView>
+      {props.containerChildren}
     </View>
   ) : (
     <View style={{
@@ -48,6 +50,7 @@ export default function RouteContainer(props: RouteContainerProps) {
       padding: Ui.dimension.margin,
     }}>
       {props.children}
+      {props.containerChildren}
     </View>
   );
 

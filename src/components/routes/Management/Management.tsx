@@ -5,6 +5,7 @@ import TaskItem from './TaskItem';
 import ContentSeparator from '../../ContentSeparator';
 import { TaskSortStyle } from '../../../task';
 import { useState } from 'react';
+import TaskRegistrationButton from '../../TaskRegistrationButton';
 
 export default function Management() {
   const [sortStyle, setSortStyle] = useState(TaskSortStyle.WorkingDay);
@@ -24,7 +25,11 @@ export default function Management() {
   ));
 
   return (
-    <RouteContainer path={NavigationRoutePath.Management} title='作業管理'>
+    <RouteContainer
+      path={NavigationRoutePath.Management}
+      title='作業管理'
+      containerChildren={<TaskRegistrationButton />}
+    >
       <Dropdown
         options={sortDropdownItems}
         selected={sortStyle}

@@ -10,7 +10,7 @@ export type DropdownItem = {
 };
 
 export type DropdownProps = {
-  items: DropdownItem[],
+  options: DropdownItem[],
   selected?: string | number,
   insertBottomMargin?: boolean,
   onChange?: (uniqueId: string | number) => void,
@@ -19,36 +19,36 @@ export type DropdownProps = {
 
 // todo: fix position on overflow
 export default function Dropdown(props: DropdownProps) {
-  const selected = props.items.find((eachItem) => eachItem.uniqueId === props.selected);
+  const selected = props.options.find((eachOption) => eachOption.uniqueId === props.selected);
   const disabled = !selected;
   const text = !disabled && selected ? selected.text : '―';
   const [open, setOpen] = useState(false);
 
-  let choices;
+  let options;
 
-  if (open && props.items) {
-    const items = props.items.map((eachItem) => (
+  if (open && props.options) {
+    const optionItems = props.options.map((eachOption) => (
       <PressableHighlight
         underlayColor={{
           from: Ui.color.white,
           to: Ui.color.background,
         }}
-        style={styles.choiceItem}
+        style={styles.optionItem}
         onPress={() => {
           setOpen(false);
-          props.onChange && props.onChange(eachItem.uniqueId);
+          props.onChange && props.onChange(eachOption.uniqueId);
         }}
-        key={eachItem.uniqueId}
+        key={eachOption.uniqueId}
       >
-        <Text style={styles.choiceItemText}>
-          {eachItem.text}
+        <Text style={styles.optionItemText}>
+          {eachOption.text}
         </Text>
       </PressableHighlight>
     ));
 
-    choices = (
-      <View style={styles.choices}>
-        {items}
+    options = (
+      <View style={styles.options}>
+        {optionItems}
       </View>
     );
   }
@@ -78,7 +78,7 @@ export default function Dropdown(props: DropdownProps) {
         </Text>
         <Entypo name='chevron-down' style={styles.icon} color={Ui.color.gray} size={30}/>
       </PressableHighlight>
-      {choices}
+      {options}
     </View>
   );
 }
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: Ui.dimension.margin,
   },
-  choices: {
+  options: {
     backgroundColor: Ui.color.white,
     borderColor: Ui.color.border.lightGray,
     borderRadius: Ui.dimension.border.radius,
@@ -113,10 +113,10 @@ const styles = StyleSheet.create({
     width: '100%',
     zIndex: 10000,
   },
-  choiceItem: {
+  optionItem: {
     padding: Ui.dimension.margin,
   },
-  choiceItemText: {
+  optionItemText: {
     fontSize: 16,
   },
 });

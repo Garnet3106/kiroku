@@ -26,7 +26,7 @@ export default function Management() {
   return (
     <RouteContainer path={NavigationRoutePath.Management} title='作業管理'>
       <Dropdown
-        items={sortDropdownItems}
+        options={sortDropdownItems}
         selected={sortStyle}
         insertBottomMargin
         onChange={(id) => setSortStyle(id as number)}

@@ -27,7 +27,7 @@ export default function TaskEdit() {
     <RouteContainer path={NavigationRoutePath.TaskEdit}>
       <ContentArea>
         <Named title='カテゴリー' required insertBottomMargin>
-          <Dropdown items={categoryOptions} selected={category} onChange={(v) => setCategory(v as number)} />
+          <Dropdown options={categoryOptions} selected={category} onChange={(v) => setCategory(v as number)} />
         </Named>
         <Named title='タイトル' required insertBottomMargin>
           <TextInput placeholder='例）受験勉強' />

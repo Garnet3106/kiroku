@@ -16,25 +16,24 @@ export default function TaskItem(props: TaskItemProps) {
   return (
     <ContentArea
       style={[
+        styles.container,
         { marginBottom: props.insertBottomMargin ? Ui.dimension.margin : undefined },
         props.style,
       ]}
       onPress={onPress}
     >
-      <View style={styles.row}>
-        <View style={styles.rowChild}>
-          <Entypo name='book' color={Ui.color.black} size={20} top={2} style={{ marginRight: 3 }} />
-          <Text style={styles.title}>
-            作業タイトル
-          </Text>
-        </View>
-        <View style={styles.rowChild}>
-          <MaterialIcons name='access-time' color={Ui.color.gray} size={20} top={1} />
-          <Text style={styles.status}>
-            残り20分
-          </Text>
-          <Entypo name='chevron-right' color={Ui.color.gray} size={30} top={1} />
-        </View>
+      <View style={styles.block}>
+        <Entypo name='book' color={Ui.color.black} size={20} top={2} style={{ marginRight: 3 }} />
+        <Text style={styles.title}>
+          作業タイトル
+        </Text>
+      </View>
+      <View style={styles.block}>
+        <MaterialIcons name='access-time' color={Ui.color.gray} size={20} top={1} />
+        <Text style={styles.status}>
+          残り20分
+        </Text>
+        <Entypo name='chevron-right' color={Ui.color.gray} size={30} top={1} />
       </View>
     </ContentArea>
   );
@@ -48,24 +47,17 @@ export default function TaskItem(props: TaskItemProps) {
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: Ui.dimension.border.radius,
-    backgroundColor: Ui.color.background,
-    overflow: 'hidden',
-    padding: Ui.dimension.margin,
-  },
-  title: {
-    fontSize: 18,
-  },
-  row: {
-    alignItems: 'center',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  rowChild: {
+  block: {
     alignItems: 'center',
     display: 'flex',
     flexDirection: 'row',
+  },
+  title: {
+    fontSize: 18,
   },
   status: {
     color: Ui.color.gray,

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { NavigationRoutePath } from '../../navigation';
 import RouteContainer from '../RouteContainer';
 import Dropdown from '../input/Dropdown';
-import TitlePair from '../input/TitlePair';
+import Named from '../input/Named';
 import { TaskCategory } from '../../task';
 import ContentArea from '../ContentArea';
 import TextInput from '../input/TextInput';
@@ -26,15 +26,15 @@ export default function TaskEdit() {
   return (
     <RouteContainer path={NavigationRoutePath.TaskEdit}>
       <ContentArea>
-        <TitlePair title='カテゴリー' required insertBottomMargin>
+        <Named title='カテゴリー' required insertBottomMargin>
           <Dropdown items={categoryOptions} selected={category} onChange={(v) => setCategory(v as number)} />
-        </TitlePair>
-        <TitlePair title='タイトル' required insertBottomMargin>
+        </Named>
+        <Named title='タイトル' required insertBottomMargin>
           <TextInput placeholder='例）受験勉強' />
-        </TitlePair>
-        <TitlePair title='作業間隔' required insertBottomMargin>
+        </Named>
+        <Named title='作業間隔' required insertBottomMargin>
           <TextInput placeholder='要修正' />
-        </TitlePair>
+        </Named>
         <ContentSeparator insertBottomMargin />
         <RectangleButton
           text='削除する'

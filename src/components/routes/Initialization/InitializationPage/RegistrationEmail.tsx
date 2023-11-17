@@ -1,6 +1,6 @@
 import { InitializationPageIndex } from '../../../../navigation';
 import TextInput from '../../../input/TextInput';
-import TitlePair from '../../../input/TitlePair';
+import Named from '../../../input/Named';
 import InitializationPage from './InitializationPage';
 
 export default function RegistrationEmail() {
@@ -10,9 +10,9 @@ export default function RegistrationEmail() {
       previous={InitializationPageIndex.RegistrationServiceLinking}
       next={InitializationPageIndex.Finish}
     >
-      <TitlePair title='メールアドレス' required>
+      <Named title='メールアドレス' required>
         <TextInput placeholder='例）...@gmail.com' textContentType='emailAddress' keyboardType='email-address' />
-      </TitlePair>
+      </Named>
     </InitializationPage>
   );
 }

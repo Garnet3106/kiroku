@@ -2,14 +2,14 @@ import { ReactNode } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Ui from '../../ui';
 
-export type TitlePairProps = {
+export type NamedProps = {
   title: string,
   required?: boolean,
   insertBottomMargin?: boolean,
   children: ReactNode,
 };
 
-export default function TitlePair(props: TitlePairProps) {
+export default function Named(props: NamedProps) {
   const title = props.required ? props.title + ' *' : props.title;
 
   return (

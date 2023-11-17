@@ -1,6 +1,6 @@
 import { InitializationPageIndex } from '../../../../navigation';
 import TextInput from '../../../input/TextInput';
-import TitlePair from '../../../input/TitlePair';
+import Named from '../../../input/Named';
 import InitializationPage from './InitializationPage';
 
 export default function RegistrationNickname() {
@@ -10,9 +10,9 @@ export default function RegistrationNickname() {
       previous={InitializationPageIndex.Top}
       next={InitializationPageIndex.RegistrationServiceLinking}
     >
-      <TitlePair title='ニックネーム' required>
+      <Named title='ニックネーム' required>
         <TextInput placeholder='例）きろくたろー' />
-      </TitlePair>
+      </Named>
     </InitializationPage>
   );
 }

@@ -41,6 +41,7 @@ namespace Ui {
     Toast.show(message, {
       backgroundColor: color.main,
       duration: Toast.durations.SHORT,
+      opacity: 1,
       position: Toast.positions.BOTTOM - dimension.menuBar.height,
     });
   }

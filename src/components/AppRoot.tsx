@@ -5,6 +5,7 @@ import Management from './routes/Management/Management';
 import Performance from './routes/Performance';
 import Settings from './routes/Settings';
 import TaskEdit from './routes/TaskEdit';
+import TaskInProgress from './routes/TaskInProgress';
 
 export default function AppRoot() {
   return (
@@ -15,6 +16,7 @@ export default function AppRoot() {
     <Management />
     <Settings />
     <TaskEdit />
+    <TaskInProgress />
     <MenuBar />
     </>
   );

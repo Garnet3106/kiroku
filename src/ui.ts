@@ -8,6 +8,7 @@ namespace Ui {
   export const color = {
     background: '#eeeeee',
     main: '#00ab69',
+    lightMain: '#a9e8c4',
     white: '#ffffff',
     black: '#333333',
     gray: '#999999',

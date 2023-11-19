@@ -9,7 +9,8 @@ export enum NavigationRoutePath {
   Performance = '/performance',
   Management = '/management',
   Settings = '/settings',
-  TaskStart = '/progress/start',
+  TaskInProgress = '/progress',
+  TaskFinish = '/progress/finish',
   TaskEdit = 'task/edit',
 }
 

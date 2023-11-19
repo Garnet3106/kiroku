@@ -19,7 +19,7 @@ export type RouteContainerProps = {
 export default function RouteContainer(props: RouteContainerProps) {
   const navigation = useSelector((state: Redux.RootState) => state.navigation);
   const menuBarDisplayed = NavigationRoutePath.getMenuBarDisplayed(navigation.path);
-  const title = props.title ?? 'kiroku';
+  const title = props.title ?? 'キロク';
 
   const header = !props.headerDisabled && (
     <View style={styles.header}>

@@ -5,7 +5,7 @@ import { InitializationPageIndex, NavigationRoutePath } from '../../../../naviga
 import InitializationPage from './InitializationPage';
 import { navigationActions } from '../../../../redux/slices/navigation';
 import { Linking, Pressable, StyleSheet, Text, View } from 'react-native';
-import AppLogo from '../../../AppLogo';
+import AppLogoJa from '../../../logo/AppLogoJa';
 
 export default function Top() {
   return (
@@ -14,7 +14,7 @@ export default function Top() {
         <Text style={styles.topSlogan}>
         キャッチコピーが入ります
         </Text>
-        <AppLogo height={45} />
+        <AppLogoJa height={45} />
       </View>
       <RectangleButton
         text='初めての方はこちら'

@@ -13,7 +13,7 @@ export default function Finish() {
         準備完了
       </Text>
       <Text style={styles.message}>
-        さっそく kiroku を使ってみましょう！
+        さっそくキロクを使ってみましょう！
       </Text>
       <RectangleButton
         text='アプリトップに進む'

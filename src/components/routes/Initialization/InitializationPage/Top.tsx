@@ -6,25 +6,25 @@ import InitializationPage from './InitializationPage';
 import { navigationActions } from '../../../../redux/slices/navigation';
 import { Linking, Pressable, StyleSheet, Text, View } from 'react-native';
 import AppLogoJa from '../../../logo/AppLogoJa';
-import { TK, t } from '../../../../localization';
+import { t } from '../../../../localization';
 
 export default function Top() {
   return (
     <InitializationPage pageIndex={InitializationPageIndex.Top}>
       <View style={styles.top}>
         <Text style={styles.topSlogan}>
-          {t(TK.AppSlogan)}
+          {t('app.slogan')}
         </Text>
         <AppLogoJa height={45} />
       </View>
       <RectangleButton
-        text={t(TK.GetStarted)}
+        text={t('init.getStarted')}
         onPress={() => {
           Redux.store.dispatch(navigationActions.jumpToInitialization(InitializationPageIndex.RegistrationNickname));
         }}
       />
       <RectangleButton
-        text={t(TK.Login)}
+        text={t('init.login')}
         style={{ marginTop: Ui.dimension.margin }}
         onPress={() => {
           Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Home));
@@ -36,12 +36,12 @@ export default function Top() {
             styles.agreementLink,
             { marginRight: 20 },
           ]}>
-            {t(TK.TOS)}
+            {t('init.tos')}
           </Text>
         </Pressable>
         <Pressable onPress={() => Linking.openURL('http://kiroku.garnet.works/privacy_policy')}>
           <Text style={styles.agreementLink}>
-            {t(TK.PrivacyPolicy)}
+            {t('init.privacyPolicy')}
           </Text>
         </Pressable>
       </View>

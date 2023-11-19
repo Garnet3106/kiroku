@@ -1,45 +1,36 @@
 import { getLocales } from 'expo-localization';
-import { I18n } from 'i18n-js';
+import { I18n, Scope } from 'i18n-js';
 
-enum TranslationKey {
-  AppSlogan = 'appSlogan',
-  GetStarted = 'getStarted',
-  Login = 'login',
-  PrivacyPolicy = 'privacyPolicy',
-  TOS = 'tos',
-}
-
-type TranslationValues = {
-  [key in string]: {
-    [key in TranslationKey]: string
-  }
-};
-
-const translations: TranslationValues = {
+const translations = {
   en: {
-    [TranslationKey.AppSlogan]: 'Slogan Here',
-    [TranslationKey.GetStarted]: 'Get Started',
-    [TranslationKey.Login]: 'Login',
-    [TranslationKey.PrivacyPolicy]: 'Privacy policy',
-    [TranslationKey.TOS]: 'Terms of service',
+    app: {
+      slogan: 'Slogan Here',
+    },
+    init: {
+      getStarted: 'Get Started',
+      login: 'Login',
+      tos: 'Terms of service',
+      privacyPolicy: 'Privacy policy',
+    },
   },
   ja: {
-    [TranslationKey.AppSlogan]: 'キャッチコピーが入ります',
-    [TranslationKey.GetStarted]: '初めての方はこちら',
-    [TranslationKey.Login]: 'ログイン',
-    [TranslationKey.PrivacyPolicy]: 'プライバシーポリシー',
-    [TranslationKey.TOS]: '利用規約',
+    app: {
+      slogan: 'キャッチコピーが入ります',
+    },
+    init: {
+      getStarted: '初めての方はこちら',
+      login: 'ログイン',
+      tos: '利用規約',
+      privacyPolicy: 'プライバシーポリシー',
+    },
   },
 };
 
 const i18n = new I18n(translations);
 i18n.locale = getLocales()[0].languageCode;
 
-function translate(key: TranslationKey): string {
+function translate(key: Scope): string {
   return i18n.t(key)
 }
 
-export {
-  TranslationKey as TK,
-  translate as t,
-};
+export { translate as t };

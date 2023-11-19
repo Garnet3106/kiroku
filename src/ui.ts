@@ -14,6 +14,7 @@ namespace Ui {
     gray: '#999999',
     lightGray: '#dddddd',
     red: '#eb2626',
+    orange: '#ed832d',
     border: {
       lightGray: '#dddddd',
     },

@@ -6,24 +6,25 @@ import InitializationPage from './InitializationPage';
 import { navigationActions } from '../../../../redux/slices/navigation';
 import { Linking, Pressable, StyleSheet, Text, View } from 'react-native';
 import AppLogoJa from '../../../logo/AppLogoJa';
+import { TK, t } from '../../../../localization';
 
 export default function Top() {
   return (
     <InitializationPage pageIndex={InitializationPageIndex.Top}>
       <View style={styles.top}>
         <Text style={styles.topSlogan}>
-        キャッチコピーが入ります
+          {t(TK.AppSlogan)}
         </Text>
         <AppLogoJa height={45} />
       </View>
       <RectangleButton
-        text='初めての方はこちら'
+        text={t(TK.GetStarted)}
         onPress={() => {
           Redux.store.dispatch(navigationActions.jumpToInitialization(InitializationPageIndex.RegistrationNickname));
         }}
       />
       <RectangleButton
-        text='ログイン'
+        text={t(TK.Login)}
         style={{ marginTop: Ui.dimension.margin }}
         onPress={() => {
           Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Home));
@@ -35,12 +36,12 @@ export default function Top() {
             styles.agreementLink,
             { marginRight: 20 },
           ]}>
-            利用規約
+            {t(TK.TOS)}
           </Text>
         </Pressable>
         <Pressable onPress={() => Linking.openURL('http://kiroku.garnet.works/privacy_policy')}>
           <Text style={styles.agreementLink}>
-            プライバシーポリシー
+            {t(TK.PrivacyPolicy)}
           </Text>
         </Pressable>
       </View>

@@ -12,6 +12,7 @@ import Dialog from 'react-native-dialog';
 import Redux from '../../redux/redux';
 import { navigationActions } from '../../redux/slices/navigation';
 import ContentSeparator from '../ContentSeparator';
+import { StyleSheet, Text } from 'react-native';
 
 export default function TaskEdit() {
   const categoryOptions = TaskCategory.enumerate().map((v) => ({
@@ -26,6 +27,9 @@ export default function TaskEdit() {
   return (
     <RouteContainer path={NavigationRoutePath.TaskEdit}>
       <ContentArea>
+        <Text style={styles.message}>
+          どのような作業に取り組みますか？
+        </Text>
         <Named title='カテゴリー' required insertBottomMargin>
           <Dropdown options={categoryOptions} selected={category} onChange={(v) => setCategory(v as number)} />
         </Named>
@@ -72,3 +76,11 @@ export default function TaskEdit() {
     Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Management));
   }
 }
+
+const styles = StyleSheet.create({
+  message: {
+    alignSelf: 'center',
+    fontSize: 18,
+    marginBottom: Ui.dimension.margin,
+  },
+});

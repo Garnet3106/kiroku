@@ -11,6 +11,7 @@ export default function ContentSeparator(props: ContentSeparatorProps) {
       backgroundColor: props.color ?? Ui.color.gray,
       height: Ui.dimension.border.width,
       marginBottom: props.insertBottomMargin ? Ui.dimension.margin : undefined,
+      width: '100%',
     }} />
   );
 }

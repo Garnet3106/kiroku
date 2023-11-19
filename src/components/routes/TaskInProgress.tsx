@@ -107,6 +107,7 @@ export default function TaskInProgress() {
   }
 
   function finish() {
+    Ui.showToast('作業を終了しました。');
     Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.TaskFinish));
   }
 }

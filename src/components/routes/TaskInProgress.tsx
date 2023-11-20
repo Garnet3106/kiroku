@@ -40,6 +40,16 @@ export default function TaskInProgress() {
     return;
   }
 
+  // add past working time
+  const remainingMinutes = Math.floor(targetTask.targetTime - (elapsedSeconds / 60) + 1);
+  const remainingTimeRatio = Math.floor(((elapsedSeconds / 60) / targetTask.targetTime) * 100);
+
+  const remainingTime = remainingMinutes < 0 ? (
+    t('taskInProgress.ranOverMinutes', { min: -remainingMinutes })
+  ) : (
+    t('taskInProgress.minutesLeft', { min: remainingMinutes })
+  );
+
   const stopOrResumeControlItem = taskInProgress.stopped ? (
     <ContentArea style={styles.controlItem} onPress={() => setResumeDialogVisibility(true)}>
       <Entypo name='controller-play' size={35} style={{ margin: -2 }} />
@@ -76,13 +86,22 @@ export default function TaskInProgress() {
                   {targetTask.title}
                 </Text>
               </View>
-              <Text style={styles.remainingTime}>
-                {t('taskInProgress.minutesLeft', { min: 30 })}
+              <Text style={[
+                styles.remainingTime,
+                { color: remainingMinutes < 0 ? Ui.color.red : '#000000' },
+              ]}>
+                {remainingTime}
               </Text>
             </View>
             <View style={styles.progressBar}>
-              <View style={styles.progressBarFillLeft} />
-              <View style={styles.progressBarFillRight} />
+              <View style={[
+                styles.progressBarFillLeft,
+                { width: `${remainingTimeRatio}%` },
+              ]} />
+              <View style={[
+                styles.progressBarFillRight,
+                { width: `${100 - remainingTimeRatio}%` },
+              ]} />
             </View>
           </View>
         </ContentArea>
@@ -167,6 +186,7 @@ export default function TaskInProgress() {
   }
 
   function finish() {
+    setElapsedSeconds(0);
     Redux.store.dispatch(taskInProgressActions.finish());
     Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.TaskFinish));
     Ui.showToast(t('taskInProgress.toast.finishedWorking'));
@@ -229,12 +249,10 @@ const styles = StyleSheet.create({
   progressBarFillLeft: {
     backgroundColor: Ui.color.main,
     height: progressBarHeight - (Ui.dimension.border.width * 2),
-    width: '50%',
   },
   progressBarFillRight: {
     backgroundColor: Ui.color.lightMain,
     height: progressBarHeight - (Ui.dimension.border.width * 2),
-    width: '50%',
   },
   controls: {
     display: 'flex',

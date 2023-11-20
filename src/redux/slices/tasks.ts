@@ -7,6 +7,7 @@ const initialState: Task[] = [
     id: uuid.v4() as string,
     title: 'FE勉強',
     category: TaskCategory.Study,
+    targetTime: 60,
     workingDate: {
       start: Seconds.now() / 1000,
       interval: {
@@ -17,8 +18,9 @@ const initialState: Task[] = [
   },
   {
     id: uuid.v4() as string,
-    title: 'FE勉強',
+    title: '受験勉強',
     category: TaskCategory.Study,
+    targetTime: 100,
     workingDate: {
       start: Seconds.now() / 1000,
       interval: {

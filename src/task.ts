@@ -1,3 +1,5 @@
+export type Minutes = number;
+
 export type Seconds = number;
 
 export namespace Seconds {
@@ -10,6 +12,7 @@ export type Task = {
   id: string,
   title: string,
   category: TaskCategory,
+  targetTime: Minutes,
   workingDate: TaskWorkingDate,
   // Specify seconds between 0 and 86400.
   startTime?: Seconds,

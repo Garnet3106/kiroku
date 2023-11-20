@@ -70,6 +70,7 @@ export type TranslationDictionaryData = {
       },
       toast: {
         taskStarted: string,
+        finishCurrentTask: string,
       },
     },
   },
@@ -106,17 +107,21 @@ export type TranslationDictionaryData = {
     operation: {
       minimize: string,
       stop: string,
+      resume: string,
       finish: string,
     },
     dialog: {
       doYouReallyStopWorking: string,
+      doYouReallyResumeWorking: string,
       doYouReallyFinishWorking: string,
       stop: string,
+      resume: string,
       finish: string,
       cancel: string,
     },
     toast: {
       stoppedWorking: string,
+      resumedWorking: string,
       finishedWorking: string,
     },
   },

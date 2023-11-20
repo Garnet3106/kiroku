@@ -67,6 +67,7 @@ const en: TranslationDictionaryData = {
       },
       toast: {
         taskStarted: 'Task started.',
+        finishCurrentTask: 'Please finish current task before starting another task.',
       },
     },
   },
@@ -103,17 +104,21 @@ const en: TranslationDictionaryData = {
     operation: {
       minimize: 'Minimize',
       stop: 'Stop',
+      resume: 'Resume',
       finish: 'Finish',
     },
     dialog: {
       doYouReallyStopWorking: 'Do you really stop working?',
+      doYouReallyResumeWorking: 'Do you really resume working?',
       doYouReallyFinishWorking: 'Do you really finish working?',
       stop: 'STOP',
+      resume: 'RESUME',
       finish: 'FINISH',
       cancel: 'CANCEL',
     },
     toast: {
-      stoppedWorking: 'Task has been stopped.',
+      stoppedWorking: 'Task was stopped.',
+      resumedWorking: 'Task was resumed.',
       finishedWorking: 'You got this task done.',
     },
   },

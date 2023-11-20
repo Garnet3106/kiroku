@@ -7,14 +7,17 @@ import TaskItem from './TaskItem';
 import ContentTitle from '../../ContentTitle';
 import TaskRegistrationButton from '../../TaskRegistrationButton';
 import { t } from '../../../translations';
+import { useSelector } from 'react-redux';
+import Redux from '../../../redux/redux';
 
 export default function Home() {
-  const tasks = [undefined, undefined, undefined];
+  const tasks = useSelector((state: Redux.RootState) => state.tasks);
 
-  const taskItems = tasks.map((_eachTask, index) => (
+  const taskItems = tasks.map((eachTask, index) => (
     <TaskItem
+      task={eachTask}
       insertBottomMargin={index + 1 !== tasks.length}
-      key={Math.random()} /* task id */
+      key={eachTask.id}
     />
   ));
 

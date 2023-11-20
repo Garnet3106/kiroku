@@ -73,11 +73,16 @@ export default function TaskFinish() {
           <View style={styles.concentrationLevel}>
             {concentrationLevels}
           </View>
-          <RectangleButton text={t('taskFinish.close')} onPress={() => Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Home))} />
+          <RectangleButton text={t('taskFinish.close')} onPress={onPressCloseButton} />
         </ContentArea>
       </View>
     </RouteContainer>
   );
+
+  function onPressCloseButton() {
+    setConcentrationLevel(0);
+    Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Home));
+  }
 }
 
 const styles = StyleSheet.create({

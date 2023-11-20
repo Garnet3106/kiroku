@@ -9,13 +9,26 @@ import { NavigationRoutePath } from '../../../navigation';
 import Dialog from 'react-native-dialog';
 import { useState } from 'react';
 import { t } from '../../../translations';
+import { Task } from '../../../task';
+import { useSelector } from 'react-redux';
+import { taskInProgressActions } from '../../../redux/slices/taskInProgress';
 
 export type TaskItemProps = Ui.LayoutProps & {
+  task: Task,
   style?: StyleProp<ViewStyle>,
 };
 
 export default function TaskItem(props: TaskItemProps) {
+  const taskInProgress = useSelector((state: Redux.RootState) => state.taskInProgress);
+  const inProgress = props.task.id === taskInProgress?.id;
+  const isOtherTaskInProgress = taskInProgress && !inProgress;
   const [startDialogVisibility, setStartDialogVisibility] = useState(false);
+
+  let color = Ui.color.gray;
+
+  if (inProgress) {
+    color = taskInProgress.stopped ? Ui.color.orange : Ui.color.main;
+  }
 
   return (
     <>
@@ -25,20 +38,32 @@ export default function TaskItem(props: TaskItemProps) {
         { marginBottom: props.insertBottomMargin ? Ui.dimension.margin : undefined },
         props.style,
       ]}
-      onPress={() => setStartDialogVisibility(true)}
+      onPress={onPress}
     >
       <View style={styles.block}>
         <Entypo name='book' color={Ui.color.black} size={20} top={2} style={{ marginRight: 2 }} />
         <Text style={styles.title}>
-          作業タイトル
+          {props.task.title}
         </Text>
       </View>
       <View style={styles.block}>
-        <MaterialIcons name='access-time' color={Ui.color.gray} size={20} top={1} />
-        <Text style={styles.status}>
+        <MaterialIcons name='access-time' color={color} size={20} top={1} />
+        <Text style={[
+          styles.status,
+          {
+            color: color,
+            fontWeight: inProgress ? 'bold' : undefined,
+          },
+        ]}>
           {t('home.taskItem.minutesLeft', { min: 10 })}
         </Text>
-        <Entypo name='chevron-right' color={Ui.color.gray} size={30} top={1} />
+        <Entypo
+          name='chevron-right'
+          color={color}
+          size={30}
+          top={1}
+          style={{ opacity: inProgress ? 1 : 0 }}
+        />
       </View>
     </ContentArea>
     <Dialog.Container visible={startDialogVisibility}>
@@ -46,7 +71,7 @@ export default function TaskItem(props: TaskItemProps) {
         {t('home.taskItem.startTask')}
       </Dialog.Title>
       <Dialog.Description>
-        {t('home.taskItem.dialog.doYouReallyTackle', { taskTitle: '作業タイトル' })}
+        {t('home.taskItem.dialog.doYouReallyTackle', { taskTitle: props.task.title })}
       </Dialog.Description>
       <Dialog.Button label={t('home.taskItem.dialog.cancel')} onPress={() => setStartDialogVisibility(false)} />
       <Dialog.Button label={t('home.taskItem.dialog.start')} onPress={() => {
@@ -57,8 +82,26 @@ export default function TaskItem(props: TaskItemProps) {
     </>
   );
 
+  function onPress() {
+    if (isOtherTaskInProgress) {
+      Ui.showToast(t('home.taskItem.toast.finishCurrentTask'));
+      return;
+    }
+
+    if (inProgress) {
+      Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.TaskInProgress));
+      return;
+    }
+
+    setStartDialogVisibility(true);
+  }
+
   function start() {
-    Ui.showToast(t('home.taskItem.toast.taskStarted'));
+    if (!inProgress) {
+      Redux.store.dispatch(taskInProgressActions.start(props.task.id));
+      Ui.showToast(t('home.taskItem.toast.taskStarted'));
+    }
+
     Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.TaskInProgress));
   }
 }
@@ -78,7 +121,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   status: {
-    color: Ui.color.gray,
     marginLeft: 3,
     marginRight: 4,
   },

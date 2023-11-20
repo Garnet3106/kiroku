@@ -67,6 +67,7 @@ const ja: TranslationDictionaryData = {
       },
       toast: {
         taskStarted: '作業を開始しました。',
+        finishCurrentTask: '他の作業を始める前に現在の作業を終了してください。',
       },
     },
   },
@@ -103,17 +104,21 @@ const ja: TranslationDictionaryData = {
     operation: {
       minimize: '最小化',
       stop: '休憩･中断',
+      resume: '再開',
       finish: '終了',
     },
     dialog: {
       doYouReallyStopWorking: '作業を中断しますか？',
+      doYouReallyResumeWorking: '作業を再開しますか？',
       doYouReallyFinishWorking: '作業を終了しますか？',
       stop: '中断',
+      resume: '再開',
       finish: '終了',
       cancel: 'キャンセル',
     },
     toast: {
       stoppedWorking: '作業を中断しました。',
+      resumedWorking: '作業を再開しました。',
       finishedWorking: '作業を終了しました。',
     },
   },

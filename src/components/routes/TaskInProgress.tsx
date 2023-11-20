@@ -12,12 +12,36 @@ import { navigationActions } from '../../redux/slices/navigation';
 import { useState } from 'react';
 import Dialog from 'react-native-dialog';
 import { t } from '../../translations';
+import { taskInProgressActions } from '../../redux/slices/taskInProgress';
+import { useSelector } from 'react-redux';
 
 const progressBarHeight = 13;
 
 export default function TaskInProgress() {
+  const taskInProgress = useSelector((state: Redux.RootState) => state.taskInProgress);
   const [stopDialogVisibility, setStopDialogVisibility] = useState(false);
+  const [resumeDialogVisibility, setResumeDialogVisibility] = useState(false);
   const [finishDialogVisibility, setFinishDialogVisibility] = useState(false);
+
+  if (!taskInProgress) {
+    return;
+  }
+
+  const stopOrResumeControlItem = taskInProgress.stopped ? (
+    <ContentArea style={styles.controlItem} onPress={() => setResumeDialogVisibility(true)}>
+      <Entypo name='controller-play' size={35} style={{ margin: -2 }} />
+      <Text style={styles.controlItemText}>
+        {t('taskInProgress.operation.resume')}
+      </Text>
+    </ContentArea>
+  ) : (
+    <ContentArea style={styles.controlItem} onPress={() => setStopDialogVisibility(true)}>
+      <FontAwesome name='coffee' size={31} />
+      <Text style={styles.controlItemText}>
+        {t('taskInProgress.operation.stop')}
+      </Text>
+    </ContentArea>
+  );
 
   return (
     <RouteContainer path={NavigationRoutePath.TaskInProgress} title={t('taskInProgress.taskInProgress')}>
@@ -56,12 +80,7 @@ export default function TaskInProgress() {
               {t('taskInProgress.operation.minimize')}
             </Text>
           </ContentArea>
-          <ContentArea style={styles.controlItem} onPress={() => setStopDialogVisibility(true)}>
-            <FontAwesome name='coffee' size={31} />
-            <Text style={styles.controlItemText}>
-              {t('taskInProgress.operation.stop')}
-            </Text>
-          </ContentArea>
+          {stopOrResumeControlItem}
           <ContentArea style={styles.controlItem} onPress={() => setFinishDialogVisibility(true)}>
             <MaterialIcons name='exit-to-app' size={32} />
             <Text style={styles.controlItemText}>
@@ -81,6 +100,19 @@ export default function TaskInProgress() {
         <Dialog.Button label={t('taskInProgress.dialog.stop')} onPress={() => {
           setStopDialogVisibility(false);
           stop();
+        }} />
+      </Dialog.Container>
+      <Dialog.Container visible={resumeDialogVisibility}>
+        <Dialog.Title>
+          {t('taskInProgress.taskInProgress')}
+        </Dialog.Title>
+        <Dialog.Description>
+          {t('taskInProgress.dialog.doYouReallyResumeWorking')}
+        </Dialog.Description>
+        <Dialog.Button label={t('taskInProgress.dialog.cancel')} onPress={() => setResumeDialogVisibility(false)} />
+        <Dialog.Button label={t('taskInProgress.dialog.resume')} onPress={() => {
+          setResumeDialogVisibility(false);
+          resume();
         }} />
       </Dialog.Container>
       <Dialog.Container visible={finishDialogVisibility}>
@@ -104,12 +136,19 @@ export default function TaskInProgress() {
   }
 
   function stop() {
+    Redux.store.dispatch(taskInProgressActions.stop());
     Ui.showToast(t('taskInProgress.toast.stoppedWorking'));
   }
 
+  function resume() {
+    Redux.store.dispatch(taskInProgressActions.resume());
+    Ui.showToast(t('taskInProgress.toast.resumedWorking'));
+  }
+
   function finish() {
-    Ui.showToast(t('taskInProgress.toast.finishedWorking'));
+    Redux.store.dispatch(taskInProgressActions.finish());
     Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.TaskFinish));
+    Ui.showToast(t('taskInProgress.toast.finishedWorking'));
   }
 }
 

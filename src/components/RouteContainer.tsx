@@ -4,6 +4,7 @@ import { NavigationRoutePath } from '../navigation';
 import { useSelector } from 'react-redux';
 import Redux from '../redux/redux';
 import Ui from '../ui';
+import { t } from '../translations';
 
 export type RouteContainerProps = {
   path: NavigationRoutePath,
@@ -19,7 +20,7 @@ export type RouteContainerProps = {
 export default function RouteContainer(props: RouteContainerProps) {
   const navigation = useSelector((state: Redux.RootState) => state.navigation);
   const menuBarDisplayed = NavigationRoutePath.getMenuBarDisplayed(navigation.path);
-  const title = props.title ?? 'キロク';
+  const title = props.title ?? t('app.name');
 
   const header = !props.headerDisabled && (
     <View style={styles.header}>

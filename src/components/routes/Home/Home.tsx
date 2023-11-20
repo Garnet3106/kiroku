@@ -6,6 +6,7 @@ import Ui from '../../../ui';
 import TaskItem from './TaskItem';
 import ContentTitle from '../../ContentTitle';
 import TaskRegistrationButton from '../../TaskRegistrationButton';
+import { t } from '../../../translations';
 
 export default function Home() {
   const tasks = [undefined, undefined, undefined];
@@ -20,17 +21,17 @@ export default function Home() {
   return (
     <RouteContainer
       path={NavigationRoutePath.Home}
-      title='ホーム'
+      title={t('home.home')}
       scrollable
       containerChildren={<TaskRegistrationButton />}
     >
-      <ContentTitle text='今日の実績' insertBottomMargin />
+      <ContentTitle text={t('home.todaysPerf')} insertBottomMargin />
       <ContentArea insertBottomMargin>
       </ContentArea>
       <View style={styles.titleRow}>
-        <ContentTitle text='今日の作業' insertBottomMargin />
+        <ContentTitle text={t('home.todaysTasks')} insertBottomMargin />
         <Text style={styles.numberOfTasks}>
-          1/3 完了
+          {t('home.done', { progress: '1/3' })}
         </Text>
       </View>
       {taskItems}
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
     color: Ui.color.white,
     fontSize: 16,
     paddingBottom: 3,
-    paddingHorizontal: 3,
+    paddingHorizontal: 5,
     position: 'absolute',
     right: 0,
   },

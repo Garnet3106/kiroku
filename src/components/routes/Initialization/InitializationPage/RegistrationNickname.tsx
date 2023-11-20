@@ -2,6 +2,7 @@ import { InitializationPageIndex } from '../../../../navigation';
 import TextInput from '../../../input/TextInput';
 import Named from '../../../input/Named';
 import InitializationPage from './InitializationPage';
+import { t } from '../../../../translations';
 
 export default function RegistrationNickname() {
   return (
@@ -10,8 +11,8 @@ export default function RegistrationNickname() {
       previous={InitializationPageIndex.Top}
       next={InitializationPageIndex.RegistrationServiceLinking}
     >
-      <Named title='ニックネーム' required>
-        <TextInput placeholder='例）きろくたろー' />
+      <Named title={t('init.nickname.nickname')} required>
+        <TextInput placeholder={t('init.nickname.nicknameExample')} />
       </Named>
     </InitializationPage>
   );

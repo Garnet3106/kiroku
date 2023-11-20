@@ -7,6 +7,7 @@ import MenuBarItem from './MenuBarItem';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { t } from '../../translations';
 
 export default function MenuBar() {
   const navigationRoutePath = useSelector((state: Redux.RootState) => state.navigation.path);
@@ -20,7 +21,7 @@ export default function MenuBar() {
       { display: displayed ? undefined : 'none' },
     ]}>
       <MenuBarItem
-        text='ホーム'
+        text={t('menuBar.home')}
         textColor={getColor(NavigationRoutePath.Home)}
         icon={(
           <FontAwesome5
@@ -33,7 +34,7 @@ export default function MenuBar() {
         route={{ path: NavigationRoutePath.Home }}
       />
       <MenuBarItem
-        text='実績'
+        text={t('menuBar.perf')}
         textColor={getColor(NavigationRoutePath.Performance)}
         icon={(
           <MaterialCommunityIcons
@@ -45,7 +46,7 @@ export default function MenuBar() {
         route={{ path: NavigationRoutePath.Performance }}
       />
       <MenuBarItem
-        text='管理'
+        text={t('menuBar.mgmt')}
         textColor={getColor(NavigationRoutePath.Management)}
         icon={(
           <FontAwesome5
@@ -58,7 +59,7 @@ export default function MenuBar() {
         route={{ path: NavigationRoutePath.Management }}
       />
       <MenuBarItem
-        text='設定'
+        text={t('menuBar.settings')}
         textColor={getColor(NavigationRoutePath.Settings)}
         icon={(
           <Ionicons

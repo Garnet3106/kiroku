@@ -10,6 +10,7 @@ import { useState } from 'react';
 import RectangleButton from '../input/RectangleButton';
 import Redux from '../../redux/redux';
 import { navigationActions } from '../../redux/slices/navigation';
+import { t } from '../../translations';
 
 export default function TaskFinish() {
   const [concentrationLevel, setConcentrationLevel] = useState(0);
@@ -29,11 +30,11 @@ export default function TaskFinish() {
   ));
 
   return (
-    <RouteContainer path={NavigationRoutePath.TaskFinish} title='作業終了'>
+    <RouteContainer path={NavigationRoutePath.TaskFinish} title={t('taskFinish.taskFinish')}>
       <View style={styles.container}>
         <ContentArea style={styles.results}>
           <Text style={styles.message}>
-            お疲れ様でした！
+            {t('taskFinish.wellDone')}
           </Text>
           <Text style={styles.status}>
             5回連続で取り組み中
@@ -41,38 +42,38 @@ export default function TaskFinish() {
           <ContentSeparator color={Ui.color.border.lightGray} style={{ marginBottom: Ui.dimension.margin / 2 }} />
           <View style={styles.property}>
             <Text style={{ fontSize: 16 }}>
-              作業時間
+              {t('taskFinish.properties.workingTime')}
             </Text>
             <Text style={styles.propertyData}>
-              60分
+              {t('taskFinish.properties.mins', { min: 60 })}
             </Text>
           </View>
           <ContentSeparator color={Ui.color.border.lightGray} style={{ marginBottom: Ui.dimension.margin / 2 }} />
           <View style={styles.property}>
             <Text style={{ fontSize: 16 }}>
-              休憩時間
+              {t('taskFinish.properties.recessTime')}
             </Text>
             <Text style={styles.propertyData}>
-              10分
+              {t('taskFinish.properties.mins', { min: 10 })}
             </Text>
           </View>
           <ContentSeparator color={Ui.color.border.lightGray} style={{ marginBottom: Ui.dimension.margin / 2 }} />
           <View style={styles.property}>
             <Text style={{ fontSize: 16 }}>
-              現在のレベル
+              {t('taskFinish.properties.currentLevel')}
             </Text>
             <Text style={styles.propertyData}>
-              +100pt
+              {t('taskFinish.properties.plusPt', { pt: 100 })}
             </Text>
           </View>
           <ContentSeparator color={Ui.color.border.lightGray} style={{ marginBottom: Ui.dimension.margin * 2 }} />
           <Text style={{ fontSize: 16 }}>
-            今回の集中度を記録しましょう
+            {t('taskFinish.letsRecordYourConcentrationLevel')}
           </Text>
           <View style={styles.concentrationLevel}>
             {concentrationLevels}
           </View>
-          <RectangleButton text='閉じる' onPress={() => Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Home))} />
+          <RectangleButton text={t('taskFinish.close')} onPress={() => Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Home))} />
         </ContentArea>
       </View>
     </RouteContainer>

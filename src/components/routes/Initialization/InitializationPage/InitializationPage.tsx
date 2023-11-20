@@ -8,6 +8,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import RectangleButton from '../../../input/RectangleButton';
 import { navigationActions } from '../../../../redux/slices/navigation';
 import PressableHighlight from '../../../pressable/PressableHighlight';
+import { t } from '../../../../translations';
 
 export type InitializationPageProps = {
   pageIndex: InitializationPageIndex,
@@ -34,14 +35,14 @@ export default function InitializationPage(props: InitializationPageProps) {
     >
       <Ionicons name='chevron-back' color={Ui.color.white} size={20} style={{ marginLeft: -7 }} />
       <Text style={styles.previousText}>
-        前に戻る
+        {t('init.back')}
       </Text>
     </PressableHighlight>
   );
 
   const nextButton = props.next !== undefined && (
     <RectangleButton
-      text='次へ進む'
+      text={t('init.next')}
       style={{ marginTop: Ui.dimension.margin * 2 }}
       onPress={() => Redux.store.dispatch(navigationActions.jumpToInitialization(props.next!))}
     />

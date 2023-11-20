@@ -13,11 +13,12 @@ import Redux from '../../redux/redux';
 import { navigationActions } from '../../redux/slices/navigation';
 import ContentSeparator from '../ContentSeparator';
 import { StyleSheet, Text } from 'react-native';
+import { t } from '../../translations';
 
 export default function TaskEdit() {
   const categoryOptions = TaskCategory.enumerate().map((v) => ({
     uniqueId: v,
-    text: TaskCategory.translate(v),
+    text: t(`task.categories.${v}`),
   }));
 
   const [category, setCategory] = useState(TaskCategory.Uncategorized);
@@ -25,40 +26,40 @@ export default function TaskEdit() {
   const [deleteDialogVisibility, setDeleteDialogVisibility] = useState(false);
 
   return (
-    <RouteContainer path={NavigationRoutePath.TaskEdit}>
+    <RouteContainer path={NavigationRoutePath.TaskEdit} title='作業登録/編集' /* fix title */>
       <ContentArea>
         <Text style={styles.message}>
-          どのような作業に取り組みますか？
+          {t('taskEdit.whatKindOfTask')}
         </Text>
-        <Named title='カテゴリー' required insertBottomMargin>
+        <Named title={t('taskEdit.category')} required insertBottomMargin>
           <Dropdown options={categoryOptions} selected={category} onChange={(v) => setCategory(v as number)} />
         </Named>
-        <Named title='タイトル' required insertBottomMargin>
-          <TextInput placeholder='例）受験勉強' />
+        <Named title={t('taskEdit.title')} required insertBottomMargin>
+          <TextInput placeholder={t('taskEdit.titleExample')} />
         </Named>
-        <Named title='作業間隔' required insertBottomMargin>
+        <Named title={t('taskEdit.intervalOfWorkingDate')} required insertBottomMargin>
           <TextInput placeholder='要修正' />
         </Named>
         <ContentSeparator insertBottomMargin />
         <RectangleButton
-          text='削除する'
+          text={t('taskEdit.delete')}
           color={Ui.color.red}
           pressedColor={Ui.color.pressed.redOnWhite}
           whiteBackground
           insertBottomMargin
           onPress={() => setDeleteDialogVisibility(true)}
         />
-        <RectangleButton text='保存する' onPress={onPressSaveButton} />
+        <RectangleButton text={t('taskEdit.save')} onPress={onPressSaveButton} />
       </ContentArea>
       <Dialog.Container visible={deleteDialogVisibility}>
         <Dialog.Title>
-          作業管理
+          {t('taskEdit.dialog.taskMgmt')}
         </Dialog.Title>
         <Dialog.Description>
-          作業「（作業タイトル）」を削除しますか？
+          {t('taskEdit.dialog.doYouReallyDeleteTask', { taskTitle: '作業タイトル' })}
         </Dialog.Description>
-        <Dialog.Button label="キャンセル" onPress={() => setDeleteDialogVisibility(false)} />
-        <Dialog.Button label="削除" onPress={() => {
+        <Dialog.Button label={t('taskEdit.dialog.cancel')} onPress={() => setDeleteDialogVisibility(false)} />
+        <Dialog.Button label={t('taskEdit.dialog.delete')} onPress={() => {
           setDeleteDialogVisibility(false);
           deleteTask();
         }} />
@@ -67,12 +68,12 @@ export default function TaskEdit() {
   );
 
   function deleteTask() {
-    Ui.showToast('作業を削除しました。');
+    Ui.showToast(t('taskEdit.toast.taskWasDeleted'));
     Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Management));
   }
 
   function onPressSaveButton() {
-    Ui.showToast('作業を保存しました。');
+    Ui.showToast(t('taskEdit.toast.taskWasSaved'));
     Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Management));
   }
 }

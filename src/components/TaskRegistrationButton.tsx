@@ -5,6 +5,7 @@ import Entypo from '@expo/vector-icons/Entypo';
 import Redux from '../redux/redux';
 import { navigationActions } from '../redux/slices/navigation';
 import { NavigationRoutePath } from '../navigation';
+import { t } from '../translations';
 
 export default function TaskRegistrationButton() {
   return (
@@ -18,7 +19,7 @@ export default function TaskRegistrationButton() {
     >
       <Entypo name='plus' color={Ui.color.main} size={30} top={2} style={{ margin: -8 }} />
       <Text style={styles.text}>
-        作業登録
+        {t('taskMgmt.newTask')}
       </Text>
     </PressableHighlight>
   );

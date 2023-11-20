@@ -11,6 +11,7 @@ import Redux from '../../redux/redux';
 import { navigationActions } from '../../redux/slices/navigation';
 import { useState } from 'react';
 import Dialog from 'react-native-dialog';
+import { t } from '../../translations';
 
 const progressBarHeight = 13;
 
@@ -19,12 +20,12 @@ export default function TaskInProgress() {
   const [finishDialogVisibility, setFinishDialogVisibility] = useState(false);
 
   return (
-    <RouteContainer path={NavigationRoutePath.TaskInProgress} title='作業進捗'>
+    <RouteContainer path={NavigationRoutePath.TaskInProgress} title={t('taskInProgress.taskInProgress')}>
       <View style={styles.container}>
         <ContentArea style={styles.information}>
           <View style={styles.top}>
             <Text style={styles.status}>
-              作業中
+              {t('taskInProgress.working')}
             </Text>
             <Text style={styles.time}>
               12:30
@@ -39,7 +40,7 @@ export default function TaskInProgress() {
                 </Text>
               </View>
               <Text style={styles.remainingTime}>
-                残り30分
+                {t('taskInProgress.minutesLeft', { min: 30 })}
               </Text>
             </View>
             <View style={styles.progressBar}>
@@ -52,45 +53,45 @@ export default function TaskInProgress() {
           <ContentArea style={styles.controlItem} onPress={minimize}>
             <Feather name='minimize-2' size={30} />
             <Text style={styles.controlItemText}>
-              最小化
+              {t('taskInProgress.operation.minimize')}
             </Text>
           </ContentArea>
           <ContentArea style={styles.controlItem} onPress={() => setStopDialogVisibility(true)}>
             <FontAwesome name='coffee' size={31} />
             <Text style={styles.controlItemText}>
-              休憩･中断
+              {t('taskInProgress.operation.stop')}
             </Text>
           </ContentArea>
           <ContentArea style={styles.controlItem} onPress={() => setFinishDialogVisibility(true)}>
             <MaterialIcons name='exit-to-app' size={32} />
             <Text style={styles.controlItemText}>
-              終了
+              {t('taskInProgress.operation.finish')}
             </Text>
           </ContentArea>
         </View>
       </View>
       <Dialog.Container visible={stopDialogVisibility}>
         <Dialog.Title>
-          作業中
+          {t('taskInProgress.taskInProgress')}
         </Dialog.Title>
         <Dialog.Description>
-          作業を中断しますか？
+          {t('taskInProgress.dialog.doYouReallyStopWorking')}
         </Dialog.Description>
-        <Dialog.Button label='キャンセル' onPress={() => setStopDialogVisibility(false)} />
-        <Dialog.Button label='中断' onPress={() => {
+        <Dialog.Button label={t('taskInProgress.dialog.cancel')} onPress={() => setStopDialogVisibility(false)} />
+        <Dialog.Button label={t('taskInProgress.dialog.stop')} onPress={() => {
           setStopDialogVisibility(false);
           stop();
         }} />
       </Dialog.Container>
       <Dialog.Container visible={finishDialogVisibility}>
         <Dialog.Title>
-          作業中
+          {t('taskInProgress.taskInProgress')}
         </Dialog.Title>
         <Dialog.Description>
-          作業を終了しますか？
+          {t('taskInProgress.dialog.doYouReallyFinishWorking')}
         </Dialog.Description>
-        <Dialog.Button label='キャンセル' onPress={() => setFinishDialogVisibility(false)} />
-        <Dialog.Button label='終了' onPress={() => {
+        <Dialog.Button label={t('taskInProgress.dialog.cancel')} onPress={() => setFinishDialogVisibility(false)} />
+        <Dialog.Button label={t('taskInProgress.dialog.finish')} onPress={() => {
           setFinishDialogVisibility(false);
           finish();
         }} />
@@ -103,11 +104,11 @@ export default function TaskInProgress() {
   }
 
   function stop() {
-    Ui.showToast('作業を中断しました。');
+    Ui.showToast(t('taskInProgress.toast.stoppedWorking'));
   }
 
   function finish() {
-    Ui.showToast('作業を終了しました。');
+    Ui.showToast(t('taskInProgress.toast.finishedWorking'));
     Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.TaskFinish));
   }
 }

@@ -6,13 +6,14 @@ import ContentSeparator from '../../ContentSeparator';
 import { TaskSortStyle } from '../../../task';
 import { useState } from 'react';
 import TaskRegistrationButton from '../../TaskRegistrationButton';
+import { t } from '../../../translations';
 
 export default function Management() {
   const [sortStyle, setSortStyle] = useState(TaskSortStyle.WorkingDay);
 
   const sortDropdownItems = TaskSortStyle.enumerate().map((v) => ({
     uniqueId: v,
-    text: TaskSortStyle.translate(v),
+    text: t(`task.sortStyles.${v}`),
   }));
 
   const tasks = [undefined, undefined, undefined];
@@ -27,7 +28,7 @@ export default function Management() {
   return (
     <RouteContainer
       path={NavigationRoutePath.Management}
-      title='作業管理'
+      title={t('taskMgmt.taskMgmt')}
       containerChildren={<TaskRegistrationButton />}
     >
       <Dropdown

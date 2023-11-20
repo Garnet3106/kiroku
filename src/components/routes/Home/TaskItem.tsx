@@ -8,6 +8,7 @@ import { navigationActions } from '../../../redux/slices/navigation';
 import { NavigationRoutePath } from '../../../navigation';
 import Dialog from 'react-native-dialog';
 import { useState } from 'react';
+import { t } from '../../../translations';
 
 export type TaskItemProps = Ui.LayoutProps & {
   style?: StyleProp<ViewStyle>,
@@ -35,20 +36,20 @@ export default function TaskItem(props: TaskItemProps) {
       <View style={styles.block}>
         <MaterialIcons name='access-time' color={Ui.color.gray} size={20} top={1} />
         <Text style={styles.status}>
-          残り20分
+          {t('home.taskItem.minutesLeft', { min: 10 })}
         </Text>
         <Entypo name='chevron-right' color={Ui.color.gray} size={30} top={1} />
       </View>
     </ContentArea>
     <Dialog.Container visible={startDialogVisibility}>
       <Dialog.Title>
-        作業開始
+        {t('home.taskItem.startTask')}
       </Dialog.Title>
       <Dialog.Description>
-        作業「（作業タイトル）」を開始しますか？
+        {t('home.taskItem.dialog.doYouReallyTackle', { taskTitle: '作業タイトル' })}
       </Dialog.Description>
-      <Dialog.Button label="キャンセル" onPress={() => setStartDialogVisibility(false)} />
-      <Dialog.Button label="開始" onPress={() => {
+      <Dialog.Button label={t('home.taskItem.dialog.cancel')} onPress={() => setStartDialogVisibility(false)} />
+      <Dialog.Button label={t('home.taskItem.dialog.start')} onPress={() => {
         setStartDialogVisibility(false);
         start();
       }} />
@@ -57,7 +58,7 @@ export default function TaskItem(props: TaskItemProps) {
   );
 
   function start() {
-    Ui.showToast('作業を開始しました。');
+    Ui.showToast(t('home.taskItem.toast.taskStarted'));
     Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.TaskInProgress));
   }
 }

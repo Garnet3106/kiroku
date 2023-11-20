@@ -7,6 +7,7 @@ import Feather from '@expo/vector-icons/Feather';
 import Redux from '../../../../redux/redux';
 import { navigationActions } from '../../../../redux/slices/navigation';
 import { StyleSheet, Text } from 'react-native';
+import { t } from '../../../../translations';
 
 export default function RegistrationServiceLinking() {
   return (
@@ -15,17 +16,17 @@ export default function RegistrationServiceLinking() {
       previous={InitializationPageIndex.RegistrationNickname}
     >
       <Text style={styles.message}>
-        アカウントに連携させるサービスを選択してください。
+        {t('init.serviceLinking.chooseLinkingService')}
       </Text>
       <Text style={styles.messageCaption}>
-        * 次回以降のログインで使用します。
+        {'* ' + t('init.serviceLinking.caption')}
       </Text>
       <RectangleButton
-        text='Google'
+        text={t('init.serviceLinking.google')}
         icon={<FontAwesome name='google' color={Ui.color.white} size={22} />}
       />
       <RectangleButton
-        text='メールアドレス'
+        text={t('init.serviceLinking.emailAddress')}
         icon={<Feather name='mail' color={Ui.color.white} size={22} style={{ top: 3 }} />}
         style={{ marginTop: Ui.dimension.margin }}
         onPress={() => Redux.store.dispatch(navigationActions.jumpToInitialization(InitializationPageIndex.RegistrationEmail))}

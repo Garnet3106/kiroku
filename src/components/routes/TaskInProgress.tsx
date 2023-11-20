@@ -9,21 +9,34 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import Ui from '../../ui';
 import Redux from '../../redux/redux';
 import { navigationActions } from '../../redux/slices/navigation';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Dialog from 'react-native-dialog';
 import { t } from '../../translations';
 import { taskInProgressActions } from '../../redux/slices/taskInProgress';
 import { useSelector } from 'react-redux';
+import { Seconds } from '../../task';
 
 const progressBarHeight = 13;
 
 export default function TaskInProgress() {
+  const tasks = useSelector((state: Redux.RootState) => state.tasks);
   const taskInProgress = useSelector((state: Redux.RootState) => state.taskInProgress);
+  const targetTask = useMemo(() => tasks.find((v) => v.id === taskInProgress?.id) ?? null, [tasks, taskInProgress?.id]);
   const [stopDialogVisibility, setStopDialogVisibility] = useState(false);
   const [resumeDialogVisibility, setResumeDialogVisibility] = useState(false);
   const [finishDialogVisibility, setFinishDialogVisibility] = useState(false);
+  const [elapsedSeconds, setElapsedSeconds] = useState<Seconds>(0);
 
-  if (!taskInProgress) {
+  useEffect(() => {
+    if (!taskInProgress || taskInProgress.stopped) {
+      return;
+    }
+
+    const interval = setInterval(() => setElapsedSeconds((state) => state + 1), 1000);
+    return () => clearInterval(interval);
+  }, [taskInProgress]);
+
+  if (!taskInProgress || !targetTask) {
     return;
   }
 
@@ -52,7 +65,7 @@ export default function TaskInProgress() {
               {t('taskInProgress.working')}
             </Text>
             <Text style={styles.time}>
-              12:30
+              {formatElapsedTime()}
             </Text>
           </View>
           <View style={styles.bottom}>
@@ -60,7 +73,7 @@ export default function TaskInProgress() {
               <View style={styles.descriptionLeft}>
                 <Entypo name='book' color={Ui.color.black} size={20} top={3} style={{ marginRight: 2 }} />
                 <Text style={styles.title}>
-                  作業タイトル
+                  {targetTask.title}
                 </Text>
               </View>
               <Text style={styles.remainingTime}>
@@ -130,6 +143,14 @@ export default function TaskInProgress() {
       </Dialog.Container>
     </RouteContainer>
   );
+
+  function formatElapsedTime(): string {
+    const date = new Date(elapsedSeconds * 1000);
+    const hours = String(date.getUTCHours()).padStart(2, '0');
+    const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+    const seconds = String(date.getUTCSeconds()).padStart(2, '0');
+    return `${hours}:${minutes}:${seconds}`;
+  }
 
   function minimize() {
     Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Home));

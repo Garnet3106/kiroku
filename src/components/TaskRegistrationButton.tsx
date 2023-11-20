@@ -17,7 +17,7 @@ export default function TaskRegistrationButton() {
       style={styles.container}
       onPress={() => Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.TaskEdit))}
     >
-      <Entypo name='plus' color={Ui.color.main} size={30} top={2} style={{ margin: -8 }} />
+      <Entypo name='plus' color={Ui.color.main} size={30} top={1} style={{ margin: -4 }} />
       <Text style={styles.text}>
         {t('taskMgmt.newTask')}
       </Text>

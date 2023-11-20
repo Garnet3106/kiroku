@@ -34,7 +34,7 @@ export default function TaskInProgress() {
           <View style={styles.bottom}>
             <View style={styles.description}>
               <View style={styles.descriptionLeft}>
-                <Entypo name='book' color={Ui.color.black} size={20} top={3} style={{ marginRight: 3 }} />
+                <Entypo name='book' color={Ui.color.black} size={20} top={3} style={{ marginRight: 2 }} />
                 <Text style={styles.title}>
                   作業タイトル
                 </Text>
@@ -189,6 +189,7 @@ const styles = StyleSheet.create({
     width: 100,
   },
   controlItemText: {
+    marginTop: 3,
     fontSize: 16,
   },
 });

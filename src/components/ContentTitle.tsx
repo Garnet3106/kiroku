@@ -30,10 +30,11 @@ const styles = StyleSheet.create({
   bar: {
     backgroundColor: Ui.color.main,
     height: 20,
-    marginRight: 3,
+    marginRight: 4,
     width: 5,
   },
   text: {
+    bottom: 1,
     color: Ui.color.main,
     fontSize: 16,
   },

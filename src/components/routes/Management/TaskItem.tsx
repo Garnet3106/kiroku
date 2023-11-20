@@ -23,7 +23,7 @@ export default function TaskItem(props: TaskItemProps) {
       onPress={onPress}
     >
       <View style={styles.content}>
-        <Entypo name='book' color={Ui.color.black} size={20} top={3} style={{ marginRight: 3 }} />
+        <Entypo name='book' color={Ui.color.black} size={20} top={3} style={{ marginRight: 2 }} />
         <View>
           <Text style={styles.title}>
             作業タイトル

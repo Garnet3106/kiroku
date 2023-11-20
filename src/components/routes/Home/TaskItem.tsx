@@ -28,7 +28,7 @@ export default function TaskItem(props: TaskItemProps) {
       onPress={() => setStartDialogVisibility(true)}
     >
       <View style={styles.block}>
-        <Entypo name='book' color={Ui.color.black} size={20} top={2} style={{ marginRight: 3 }} />
+        <Entypo name='book' color={Ui.color.black} size={20} top={2} style={{ marginRight: 2 }} />
         <Text style={styles.title}>
           作業タイトル
         </Text>
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
   },
   status: {
     color: Ui.color.gray,
-    marginLeft: 1,
+    marginLeft: 3,
     marginRight: 4,
   },
 });

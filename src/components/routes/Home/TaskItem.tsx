@@ -62,7 +62,7 @@ export default function TaskItem(props: TaskItemProps) {
           color={color}
           size={30}
           top={1}
-          style={{ opacity: inProgress ? 1 : 0 }}
+          style={{ opacity: inProgress || !isOtherTaskInProgress ? 1 : 0 }}
         />
       </View>
     </ContentArea>

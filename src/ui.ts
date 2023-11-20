@@ -40,10 +40,15 @@ namespace Ui {
     },
   };
 
-  export function showToast(message: string) {
+  export type ToastOptions = {
+    backgroundColor?: string,
+    showsLong?: boolean,
+  };
+
+  export function showToast(message: string, options?: ToastOptions) {
     Toast.show(message, {
-      backgroundColor: color.main,
-      duration: Toast.durations.SHORT,
+      backgroundColor: options?.backgroundColor ?? color.main,
+      duration: options?.showsLong ? Toast.durations.LONG : Toast.durations.SHORT,
       opacity: 1,
       position: Toast.positions.BOTTOM - dimension.menuBar.height,
     });

@@ -29,7 +29,10 @@ export default function MenuBar() {
             bottom={2}
           />
         )}
-        route={{ path: NavigationRoutePath.Home }}
+        route={{
+          path: NavigationRoutePath.Home,
+          params: {},
+        }}
       />
       <MenuBarItem
         text={t('menuBar.perf')}
@@ -41,7 +44,10 @@ export default function MenuBar() {
             size={Ui.dimension.menuBar.height - 30}
           />
         )}
-        route={{ path: NavigationRoutePath.Performance }}
+        route={{
+          path: NavigationRoutePath.Performance,
+          params: {},
+        }}
       />
       <MenuBarItem
         text={t('menuBar.mgmt')}
@@ -54,7 +60,10 @@ export default function MenuBar() {
             bottom={5}
           />
         )}
-        route={{ path: NavigationRoutePath.Management }}
+        route={{
+          path: NavigationRoutePath.Management,
+          params: {},
+        }}
       />
       <MenuBarItem
         text={t('menuBar.settings')}
@@ -67,7 +76,10 @@ export default function MenuBar() {
             bottom={2}
           />
         )}
-        route={{ path: NavigationRoutePath.Settings }}
+        route={{
+          path: NavigationRoutePath.Settings,
+          params: {},
+        }}
       />
     </View>
   );

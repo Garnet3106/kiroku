@@ -1,9 +1,12 @@
-import { StyleSheet, TextInput as RNTextInput, TextInputProps as RNTextInputProps, TextStyle, View } from 'react-native';
+import { StyleSheet, TextInput as RNTextInput, TextInputProps as RNTextInputProps, View } from 'react-native';
 import Ui from '../../ui';
 
-export default function TextInput(props: RNTextInputProps) {
+export default function TextInput(props: Ui.LayoutProps & RNTextInputProps) {
   return (
-    <View style={styles.container}>
+    <View style={[
+      styles.container,
+      { marginBottom: props.insertBottomMargin ? Ui.dimension.margin : undefined },
+    ]}>
       <RNTextInput
         cursorColor={Ui.color.black}
         {...props}

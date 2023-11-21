@@ -4,7 +4,7 @@ import { ReactNode } from 'react';
 import Redux from '../../../../redux/redux';
 import { useSelector } from 'react-redux';
 import Ui from '../../../../ui';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { Ionicons } from '@expo/vector-icons';
 import RectangleButton from '../../../input/RectangleButton';
 import { navigationActions } from '../../../../redux/slices/navigation';
 import PressableHighlight from '../../../pressable/PressableHighlight';

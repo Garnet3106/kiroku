@@ -1,7 +1,6 @@
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
 import Ui from '../../../ui';
-import Entypo from '@expo/vector-icons/Entypo';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { Entypo, MaterialIcons } from '@expo/vector-icons';
 import ContentArea from '../../ContentArea';
 import Redux from '../../../redux/redux';
 import { navigationActions } from '../../../redux/slices/navigation';

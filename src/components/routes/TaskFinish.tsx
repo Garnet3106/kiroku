@@ -4,7 +4,7 @@ import ContentArea from '../ContentArea';
 import RouteContainer from '../RouteContainer';
 import Ui from '../../ui';
 import ContentSeparator from '../ContentSeparator';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import PressableOpacity from '../pressable/PressableOpacity';
 import { useState } from 'react';
 import RectangleButton from '../input/RectangleButton';

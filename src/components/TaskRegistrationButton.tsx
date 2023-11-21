@@ -1,7 +1,7 @@
 import { StyleSheet, Text } from 'react-native';
 import Ui from '../ui';
 import PressableHighlight from './pressable/PressableHighlight';
-import Entypo from '@expo/vector-icons/Entypo';
+import { Entypo } from '@expo/vector-icons';
 import Redux from '../redux/redux';
 import { navigationActions } from '../redux/slices/navigation';
 import { NavigationRoutePath } from '../navigation';

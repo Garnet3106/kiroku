@@ -1,6 +1,6 @@
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
 import Ui from '../../ui';
-import Entypo from '@expo/vector-icons/Entypo';
+import { Entypo } from '@expo/vector-icons';
 import PressableHighlight from '../pressable/PressableHighlight';
 import { useState } from 'react';
 

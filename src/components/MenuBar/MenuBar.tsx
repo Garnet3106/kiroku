@@ -4,9 +4,7 @@ import { useSelector } from 'react-redux';
 import Redux from '../../redux/redux';
 import { NavigationRoutePath } from '../../navigation';
 import MenuBarItem from './MenuBarItem';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { FontAwesome5, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { t } from '../../translations';
 
 export default function MenuBar() {

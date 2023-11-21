@@ -79,6 +79,8 @@ const ja: TranslationDictionaryData = {
     newTask: '新規作業',
   },
   taskEdit: {
+    taskReg: '作業登録',
+    taskEdit: '作業編集',
     whatKindOfTask: 'どのような作業に取り組みますか？',
     category: 'カテゴリー',
     title: 'タイトル',

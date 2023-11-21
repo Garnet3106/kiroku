@@ -7,23 +7,26 @@ import { TaskSortStyle } from '../../../task';
 import { useState } from 'react';
 import TaskRegistrationButton from '../../TaskRegistrationButton';
 import { t } from '../../../translations';
+import { useSelector } from 'react-redux';
+import Redux from '../../../redux/redux';
 
 export default function Management() {
+  const tasks = useSelector((state: Redux.RootState) => state.tasks);
+
+  const taskItems = tasks.map((eachTask, index) => (
+    <TaskItem
+      task={eachTask}
+      insertBottomMargin={index + 1 !== tasks.length}
+      key={Math.random()} /* task id */
+    />
+  ));
+
   const [sortStyle, setSortStyle] = useState(TaskSortStyle.WorkingDay);
 
   const sortDropdownItems = TaskSortStyle.enumerate().map((v) => ({
     uniqueId: v,
     text: t(`task.sortStyles.${v}`),
   }));
-
-  const tasks = [undefined, undefined, undefined];
-
-  const taskItems = tasks.map((_eachTask, index) => (
-    <TaskItem
-      insertBottomMargin={index + 1 !== tasks.length}
-      key={Math.random()} /* task id */
-    />
-  ));
 
   return (
     <RouteContainer

@@ -5,8 +5,10 @@ import ContentArea from '../../ContentArea';
 import Redux from '../../../redux/redux';
 import { navigationActions } from '../../../redux/slices/navigation';
 import { NavigationRoutePath } from '../../../navigation';
+import { Task } from '../../../task';
 
 export type TaskItemProps = Ui.LayoutProps & {
+  task: Task,
   style?: StyleProp<ViewStyle>,
 };
 
@@ -26,7 +28,7 @@ export default function TaskItem(props: TaskItemProps) {
         <Entypo name='book' color={Ui.color.black} size={20} top={3} style={{ marginRight: 2 }} />
         <View>
           <Text style={styles.title}>
-            作業タイトル
+            {props.task.title}
           </Text>
           <Text style={styles.description}>
             {descriptions.join(' ･ ')}
@@ -38,7 +40,12 @@ export default function TaskItem(props: TaskItemProps) {
   );
 
   function onPress() {
-    Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.TaskEdit));
+    Redux.store.dispatch(navigationActions.jumpToWithParams({
+      path: NavigationRoutePath.TaskEdit,
+      params: {
+        targetTaskId: props.task.id,
+      },
+    }));
   }
 }
 

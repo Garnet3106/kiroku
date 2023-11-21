@@ -1,7 +1,9 @@
 export type NavigationRoute = {
   path: NavigationRoutePath,
-  params?: { [key: string]: any },
+  params: NavigationRouteParameters,
 };
+
+export type NavigationRouteParameters = { [key: string]: any };
 
 export enum NavigationRoutePath {
   Initialization = '/init',

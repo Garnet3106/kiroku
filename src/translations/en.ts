@@ -79,6 +79,8 @@ const en: TranslationDictionaryData = {
     newTask: 'New Task',
   },
   taskEdit: {
+    taskReg: 'Task Registration',
+    taskEdit: 'Task Edit',
     whatKindOfTask: 'What kind of task would you tackle?',
     category: 'Category',
     title: 'Title',

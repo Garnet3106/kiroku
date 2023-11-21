@@ -82,6 +82,8 @@ export type TranslationDictionaryData = {
     newTask: string,
   },
   taskEdit: {
+    taskReg: string,
+    taskEdit: string,
     whatKindOfTask: string,
     category: string,
     title: string,

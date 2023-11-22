@@ -17,7 +17,7 @@ export default function Management() {
     <TaskItem
       task={eachTask}
       insertBottomMargin={index + 1 !== tasks.length}
-      key={Math.random()} /* task id */
+      key={eachTask.id}
     />
   ));
 

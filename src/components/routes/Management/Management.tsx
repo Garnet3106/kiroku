@@ -23,7 +23,7 @@ export default function Management() {
 
   const [sortStyle, setSortStyle] = useState(TaskSortStyle.WorkingDay);
 
-  const sortDropdownItems = TaskSortStyle.enumerate().map((v) => ({
+  const sortDropdownOptions = TaskSortStyle.enumerate().map((v) => ({
     uniqueId: v,
     text: t(`task.sortStyles.${v}`),
   }));
@@ -35,7 +35,7 @@ export default function Management() {
       containerChildren={<TaskRegistrationButton />}
     >
       <Dropdown
-        options={sortDropdownItems}
+        options={sortDropdownOptions}
         selected={sortStyle}
         insertBottomMargin
         onChange={(id) => setSortStyle(id as number)}

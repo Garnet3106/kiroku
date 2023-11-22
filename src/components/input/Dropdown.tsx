@@ -4,19 +4,19 @@ import { Entypo } from '@expo/vector-icons';
 import PressableHighlight from '../pressable/PressableHighlight';
 import { useState } from 'react';
 
-export type DropdownItem = {
+export type DropdownOptions = {
   uniqueId: string | number,
   text: string,
 };
 
 export type DropdownProps = Ui.LayoutProps & {
-  options: DropdownItem[],
+  options: DropdownOptions[],
   selected?: string | number,
   onChange?: (uniqueId: string | number) => void,
   style?: StyleProp<ViewStyle>,
 };
 
-// todo: fix position on overflow
+// todo: adjust position on overflow
 export default function Dropdown(props: DropdownProps) {
   const selected = props.options.find((eachOption) => eachOption.uniqueId === props.selected);
   const disabled = !selected;

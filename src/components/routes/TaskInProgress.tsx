@@ -24,15 +24,23 @@ export default function TaskInProgress() {
   const [resumeDialogVisibility, setResumeDialogVisibility] = useState(false);
   const [finishDialogVisibility, setFinishDialogVisibility] = useState(false);
   const [elapsedSeconds, setElapsedSeconds] = useState<Seconds>(0);
+  const [recessSeconds, setRecessSeconds] = useState<Seconds>(0);
 
   useEffect(() => {
-    if (!taskInProgress || taskInProgress.stopped) {
+    if (!taskInProgress) {
       return;
     }
 
-    const interval = setInterval(() => setElapsedSeconds((state) => state + 1), 1000);
+    const interval = setInterval(() => {
+      if (taskInProgress.stopped) {
+        setRecessSeconds((state) => {console.log(state);return state + 1;})
+      } else {
+        setElapsedSeconds((state) => {console.log(state);return state + 1})
+      }
+    }, 1000);
+
     return () => clearInterval(interval);
-  }, [taskInProgress]);
+  }, [taskInProgress, taskInProgress?.stopped]);
 
   if (!taskInProgress || !targetTask) {
     return;
@@ -188,11 +196,11 @@ export default function TaskInProgress() {
       task: targetTask,
       startedAt: taskInProgress.startedAt,
       workingTime: Math.floor(elapsedSeconds / 60),
-      // fix data
-      recessTime: 0,
+      recessTime: Math.floor(recessSeconds / 60),
     } : null;
 
     setElapsedSeconds(0);
+    setRecessSeconds(0);
     Redux.store.dispatch(taskInProgressActions.finish());
     Redux.store.dispatch(result ? workingResultActions.set(result) : workingResultActions.unset());
     Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.TaskFinish));

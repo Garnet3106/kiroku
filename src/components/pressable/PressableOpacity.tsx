@@ -17,11 +17,17 @@ export default function PressableOpacity(props: PressableOpacityProps) {
         props.style as any,
         { opacity: animatedOpacity },
       ]}
-      onPress={() => {}}
+      onPress={onPress}
       onPressIn={onPressIn}
       onPressOut={onPressOut}
     />
   );
+
+  function onPress(event: GestureResponderEvent) {
+    InteractionManager.runAfterInteractions(() => {
+      props.onPress && props.onPress(event);
+    });
+  }
 
   function onPressIn(event: GestureResponderEvent) {
     Animated.timing(animatedOpacity, {
@@ -44,7 +50,6 @@ export default function PressableOpacity(props: PressableOpacityProps) {
 
     InteractionManager.runAfterInteractions(() => {
       props.onPressOut && props.onPressOut(event);
-      props.onPress && props.onPress(event);
     });
   }
 }

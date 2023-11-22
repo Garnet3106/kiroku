@@ -25,11 +25,17 @@ export default function PressableHighlight(props: PressableHighlightProps) {
         props.style as any,
         { backgroundColor: interpolatedBackgroundColor },
       ]}
-      onPress={() => {}}
+      onPress={onPress}
       onPressIn={onPressIn}
       onPressOut={onPressOut}
     />
   );
+
+  function onPress(event: GestureResponderEvent) {
+    InteractionManager.runAfterInteractions(() => {
+      props.onPress && props.onPress(event);
+    });
+  }
 
   function onPressIn(event: GestureResponderEvent) {
     Animated.timing(animatedBackgroundColor, {
@@ -52,7 +58,6 @@ export default function PressableHighlight(props: PressableHighlightProps) {
 
     InteractionManager.runAfterInteractions(() => {
       props.onPressOut && props.onPressOut(event);
-      props.onPress && props.onPress(event);
     });
   }
 }

@@ -1,4 +1,4 @@
-import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
+import { ScrollView, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
 import Ui from '../../ui';
 import { Entypo } from '@expo/vector-icons';
 import PressableHighlight from '../pressable/PressableHighlight';
@@ -46,9 +46,9 @@ export default function Dropdown(props: DropdownProps) {
     ));
 
     options = (
-      <View style={styles.options}>
+      <ScrollView style={styles.options}>
         {optionItems}
-      </View>
+      </ScrollView>
     );
   }
 
@@ -106,6 +106,7 @@ const styles = StyleSheet.create({
     borderColor: Ui.color.border.lightGray,
     borderRadius: Ui.dimension.border.radius,
     borderWidth: Ui.dimension.border.width,
+    maxHeight: 250,
     overflow: 'hidden',
     position: 'absolute',
     top: 55,

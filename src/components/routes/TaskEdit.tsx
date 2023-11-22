@@ -51,7 +51,7 @@ export default function TaskEdit() {
 
   const [category, setCategory] = useState(TaskCategory.Uncategorized);
   const [title, setTitle] = useState('');
-  const [targetTime, setTargetTime] = useState<string>();
+  const [targetTime, setTargetTime] = useState<string | number>();
   const [customTargetTime, setCustomTargetTime] = useState<number>(TaskTargetTime.minimumUnit);
 
   useEffect(() => {
@@ -64,7 +64,7 @@ export default function TaskEdit() {
       const matchedTargetTime = targetTimeOptions.find((v) => v.uniqueId === targetTask.targetTime);
 
       if (matchedTargetTime) {
-        setTargetTime(matchedTargetTime.uniqueId as string);
+        setTargetTime(matchedTargetTime.uniqueId);
       } else {
         setTargetTime('custom');
         setCustomTargetTime(targetTask.targetTime);
@@ -90,7 +90,7 @@ export default function TaskEdit() {
           <ButtonRow
             options={targetTimeOptions}
             selected={targetTime}
-            onChange={(v) => setTargetTime(v as string)}
+            onChange={(v) => setTargetTime(v)}
             insertBottomMargin
           />
           {
@@ -147,6 +147,8 @@ export default function TaskEdit() {
   function onPressSaveButton() {
     const id = targetTaskId ? targetTaskId : Uuid.v4() as string;
 
+    const targetTimeNumber = typeof targetTime === 'number' ? targetTime : customTargetTime;
+
     const workingDate: TaskWorkingDate = {
       start: 0,
       interval: {
@@ -160,7 +162,7 @@ export default function TaskEdit() {
       id,
       title,
       category,
-      targetTime: 0,
+      targetTime: targetTimeNumber,
       workingDate,
       startTime: 0,
       recessInterval: 0,

@@ -12,6 +12,7 @@ import { t } from '../../translations';
 import { taskInProgressActions } from '../../redux/slices/taskInProgress';
 import { useSelector } from 'react-redux';
 import { Seconds } from '../../task';
+import { workingResultActions } from '../../redux/slices/workingResult';
 
 const progressBarHeight = 13;
 
@@ -183,8 +184,17 @@ export default function TaskInProgress() {
   }
 
   function finish() {
+    const result = taskInProgress && targetTask ? {
+      task: targetTask,
+      startedAt: taskInProgress.startedAt,
+      workingTime: Math.floor(elapsedSeconds / 60),
+      // fix data
+      recessTime: 0,
+    } : null;
+
     setElapsedSeconds(0);
     Redux.store.dispatch(taskInProgressActions.finish());
+    Redux.store.dispatch(result ? workingResultActions.set(result) : workingResultActions.unset());
     Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.TaskFinish));
     Ui.showToast(t('taskInProgress.toast.finishedWorking'));
   }

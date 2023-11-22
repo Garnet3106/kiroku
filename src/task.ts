@@ -1,10 +1,16 @@
 export type Minutes = number;
 
+export namespace Minutes {
+  export function now(): Seconds {
+    return Math.floor(Date.now() / 1000 / 60);
+  }
+}
+
 export type Seconds = number;
 
 export namespace Seconds {
   export function now(): Seconds {
-    return Date.now() / 1000;
+    return Math.floor(Date.now() / 1000);
   }
 }
 
@@ -42,7 +48,7 @@ export type TaskWorkingDate = {
 
 export enum TaskIntervalType {
   Day,
-  Week
+  Week,
 }
 
 export type TaskInterval = {
@@ -96,3 +102,20 @@ export namespace TaskSortStyle {
     return Object.values(TaskSortStyle).filter((v) => typeof v === 'number').map((v) => Number(v));
   }
 }
+
+export type TaskWorkingResult = {
+  task: Task,
+  startedAt: Seconds,
+  workingTime: Minutes,
+  recessTime: Minutes,
+};
+
+export type TaskWorkingLog = {
+  taskId: string,
+  startedAt: Seconds,
+  targetTime: Minutes,
+  workingTime: Minutes,
+  recessTime: Minutes,
+  points: number,
+  concentrationLevel?: number,
+};

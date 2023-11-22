@@ -3,7 +3,7 @@ import { NavigationRoutePath } from '../../navigation';
 import RouteContainer from '../RouteContainer';
 import Dropdown from '../input/Dropdown';
 import Named from '../input/Named';
-import { TaskCategory, TaskTargetTime, TaskWorkingDate } from '../../task';
+import { DayOfWeek, TaskCategory, TaskInterval, TaskIntervalDaysOfWeek, TaskIntervalType, TaskTargetTime, TaskWorkingDate } from '../../task';
 import ContentArea from '../ContentArea';
 import TextInput from '../input/TextInput';
 import RectangleButton from '../input/RectangleButton';
@@ -12,7 +12,7 @@ import Dialog from 'react-native-dialog';
 import Redux from '../../redux/redux';
 import { navigationActions } from '../../redux/slices/navigation';
 import ContentSeparator from '../ContentSeparator';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { t } from '../../translations';
 import { useSelector } from 'react-redux';
 import { tasksActions } from '../../redux/slices/tasks';
@@ -49,10 +49,32 @@ export default function TaskEdit() {
     };
   });
 
+  const intervalTypeOptions = [
+    { uniqueId: TaskIntervalType.Day, text: t('taskEdit.day') },
+    { uniqueId: TaskIntervalType.Week, text: t('taskEdit.week') },
+  ];
+
+  const intervalOptions = [...Array(5)].map((_value, index) => {
+    const value = index + 1;
+
+    return {
+      uniqueId: value,
+      text: t('taskEdit.every', { value }),
+    };
+  });
+
+  const intervalDayOfWeekOptions = DayOfWeek.enumerate().map((_value, index) => ({
+    uniqueId: index,
+    text: t(`taskEdit.dayOfWeek.${index}`),
+  }));
+
   const [category, setCategory] = useState(TaskCategory.Uncategorized);
   const [title, setTitle] = useState('');
   const [targetTime, setTargetTime] = useState<string | number>();
   const [customTargetTime, setCustomTargetTime] = useState<number>(TaskTargetTime.minimumUnit);
+  const [intervalType, setIntervalType] = useState(TaskIntervalType.Day);
+  const [interval, setInterval] = useState<number>(1);
+  const [intervalDaysOfWeek, setIntervalDaysOfWeek] = useState<DayOfWeek[]>([]);
 
   useEffect(() => {
     setCategory(targetTask ? targetTask.category : TaskCategory.Uncategorized);
@@ -60,7 +82,6 @@ export default function TaskEdit() {
     setCustomTargetTime(TaskTargetTime.minimumUnit);
 
     if (targetTask) {
-      console.log(targetTask)
       const matchedTargetTime = targetTimeOptions.find((v) => v.uniqueId === targetTask.targetTime);
 
       if (matchedTargetTime) {
@@ -70,6 +91,12 @@ export default function TaskEdit() {
         setCustomTargetTime(targetTask.targetTime);
       }
     }
+
+    setIntervalType(targetTask ? targetTask.workingDate.interval.type : TaskIntervalType.Day);
+    setInterval(targetTask ? targetTask.workingDate.interval.interval : 1);
+    setIntervalDaysOfWeek(
+      targetTask && targetTask.workingDate.interval.type === TaskIntervalType.Week ? convertDaysOfWeekToArray(targetTask.workingDate.interval.days) : [],
+    );
   }, [displayed]);
 
   const [deleteDialogVisibility, setDeleteDialogVisibility] = useState(false);
@@ -90,7 +117,7 @@ export default function TaskEdit() {
           <ButtonRow
             options={targetTimeOptions}
             selected={targetTime}
-            onChange={(v) => setTargetTime(v)}
+            onChange={(v) => setTargetTime(v as string | number)}
             insertBottomMargin
           />
           {
@@ -104,8 +131,40 @@ export default function TaskEdit() {
             )
           }
         </Named>
-        <Named title={t('taskEdit.intervalOfWorkingDate')} required insertBottomMargin>
-          <TextInput placeholder='要修正' />
+        <Named title={t('taskEdit.intervalOfWorkingDate')} required>
+          <View style={{
+            display: 'flex',
+            flexDirection: 'row',
+            zIndex: 9000,
+          }}>
+            <Dropdown
+              options={intervalOptions}
+              selected={interval}
+              style={{
+                marginRight: Ui.dimension.margin,
+                width: 130,
+              }}
+              onChange={(v) => setInterval(v as number)}
+              insertBottomMargin
+            />
+            <Dropdown
+              options={intervalTypeOptions}
+              selected={intervalType}
+              style={{ width: 130 }}
+              onChange={(v) => setIntervalType(v as TaskIntervalType)}
+              insertBottomMargin
+            />
+          </View>
+          {
+            intervalType === TaskIntervalType.Week && (
+              <ButtonRow
+                options={intervalDayOfWeekOptions}
+                selected={intervalDaysOfWeek}
+                onChange={(v) => setIntervalDaysOfWeek(v as DayOfWeek[])}
+                insertBottomMargin
+              />
+            )
+          }
         </Named>
         <ContentSeparator insertBottomMargin />
         {
@@ -138,6 +197,18 @@ export default function TaskEdit() {
     </RouteContainer>
   );
 
+  // function getInitialStates() {}
+
+  function convertDaysOfWeekToArray(days: TaskIntervalDaysOfWeek) {
+    return DayOfWeek.enumerate().filter((v) => days[v]);
+  }
+
+  function convertDaysOfWeekToTypedMap(days: DayOfWeek[]): TaskIntervalDaysOfWeek {
+    const typedMap = TaskIntervalDaysOfWeek.getInitial();
+    days.forEach((v) => typedMap[v] = true);
+    return typedMap;
+  }
+
   function deleteTask() {
     Ui.showToast(t('taskEdit.toast.taskWasDeleted'));
     targetTaskId && Redux.store.dispatch(tasksActions.delete(targetTaskId));
@@ -148,14 +219,24 @@ export default function TaskEdit() {
     const id = targetTaskId ? targetTaskId : Uuid.v4() as string;
 
     const targetTimeNumber = typeof targetTime === 'number' ? targetTime : customTargetTime;
+    let taskIntervalObject: TaskInterval;
 
-    const workingDate: TaskWorkingDate = {
-      start: 0,
-      interval: {
-        type: 'every',
-        interval: 1,
-      },
-    };
+    switch (intervalType) {
+      case TaskIntervalType.Day:
+        taskIntervalObject = {
+          type: TaskIntervalType.Day,
+          interval: interval,
+        };
+        break;
+
+      case TaskIntervalType.Week:
+        taskIntervalObject = {
+          type: TaskIntervalType.Week,
+          interval: interval,
+          days: convertDaysOfWeekToTypedMap(intervalDaysOfWeek),
+        };
+        break;
+    }
 
     // add property specifications
     const task = {
@@ -163,7 +244,10 @@ export default function TaskEdit() {
       title,
       category,
       targetTime: targetTimeNumber,
-      workingDate,
+      workingDate: {
+        start: 0,
+        interval: taskIntervalObject,
+      },
       startTime: 0,
       recessInterval: 0,
     };

@@ -2,7 +2,7 @@ import { getLocales } from 'expo-localization';
 import { I18n, Scope } from 'i18n-js';
 import en from './en';
 import ja from './ja';
-import { TaskCategory, TaskSortStyle } from '../task';
+import { DayOfWeek, TaskCategory, TaskSortStyle } from '../task';
 
 export enum Language {
   English = 'en',
@@ -92,6 +92,10 @@ export type TranslationDictionaryData = {
     custom: string,
     min: string,
     intervalOfWorkingDate: string,
+    day: string,
+    week: string,
+    every: string,
+    dayOfWeek: { [day in DayOfWeek]: string },
     delete: string,
     save: string,
     dialog: {

@@ -1,5 +1,5 @@
 import { TranslationDictionaryData } from '.';
-import { TaskCategory, TaskSortStyle } from '../task';
+import { DayOfWeek, TaskCategory, TaskSortStyle } from '../task';
 
 const en: TranslationDictionaryData = {
   app: {
@@ -89,6 +89,18 @@ const en: TranslationDictionaryData = {
     custom: 'Custom',
     min: '%{min} min',
     intervalOfWorkingDate: 'Interval of Working Date',
+    day: 'Day',
+    week: 'Week',
+    every: 'Every %{value}',
+    dayOfWeek: {
+      [DayOfWeek.Monday]: 'Monday',
+      [DayOfWeek.Tuesday]: 'Tuesday',
+      [DayOfWeek.Wednesday]: 'Wednesday',
+      [DayOfWeek.Thursday]: 'Thursday',
+      [DayOfWeek.Friday]: 'Friday',
+      [DayOfWeek.Saturday]: 'Saturday',
+      [DayOfWeek.Sunday]: 'Sunday',
+    },
     delete: 'Delete',
     save: 'Save',
     dialog: {

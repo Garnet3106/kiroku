@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { Seconds, Task, TaskCategory } from '../../task';
+import { DayOfWeek, Seconds, Task, TaskCategory, TaskIntervalType } from '../../task';
 import uuid from 'react-native-uuid';
 
 const initialState: Task[] = [
@@ -11,7 +11,7 @@ const initialState: Task[] = [
     workingDate: {
       start: Seconds.now() / 1000,
       interval: {
-        type: 'every',
+        type: TaskIntervalType.Day,
         interval: 1,
       },
     },
@@ -24,8 +24,17 @@ const initialState: Task[] = [
     workingDate: {
       start: Seconds.now() / 1000,
       interval: {
-        type: 'every',
-        interval: 1,
+        type: TaskIntervalType.Week,
+        interval: 2,
+        days: {
+          [DayOfWeek.Monday]: false,
+          [DayOfWeek.Tuesday]: false,
+          [DayOfWeek.Wednesday]: false,
+          [DayOfWeek.Thursday]: false,
+          [DayOfWeek.Friday]: false,
+          [DayOfWeek.Saturday]: false,
+          [DayOfWeek.Sunday]: false,
+        },
       },
     },
   },

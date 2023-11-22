@@ -40,12 +40,18 @@ export type TaskWorkingDate = {
   interval: TaskInterval,
 };
 
+export enum TaskIntervalType {
+  Day,
+  Week
+}
+
 export type TaskInterval = {
-  type: 'every',
+  type: TaskIntervalType.Day,
   interval: number,
 } | {
-  type: 'weekly',
-  days: { [day in DayOfWeek]: boolean }
+  type: TaskIntervalType.Week,
+  interval: number,
+  days: TaskIntervalDaysOfWeek,
 };
 
 export enum DayOfWeek {
@@ -56,6 +62,28 @@ export enum DayOfWeek {
   Friday,
   Saturday,
   Sunday,
+}
+
+export namespace DayOfWeek {
+  export function enumerate(): DayOfWeek[] {
+    return Object.values(DayOfWeek).filter((v) => typeof v === 'number').map((v) => Number(v));
+  }
+}
+
+export type TaskIntervalDaysOfWeek = { [day in DayOfWeek]: boolean };
+
+export namespace TaskIntervalDaysOfWeek {
+  export function getInitial(): TaskIntervalDaysOfWeek {
+    return {
+      [DayOfWeek.Monday]: false,
+      [DayOfWeek.Tuesday]: false,
+      [DayOfWeek.Wednesday]: false,
+      [DayOfWeek.Thursday]: false,
+      [DayOfWeek.Friday]: false,
+      [DayOfWeek.Saturday]: false,
+      [DayOfWeek.Sunday]: false,
+    };
+  }
 }
 
 export enum TaskSortStyle {

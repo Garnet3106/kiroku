@@ -1,5 +1,5 @@
 import { TranslationDictionaryData } from '.';
-import { TaskCategory, TaskSortStyle } from '../task';
+import { DayOfWeek, TaskCategory, TaskSortStyle } from '../task';
 
 const ja: TranslationDictionaryData = {
   app: {
@@ -89,6 +89,18 @@ const ja: TranslationDictionaryData = {
     custom: 'カスタム',
     min: '%{min}分',
     intervalOfWorkingDate: '作業間隔',
+    day: '日おき',
+    week: '週おき',
+    every: '%{value}',
+    dayOfWeek: {
+      [DayOfWeek.Monday]: '月曜日',
+      [DayOfWeek.Tuesday]: '火曜日',
+      [DayOfWeek.Wednesday]: '水曜日',
+      [DayOfWeek.Thursday]: '木曜日',
+      [DayOfWeek.Friday]: '金曜日',
+      [DayOfWeek.Saturday]: '土曜日',
+      [DayOfWeek.Sunday]: '日曜日',
+    },
     delete: '削除',
     save: '保存',
     dialog: {

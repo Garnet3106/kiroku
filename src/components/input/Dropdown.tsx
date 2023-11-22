@@ -1,4 +1,4 @@
-import { ScrollView, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
+import { ScrollView, StyleProp, StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native';
 import Ui from '../../ui';
 import { Entypo } from '@expo/vector-icons';
 import PressableHighlight from '../pressable/PressableHighlight';
@@ -13,7 +13,9 @@ export type DropdownProps = Ui.LayoutProps & {
   options: DropdownOptions[],
   selected?: string | number,
   onChange?: (uniqueId: string | number) => void,
+  containerStyle?: StyleProp<ViewStyle>,
   style?: StyleProp<ViewStyle>,
+  textStyle?: StyleProp<TextStyle>,
 };
 
 // todo: adjust position on overflow
@@ -53,7 +55,7 @@ export default function Dropdown(props: DropdownProps) {
   }
 
   return (
-    <View>
+    <View style={props.containerStyle}>
       <PressableHighlight
         underlayColor={{
           from: disabled ? Ui.color.lightGray : Ui.color.white,
@@ -65,13 +67,14 @@ export default function Dropdown(props: DropdownProps) {
             marginBottom: props.insertBottomMargin ? Ui.dimension.margin : undefined,
           },
           styles.textArea,
+          props.style,
         ]}
         onPress={() => setOpen((state) => !state)}
       >
         <Text style={[
-          styles.text,
           { color: disabled ? Ui.color.gray : Ui.color.black },
-          props.style,
+          props.textStyle,
+          styles.text,
         ]}>
           {text}
         </Text>
@@ -91,7 +94,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 12,
-    width: '100%',
   },
   text: {
     fontSize: 18,

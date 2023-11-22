@@ -2,21 +2,22 @@ import { StyleSheet, Text, View } from 'react-native';
 import PressableHighlight from '../pressable/PressableHighlight';
 import Ui from '../../ui';
 
+export type ButtonRowOptionId = string | number;
+
 export type ButtonRowOption = {
-  uniqueId: string | number,
+  uniqueId: ButtonRowOptionId,
   text: string,
 };
 
 export type ButtonRowProps = Ui.LayoutProps & {
   options: ButtonRowOption[],
-  selected?: string | number,
-  onChange?: (uniqueId: string | number) => void,
+  selected?: ButtonRowOptionId | ButtonRowOptionId[],
+  onChange?: (uniqueId?: ButtonRowOptionId | ButtonRowOptionId[]) => void,
 };
 
 export default function ButtonRow(props: ButtonRowProps) {
-
   const options = props.options.map((eachItem) => {
-    const selected = eachItem.uniqueId === props.selected;
+    const selected = isSelected(eachItem.uniqueId);
 
     return (
       <PressableHighlight
@@ -25,7 +26,7 @@ export default function ButtonRow(props: ButtonRowProps) {
           to: selected ? Ui.color.pressed.main : Ui.color.pressed.mainOnWhite,
         }}
         style={styles.item}
-        onPress={() => props.onChange && props.onChange(eachItem.uniqueId)}
+        onPress={() => props.onChange && props.onChange(changeSelected(eachItem.uniqueId))}
         key={eachItem.uniqueId}
       >
         <Text style={[
@@ -51,6 +52,18 @@ export default function ButtonRow(props: ButtonRowProps) {
       {options}
     </View>
   );
+
+  function isSelected(uniqueId: ButtonRowOptionId): boolean {
+    return Array.isArray(props.selected) ? props.selected.includes(uniqueId) : uniqueId === props.selected;
+  }
+
+  function changeSelected(lastSelected: ButtonRowOptionId): ButtonRowOptionId | ButtonRowOptionId[] | undefined {
+    if (isSelected(lastSelected)) {
+      return Array.isArray(props.selected) ? props.selected.filter((id) => id !== lastSelected) : undefined;
+    } else {
+      return Array.isArray(props.selected) ? [...props.selected, lastSelected] : lastSelected;
+    }
+  }
 }
 
 const styles = StyleSheet.create({

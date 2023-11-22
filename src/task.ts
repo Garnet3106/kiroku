@@ -31,6 +31,10 @@ export namespace TaskCategory {
   }
 }
 
+export namespace TaskTargetTime {
+  export const minimumUnit = 10;
+}
+
 export type TaskWorkingDate = {
   start: number,
   interval: TaskInterval,

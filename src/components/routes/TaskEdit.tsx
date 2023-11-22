@@ -3,7 +3,7 @@ import { NavigationRoutePath } from '../../navigation';
 import RouteContainer from '../RouteContainer';
 import Dropdown from '../input/Dropdown';
 import Named from '../input/Named';
-import { TaskCategory, TaskWorkingDate } from '../../task';
+import { TaskCategory, TaskTargetTime, TaskWorkingDate } from '../../task';
 import ContentArea from '../ContentArea';
 import TextInput from '../input/TextInput';
 import RectangleButton from '../input/RectangleButton';
@@ -17,6 +17,7 @@ import { t } from '../../translations';
 import { useSelector } from 'react-redux';
 import { tasksActions } from '../../redux/slices/tasks';
 import Uuid from 'react-native-uuid';
+import ButtonRow from '../input/ButtonRow';
 
 export default function TaskEdit() {
   const navigation = useSelector((state: Redux.RootState) => state.navigation);
@@ -31,12 +32,44 @@ export default function TaskEdit() {
     text: t(`task.categories.${v}`),
   }));
 
+  const targetTimeOptions = [
+    { uniqueId: 30, text: '30min' },
+    { uniqueId: 60, text: '1h' },
+    { uniqueId: 120, text: '2h' },
+    { uniqueId: 180, text: '3h' },
+    { uniqueId: 'custom', text: t('taskEdit.custom') },
+  ];
+
+  const customTargetTimeOptions = [...Array(20)].map((_value, index) => {
+    const minutes = (index + 1) * TaskTargetTime.minimumUnit;
+
+    return {
+      uniqueId: minutes,
+      text: t('taskEdit.min', { min: minutes }),
+    };
+  });
+
   const [category, setCategory] = useState(TaskCategory.Uncategorized);
   const [title, setTitle] = useState('');
+  const [targetTime, setTargetTime] = useState<string>();
+  const [customTargetTime, setCustomTargetTime] = useState<number>(TaskTargetTime.minimumUnit);
 
   useEffect(() => {
     setCategory(targetTask ? targetTask.category : TaskCategory.Uncategorized);
     setTitle(targetTask ? targetTask.title : '');
+    setCustomTargetTime(TaskTargetTime.minimumUnit);
+
+    if (targetTask) {
+      console.log(targetTask)
+      const matchedTargetTime = targetTimeOptions.find((v) => v.uniqueId === targetTask.targetTime);
+
+      if (matchedTargetTime) {
+        setTargetTime(matchedTargetTime.uniqueId as string);
+      } else {
+        setTargetTime('custom');
+        setCustomTargetTime(targetTask.targetTime);
+      }
+    }
   }, [displayed]);
 
   const [deleteDialogVisibility, setDeleteDialogVisibility] = useState(false);
@@ -52,6 +85,24 @@ export default function TaskEdit() {
         </Named>
         <Named title={t('taskEdit.title')} required insertBottomMargin>
           <TextInput value={title} onChangeText={(v) => setTitle(v)} placeholder={t('taskEdit.titleExample')} />
+        </Named>
+        <Named title={t('taskEdit.targetTime')} required>
+          <ButtonRow
+            options={targetTimeOptions}
+            selected={targetTime}
+            onChange={(v) => setTargetTime(v as string)}
+            insertBottomMargin
+          />
+          {
+            targetTime === 'custom' && (
+              <Dropdown
+                options={customTargetTimeOptions}
+                selected={customTargetTime}
+                onChange={(v) => setCustomTargetTime(v as number)}
+                insertBottomMargin
+              />
+            )
+          }
         </Named>
         <Named title={t('taskEdit.intervalOfWorkingDate')} required insertBottomMargin>
           <TextInput placeholder='要修正' />

@@ -20,35 +20,30 @@ export default function TaskInProgress() {
   const tasks = useSelector((state: Redux.RootState) => state.tasks);
   const taskInProgress = useSelector((state: Redux.RootState) => state.taskInProgress);
   const targetTask = useMemo(() => tasks.find((v) => v.id === taskInProgress?.id) ?? null, [tasks, taskInProgress?.id]);
+
   const [stopDialogVisibility, setStopDialogVisibility] = useState(false);
   const [resumeDialogVisibility, setResumeDialogVisibility] = useState(false);
   const [finishDialogVisibility, setFinishDialogVisibility] = useState(false);
-  const [elapsedSeconds, setElapsedSeconds] = useState<Seconds>(0);
-  const [recessSeconds, setRecessSeconds] = useState<Seconds>(0);
+
+  const [elapsedSeconds, setElapsedSeconds] = useState(0);
+  const [timestampLogs, setTimestampLogs] = useState<Seconds[]>([]);
 
   useEffect(() => {
-    if (!taskInProgress) {
-      return;
+    if (taskInProgress) {
+      const interval = setInterval(() => setElapsedSeconds(Seconds.now() - taskInProgress.startedAt), 1000);
+      return () => clearInterval(interval);
     }
-
-    const interval = setInterval(() => {
-      if (taskInProgress.stopped) {
-        setRecessSeconds((state) => {console.log(state);return state + 1;})
-      } else {
-        setElapsedSeconds((state) => {console.log(state);return state + 1})
-      }
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [taskInProgress, taskInProgress?.stopped]);
+  }, [taskInProgress]);
 
   if (!taskInProgress || !targetTask) {
     return;
   }
 
   // add past working time
-  const remainingMinutes = Math.floor(targetTask.targetTime - (elapsedSeconds / 60) + 1);
-  const remainingTimeRatio = Math.floor(((elapsedSeconds / 60) / targetTask.targetTime) * 100);
+  const workingSeconds = calculateWorkingSeconds();
+  const recessSeconds = elapsedSeconds - workingSeconds;
+  const remainingMinutes = Math.floor(targetTask.targetTime - (workingSeconds / 60) + 1);
+  const remainingTimeRatio = Math.floor(((workingSeconds / 60) / targetTask.targetTime) * 100);
 
   const remainingTime = remainingMinutes < 0 ? (
     t('taskInProgress.ranOverMinutes', { min: -remainingMinutes })
@@ -81,7 +76,7 @@ export default function TaskInProgress() {
               {t('taskInProgress.working')}
             </Text>
             <Text style={styles.time}>
-              {formatElapsedTime()}
+              {formatSeconds(workingSeconds)}
             </Text>
           </View>
           <View style={styles.bottom}>
@@ -169,8 +164,28 @@ export default function TaskInProgress() {
     </RouteContainer>
   );
 
-  function formatElapsedTime(): string {
-    const date = new Date(elapsedSeconds * 1000);
+  function calculateWorkingSeconds(): Seconds {
+    if (!taskInProgress) {
+      return 0;
+    }
+
+    const timestamps = [taskInProgress.startedAt, ...timestampLogs, Seconds.now()];
+    let total = 0;
+    let start = 0;
+
+    for (let i = 0; i < timestamps.length; i += 2) {
+      start = timestamps[i];
+
+      if (i + 1 < timestamps.length) {
+        total += timestamps[i + 1] - start;
+      }
+    }
+
+    return total;
+  }
+
+  function formatSeconds(value: Seconds): string {
+    const date = new Date(value * 1000);
     const hours = String(date.getUTCHours()).padStart(2, '0');
     const minutes = String(date.getUTCMinutes()).padStart(2, '0');
     const seconds = String(date.getUTCSeconds()).padStart(2, '0');
@@ -182,11 +197,13 @@ export default function TaskInProgress() {
   }
 
   function stop() {
+    setTimestampLogs((state) => [...state, Seconds.now()]);
     Redux.store.dispatch(taskInProgressActions.stop());
     Ui.showToast(t('taskInProgress.toast.stoppedWorking'));
   }
 
   function resume() {
+    setTimestampLogs((state) => [...state, Seconds.now()]);
     Redux.store.dispatch(taskInProgressActions.resume());
     Ui.showToast(t('taskInProgress.toast.resumedWorking'));
   }
@@ -195,12 +212,12 @@ export default function TaskInProgress() {
     const result = taskInProgress && targetTask ? {
       task: targetTask,
       startedAt: taskInProgress.startedAt,
-      workingTime: Math.floor(elapsedSeconds / 60),
+      workingTime: Math.floor(workingSeconds / 60),
       recessTime: Math.floor(recessSeconds / 60),
     } : null;
 
     setElapsedSeconds(0);
-    setRecessSeconds(0);
+    setTimestampLogs([]);
     Redux.store.dispatch(taskInProgressActions.finish());
     Redux.store.dispatch(result ? workingResultActions.set(result) : workingResultActions.unset());
     Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.TaskFinish));

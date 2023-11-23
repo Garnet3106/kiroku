@@ -41,7 +41,7 @@ export default function TaskInProgress() {
 
   // add past working time
   const workingSeconds = calculateWorkingSeconds();
-  const recessSeconds = elapsedSeconds - workingSeconds;
+  const latestRecessSeconds = calculateLatestRecessSeconds();
   const remainingMinutes = Math.floor(targetTask.targetTime - (workingSeconds / 60) + 1);
   const remainingTimeRatio = Math.floor(((workingSeconds / 60) / targetTask.targetTime) * 100);
 
@@ -72,11 +72,14 @@ export default function TaskInProgress() {
       <View style={styles.container}>
         <ContentArea style={styles.information}>
           <View style={styles.top}>
-            <Text style={styles.status}>
-              {t('taskInProgress.working')}
+            <Text style={[
+              styles.status,
+              { color: taskInProgress.stopped ? Ui.color.orange : Ui.color.main },
+            ]}>
+              {taskInProgress.stopped ? t('taskInProgress.onBreak') : t('taskInProgress.working')}
             </Text>
             <Text style={styles.time}>
-              {formatSeconds(workingSeconds)}
+              {taskInProgress.stopped ? formatSeconds(latestRecessSeconds) : formatSeconds(workingSeconds)}
             </Text>
           </View>
           <View style={styles.bottom}>
@@ -184,6 +187,14 @@ export default function TaskInProgress() {
     return total;
   }
 
+  function calculateLatestRecessSeconds(): Seconds {
+    if (!taskInProgress || !taskInProgress.stopped || timestampLogs.length === 0) {
+      return 0;
+    } else {
+      return Seconds.now() - timestampLogs[timestampLogs.length - 1];
+    }
+  }
+
   function formatSeconds(value: Seconds): string {
     const date = new Date(value * 1000);
     const hours = String(date.getUTCHours()).padStart(2, '0');
@@ -213,7 +224,7 @@ export default function TaskInProgress() {
       task: targetTask,
       startedAt: taskInProgress.startedAt,
       workingTime: Math.floor(workingSeconds / 60),
-      recessTime: Math.floor(recessSeconds / 60),
+      recessTime: Math.floor((elapsedSeconds - workingSeconds) / 60),
     } : null;
 
     setElapsedSeconds(0);

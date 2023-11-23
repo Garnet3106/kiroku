@@ -117,6 +117,7 @@ const en: TranslationDictionaryData = {
   taskInProgress: {
     taskInProgress: 'Task in Progress',
     working: 'Working...',
+    onBreak: 'On a break',
     minutesLeft: '%{min} mins left',
     ranOverMinutes: 'Ran over %{min} minutes',
     operation: {

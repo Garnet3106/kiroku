@@ -117,6 +117,7 @@ const ja: TranslationDictionaryData = {
   taskInProgress: {
     taskInProgress: '作業進捗',
     working: '作業中',
+    onBreak: '休憩中',
     minutesLeft: '残り%{min}分',
     ranOverMinutes: '%{min}分オーバー',
     operation: {

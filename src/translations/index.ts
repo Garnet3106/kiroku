@@ -112,6 +112,7 @@ export type TranslationDictionaryData = {
   taskInProgress: {
     taskInProgress: string,
     working: string,
+    onBreak: string,
     minutesLeft: string,
     ranOverMinutes: string,
     operation: {

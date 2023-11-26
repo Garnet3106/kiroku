@@ -1,7 +1,11 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { InitializationPageIndex, NavigationRoute, NavigationRoutePath } from '../../navigation';
+import { Auth } from '../../auth';
 
-const initialState: NavigationRoute = {
+const initialState: NavigationRoute = Auth.isSignedIn() ? {
+  path: NavigationRoutePath.Home,
+  params: {},
+} : {
   path: NavigationRoutePath.Initialization,
   params: {
     pageIndex: 0,

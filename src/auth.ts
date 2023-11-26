@@ -8,6 +8,10 @@ GoogleSignin.configure({
 export namespace Auth {
   const auth = FirebaseAuth();
 
+  export function isSignedIn(): boolean {
+    return auth.currentUser !== null;
+  }
+
   export async function signInWithGoogle(): Promise<User> {
     return await GoogleSignin.signIn();
   }

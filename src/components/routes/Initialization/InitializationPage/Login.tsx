@@ -1,10 +1,13 @@
-import { InitializationPageIndex } from '../../../../navigation';
+import { InitializationPageIndex, NavigationRoutePath } from '../../../../navigation';
 import Ui from '../../../../ui';
 import RectangleButton from '../../../input/RectangleButton';
 import InitializationPage from './InitializationPage';
 import { Feather, FontAwesome } from '@expo/vector-icons';
 import { StyleSheet, Text } from 'react-native';
 import { t } from '../../../../translations';
+import { Auth } from '../../../../auth';
+import Redux from '../../../../redux/redux';
+import { navigationActions } from '../../../../redux/slices/navigation';
 
 export default function Login() {
   return (
@@ -18,16 +21,30 @@ export default function Login() {
       <RectangleButton
         text={t('serviceLinking.google')}
         icon={<FontAwesome name='google' color={Ui.color.white} size={22} />}
-        onPress={() => {}}
+        onPress={signInWithGoogle}
       />
       <RectangleButton
         text={t('serviceLinking.emailAddress')}
         icon={<Feather name='mail' color={Ui.color.white} size={22} style={{ top: 3 }} />}
         style={{ marginTop: Ui.dimension.margin }}
-        onPress={() => {}}
+        onPress={() => Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Home))}
       />
     </InitializationPage>
   );
+
+  function signInWithGoogle() {
+    Auth.signInWithGoogle()
+      .then(() => {
+        Ui.showToast(t('init.login.loggedIn'));
+        Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Home));
+      })
+      .catch(() => {
+        Ui.showToast(t('init.login.failedToLogin'), {
+          backgroundColor: Ui.color.red,
+          showsLong: true,
+        });
+      });
+  }
 }
 
 const styles = StyleSheet.create({

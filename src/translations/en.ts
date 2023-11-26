@@ -38,6 +38,8 @@ const en: TranslationDictionaryData = {
     },
     login: {
       chooseServiceToLogin: 'Choose a service to login.',
+      failedToLogin: 'Failed to login. Please try again.',
+      loggedIn: 'You\'re now logged in.',
     },
     nickname: {
       nickname: 'Nickname',

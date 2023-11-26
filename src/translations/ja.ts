@@ -38,6 +38,8 @@ const ja: TranslationDictionaryData = {
     },
     login: {
       chooseServiceToLogin: 'ログインするサービスを選んでください。',
+      failedToLogin: 'ログインできませんでした。再度お試しください。',
+      loggedIn: 'ログインしました。',
     },
     nickname: {
       nickname: 'ニックネーム',

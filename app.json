@@ -16,7 +16,7 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false
     },
     "android": {
       "adaptiveIcon": {
@@ -24,6 +24,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "works.garnet.kiroku",
+      "versionCode": 1,
       "googleServicesFile": "./google-services.json"
     },
     "web": {
@@ -37,6 +38,7 @@
     "plugins": [
       "@react-native-firebase/app",
       "@react-native-firebase/auth",
+      "@react-native-google-signin/google-signin",
       "expo-localization"
     ]
   }

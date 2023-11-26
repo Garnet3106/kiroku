@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "570741164338",
+    "project_id": "kiroku-garnet-works",
+    "storage_bucket": "kiroku-garnet-works.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:570741164338:android:ac2dd84aebdc6e185cef2b",
+        "android_client_info": {
+          "package_name": "works.garnet.kiroku"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "570741164338-pbj7ggcog1r0gam1llefvvo3psekiaff.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0xUH3ds9j4jXEvTU_6w-S2ccJyS7Uj2M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "570741164338-pbj7ggcog1r0gam1llefvvo3psekiaff.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

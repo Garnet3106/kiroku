@@ -42,15 +42,18 @@ namespace Ui {
 
   export type ToastOptions = {
     backgroundColor?: string,
+    avoidMenuBar?: boolean,
     showsLong?: boolean,
   };
 
   export function showToast(message: string, options?: ToastOptions) {
+    const bottomMargin = options?.avoidMenuBar === undefined || options?.avoidMenuBar ? dimension.menuBar.height : 0;
+
     Toast.show(message, {
       backgroundColor: options?.backgroundColor ?? color.main,
       duration: options?.showsLong ? Toast.durations.LONG : Toast.durations.SHORT,
       opacity: 1,
-      position: Toast.positions.BOTTOM - dimension.menuBar.height,
+      position: Toast.positions.BOTTOM - bottomMargin,
     });
   }
 }

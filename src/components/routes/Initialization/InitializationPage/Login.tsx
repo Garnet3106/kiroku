@@ -41,6 +41,7 @@ export default function Login() {
       .catch(() => {
         Ui.showToast(t('init.login.failedToLogin'), {
           backgroundColor: Ui.color.red,
+          avoidMenuBar: false,
           showsLong: true,
         });
       });

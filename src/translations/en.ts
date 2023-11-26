@@ -23,6 +23,10 @@ const en: TranslationDictionaryData = {
     mgmt: 'Manage',
     settings: 'Settings',
   },
+  serviceLinking: {
+    google: 'Google',
+    emailAddress: 'Email address',
+  },
   init: {
     back: 'Back',
     next: 'Go to next',
@@ -32,6 +36,9 @@ const en: TranslationDictionaryData = {
       tos: 'Terms of service',
       privacyPolicy: 'Privacy policy',
     },
+    login: {
+      chooseServiceToLogin: 'Choose a service to login.',
+    },
     nickname: {
       nickname: 'Nickname',
       nicknameExample: 'e.g.) John',
@@ -39,8 +46,6 @@ const en: TranslationDictionaryData = {
     serviceLinking: {
       chooseLinkingService: 'Which service do you wish to link to your account?',
       caption: 'It is required for the next login.',
-      google: 'Google',
-      emailAddress: 'Email address',
     },
     registrationEmail: {
       emailAddress: 'Email address',

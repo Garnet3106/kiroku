@@ -26,6 +26,10 @@ export type TranslationDictionaryData = {
     mgmt: string,
     settings: string,
   },
+  serviceLinking: {
+    google: string,
+    emailAddress: string,
+  },
   init: {
     back: string,
     next: string,
@@ -35,6 +39,9 @@ export type TranslationDictionaryData = {
       tos: string,
       privacyPolicy: string,
     },
+    login: {
+      chooseServiceToLogin: string,
+    },
     nickname: {
       nickname: string,
       nicknameExample: string,
@@ -42,8 +49,6 @@ export type TranslationDictionaryData = {
     serviceLinking: {
       chooseLinkingService: string,
       caption: string,
-      google: string,
-      emailAddress: string,
     },
     registrationEmail: {
       emailAddress: string,

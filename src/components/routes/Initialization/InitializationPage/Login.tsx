@@ -3,32 +3,28 @@ import Ui from '../../../../ui';
 import RectangleButton from '../../../input/RectangleButton';
 import InitializationPage from './InitializationPage';
 import { Feather, FontAwesome } from '@expo/vector-icons';
-import Redux from '../../../../redux/redux';
-import { navigationActions } from '../../../../redux/slices/navigation';
 import { StyleSheet, Text } from 'react-native';
 import { t } from '../../../../translations';
 
-export default function RegistrationServiceLinking() {
+export default function Login() {
   return (
     <InitializationPage
-      pageIndex={InitializationPageIndex.RegistrationServiceLinking}
-      previous={InitializationPageIndex.RegistrationNickname}
+      pageIndex={InitializationPageIndex.Login}
+      previous={InitializationPageIndex.Top}
     >
       <Text style={styles.message}>
-        {t('init.serviceLinking.chooseLinkingService')}
-      </Text>
-      <Text style={styles.messageCaption}>
-        {'* ' + t('init.serviceLinking.caption')}
+        {t('init.login.chooseServiceToLogin')}
       </Text>
       <RectangleButton
         text={t('serviceLinking.google')}
         icon={<FontAwesome name='google' color={Ui.color.white} size={22} />}
+        onPress={() => {}}
       />
       <RectangleButton
         text={t('serviceLinking.emailAddress')}
         icon={<Feather name='mail' color={Ui.color.white} size={22} style={{ top: 3 }} />}
         style={{ marginTop: Ui.dimension.margin }}
-        onPress={() => Redux.store.dispatch(navigationActions.jumpToInitialization(InitializationPageIndex.RegistrationEmail))}
+        onPress={() => {}}
       />
     </InitializationPage>
   );
@@ -37,11 +33,6 @@ export default function RegistrationServiceLinking() {
 const styles = StyleSheet.create({
   message: {
     fontSize: 20,
-    marginBottom: 5,
-  },
-  messageCaption: {
-    color: Ui.color.gray,
-    fontSize: 16,
     marginBottom: Ui.dimension.margin * 1.5,
   },
 });

@@ -19,16 +19,12 @@ export default function Top() {
       </View>
       <RectangleButton
         text={t('init.top.getStarted')}
-        onPress={() => {
-          Redux.store.dispatch(navigationActions.jumpToInitialization(InitializationPageIndex.RegistrationNickname));
-        }}
+        onPress={() => Redux.store.dispatch(navigationActions.jumpToInitialization(InitializationPageIndex.RegistrationNickname))}
       />
       <RectangleButton
         text={t('init.top.login')}
         style={{ marginTop: Ui.dimension.margin }}
-        onPress={() => {
-          Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Home));
-        }}
+        onPress={() => Redux.store.dispatch(navigationActions.jumpToInitialization(InitializationPageIndex.Login))}
       />
       <View style={styles.agreements}>
         <Pressable onPress={() => Linking.openURL('http://kiroku.garnet.works/tos')}>

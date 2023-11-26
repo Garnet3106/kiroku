@@ -23,6 +23,10 @@ const ja: TranslationDictionaryData = {
     mgmt: '管理',
     settings: '設定',
   },
+  serviceLinking: {
+    google: 'Google',
+    emailAddress: 'メールアドレス',
+  },
   init: {
     back: '前に戻る',
     next: '次へ進む',
@@ -32,6 +36,9 @@ const ja: TranslationDictionaryData = {
       tos: '利用規約',
       privacyPolicy: 'プライバシーポリシー',
     },
+    login: {
+      chooseServiceToLogin: 'ログインするサービスを選んでください。',
+    },
     nickname: {
       nickname: 'ニックネーム',
       nicknameExample: '例）きろくたろー',
@@ -39,8 +46,6 @@ const ja: TranslationDictionaryData = {
     serviceLinking: {
       chooseLinkingService: 'アカウントに連携させるサービスを選択してください。',
       caption: '次回以降のログインで使用します。',
-      google: 'Google',
-      emailAddress: 'メールアドレス',
     },
     registrationEmail: {
       emailAddress: 'メールアドレス',

@@ -12,8 +12,16 @@ export namespace Auth {
     return auth.currentUser !== null;
   }
 
-  export async function signInWithGoogle(): Promise<User> {
-    return await GoogleSignin.signIn();
+  export async function signInWithGoogle(): Promise<void> {
+    const user = await GoogleSignin.signIn();
+    const idToken = user.idToken;
+
+    if (idToken === null) {
+      throw 'ID_TOKEN_IS_NULL';
+    }
+
+    const credential = FirebaseAuth.GoogleAuthProvider.credential(idToken);
+    await auth.signInWithCredential(credential);
   }
 
   export async function signOut(): Promise<void> {

@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
     borderColor: Ui.color.border.lightGray,
     borderRadius: Ui.dimension.border.radius,
     borderWidth: Ui.dimension.border.width,
+    overflow: 'hidden',
     padding: Ui.dimension.margin,
   },
 });

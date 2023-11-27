@@ -9,6 +9,7 @@ export type RectangleButtonProps = Ui.LayoutProps & {
   pressedColor?: string,
   whiteBackground?: boolean,
   icon?: ReactNode,
+  disabled?: boolean,
   style?: StyleProp<ViewStyle>,
   textStyle?: StyleProp<TextStyle>,
   onPress?: (event: GestureResponderEvent) => void,
@@ -19,7 +20,9 @@ export default function RectangleButton(props: RectangleButtonProps) {
   const backgroundColor = props.whiteBackground ? Ui.color.white : color;
   let pressedColor;
 
-  if (props.pressedColor) {
+  if (props.disabled) {
+    pressedColor = backgroundColor;
+  } else if (props.pressedColor) {
     pressedColor = props.pressedColor;
   } else if (props.whiteBackground || props.color) {
     pressedColor = backgroundColor;
@@ -39,10 +42,11 @@ export default function RectangleButton(props: RectangleButtonProps) {
           borderColor: props.whiteBackground ? color : undefined,
           borderWidth: props.whiteBackground ? Ui.dimension.border.width : undefined,
           marginBottom: props.insertBottomMargin ? Ui.dimension.margin : undefined,
+          opacity: props.disabled ? 0.7 : undefined,
         },
         props.style,
       ]}
-      onPress={props.onPress}
+      onPress={props.disabled ? undefined : props.onPress}
     >
       {props.icon}
       <Text style={[

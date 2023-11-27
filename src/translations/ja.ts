@@ -163,6 +163,17 @@ const ja: TranslationDictionaryData = {
   },
   appSettings: {
     appSettings: 'アプリ設定',
+    nickname: 'ニックネーム',
+    logout: 'ログアウト',
+    dialog: {
+      doYouReallyLogout: 'ログアウトしますか？',
+      logout: 'ログアウト',
+      cancel: 'キャンセル',
+    },
+    toast: {
+      loggedOut: 'ログアウトしました。',
+      failedToLogout: 'ログアウトできませんでした。再度お試しください。',
+    },
   },
 };
 

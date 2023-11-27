@@ -163,6 +163,17 @@ const en: TranslationDictionaryData = {
   },
   appSettings: {
     appSettings: 'App Settings',
+    nickname: 'Nickname',
+    logout: 'Logout',
+    dialog: {
+      doYouReallyLogout: 'Do you really logout?',
+      logout: 'LOGOUT',
+      cancel: 'CANCEL',
+    },
+    toast: {
+      loggedOut: 'You logged out.',
+      failedToLogout: 'Failed to logout. Please try again.',
+    },
   },
 };
 

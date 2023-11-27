@@ -15,4 +15,10 @@ export namespace Auth {
   export async function signInWithGoogle(): Promise<User> {
     return await GoogleSignin.signIn();
   }
+
+  export async function signOut(): Promise<void> {
+    if (isSignedIn()) {
+      await auth.signOut();
+    }
+  }
 }

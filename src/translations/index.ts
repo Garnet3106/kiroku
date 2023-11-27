@@ -158,6 +158,17 @@ export type TranslationDictionaryData = {
   },
   appSettings: {
     appSettings: string,
+    nickname: string,
+    logout: string,
+    dialog: {
+      doYouReallyLogout: string,
+      logout: string,
+      cancel: string,
+    },
+    toast: {
+      loggedOut: string,
+      failedToLogout: string,
+    },
   },
 };
 

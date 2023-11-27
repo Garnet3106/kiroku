@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { Auth } from "../../../../auth";
-import { InitializationPageIndex } from "../../../../navigation";
-import { t } from "../../../../translations";
-import Ui from "../../../../ui";
-import TextInput from "../../../input/TextInput";
-import InitializationPage from "./InitializationPage";
-import Named from "../../../input/Named";
-import RectangleButton from "../../../input/RectangleButton";
+import { useState } from 'react';
+import { Auth } from '../../../../auth';
+import { InitializationPageIndex } from '../../../../navigation';
+import { t } from '../../../../translations';
+import Ui from '../../../../ui';
+import TextInput from '../../../input/TextInput';
+import InitializationPage from './InitializationPage';
+import Named from '../../../input/Named';
+import RectangleButton from '../../../input/RectangleButton';
 import Dialog from 'react-native-dialog';
 
 export default function EmailLogin() {

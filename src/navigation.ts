@@ -25,6 +25,7 @@ export namespace NavigationRoutePath {
 export enum InitializationPageIndex {
   Top,
   Login,
+  EmailLogin,
   RegistrationNickname,
   RegistrationServiceLinking,
   RegistrationEmail,

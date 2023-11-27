@@ -7,6 +7,7 @@ import RegistrationNickname from './InitializationPage/RegistrationNickname';
 import RegistrationServiceLinking from './InitializationPage/RegistrationServiceLinking';
 import RegistrationEmail from './InitializationPage/RegistrationEmail';
 import Finish from './InitializationPage/Finish';
+import EmailLogin from './InitializationPage/EmailLogin';
 
 export default function Initialization() {
   return (
@@ -17,6 +18,7 @@ export default function Initialization() {
     >
       <Top />
       <Login />
+      <EmailLogin />
       <RegistrationNickname />
       <RegistrationServiceLinking />
       <RegistrationEmail />

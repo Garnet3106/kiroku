@@ -43,6 +43,22 @@ const en: TranslationDictionaryData = {
         loggedIn: 'You\'re now logged in.',
       },
     },
+    emailLogin: {
+      emailAddress: 'Email address',
+      emailAddressExample: 'e.g.) ...@gmail.com',
+      sendLoginLink: 'Send login link',
+      resendLoginLink: 'Resend login link',
+      dialog: {
+        confirmEmail: 'Confirm Email',
+        areYouSureToSendAuthLink: 'Are you sure to send authentication link to "%{email}"?',
+        send: 'SEND',
+        cancel: 'CANCEL',
+      },
+      toast: {
+        sentAuthMail: 'Authentication mail has been sent. Please check your mailbox.',
+        failedToAuthWithEmail: 'Failed to authenticate with email. Please try again.',
+      },
+    },
     nickname: {
       nickname: 'Nickname',
       nicknameExample: 'e.g.) John',

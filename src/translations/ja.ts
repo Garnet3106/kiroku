@@ -43,6 +43,22 @@ const ja: TranslationDictionaryData = {
         loggedIn: 'ログインしました。',
       },
     },
+    emailLogin: {
+      emailAddress: 'メールアドレス',
+      emailAddressExample: '例）...@gmail.com',
+      sendLoginLink: '認証リンクを送信',
+      resendLoginLink: '認証リンクを再送信',
+      dialog: {
+        confirmEmail: 'メール確認',
+        areYouSureToSendAuthLink: '「%{email}」に認証リンクを送信します。よろしいですか？',
+        send: '送信',
+        cancel: 'キャンセル',
+      },
+      toast: {
+        sentAuthMail: '認証メールを送信しました。メールボックスを確認してください。',
+        failedToAuthWithEmail: 'メール認証に失敗しました。再度お試しください。',
+      },
+    },
     nickname: {
       nickname: 'ニックネーム',
       nicknameExample: '例）きろくたろー',

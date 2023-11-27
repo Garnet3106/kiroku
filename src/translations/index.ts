@@ -46,6 +46,22 @@ export type TranslationDictionaryData = {
         loggedIn: string,
       },
     },
+    emailLogin: {
+      emailAddress: string,
+      emailAddressExample: string,
+      sendLoginLink: string,
+      resendLoginLink: string,
+      dialog: {
+        confirmEmail: string,
+        areYouSureToSendAuthLink: string,
+        send: string,
+        cancel: string,
+      },
+      toast: {
+        sentAuthMail: string,
+        failedToAuthWithEmail: string,
+      },
+    },
     nickname: {
       nickname: string,
       nicknameExample: string,

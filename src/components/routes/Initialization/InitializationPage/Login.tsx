@@ -27,7 +27,7 @@ export default function Login() {
         text={t('serviceLinking.emailAddress')}
         icon={<Feather name='mail' color={Ui.color.white} size={22} style={{ top: 3 }} />}
         style={{ marginTop: Ui.dimension.margin }}
-        onPress={() => Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Home))}
+        onPress={() => Redux.store.dispatch(navigationActions.jumpToInitialization(InitializationPageIndex.EmailLogin))}
       />
     </InitializationPage>
   );

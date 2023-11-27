@@ -24,6 +24,24 @@ export namespace Auth {
     await auth.signInWithCredential(credential);
   }
 
+  export async function sendSignInLinkToEmail(email: string): Promise<void> {
+    const actionCodeSettings = {
+      url: 'https://kiroku.garnet.works/auth_failure',
+      handleCodeInApp: true,
+      iOS: {
+        bundleId: 'works.garnet.kiroku',
+      },
+      android: {
+        packageName: 'works.garnet.kiroku',
+        installApp: true,
+        minimumVersion: '1',
+      },
+      dynamicLinkDomain: 'kirokuapp.page.link',
+    };
+
+    await auth.sendSignInLinkToEmail(email, actionCodeSettings);
+  }
+
   export async function signOut(): Promise<void> {
     if (isSignedIn()) {
       await auth.signOut();

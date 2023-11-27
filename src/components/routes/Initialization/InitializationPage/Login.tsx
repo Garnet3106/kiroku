@@ -35,11 +35,11 @@ export default function Login() {
   function signInWithGoogle() {
     Auth.signInWithGoogle()
       .then(() => {
-        Ui.showToast(t('init.login.loggedIn'));
+        Ui.showToast(t('init.login.toast.loggedIn'));
         Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Home));
       })
       .catch(() => {
-        Ui.showToast(t('init.login.failedToLogin'), {
+        Ui.showToast(t('init.login.toast.failedToLogin'), {
           backgroundColor: Ui.color.red,
           avoidMenuBar: false,
           showsLong: true,

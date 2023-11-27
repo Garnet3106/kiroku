@@ -41,8 +41,10 @@ export type TranslationDictionaryData = {
     },
     login: {
       chooseServiceToLogin: string,
-      failedToLogin: string,
-      loggedIn: string,
+      toast: {
+        failedToLogin: string,
+        loggedIn: string,
+      },
     },
     nickname: {
       nickname: string,

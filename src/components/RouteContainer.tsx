@@ -19,7 +19,7 @@ export type RouteContainerProps = {
 
 export default function RouteContainer(props: RouteContainerProps) {
   const navigation = useSelector((state: Redux.RootState) => state.navigation);
-  const menuBarDisplayed = NavigationRoutePath.getMenuBarDisplayed(navigation.path);
+  const menuBarDisplayed = navigation ? NavigationRoutePath.getMenuBarDisplayed(navigation.path) : false;
   const title = props.title ?? t('app.name');
 
   const header = !props.headerDisabled && (
@@ -60,7 +60,7 @@ export default function RouteContainer(props: RouteContainerProps) {
       styles.container,
       props.style,
       {
-        display: navigation.path === props.path ? undefined : 'none',
+        display: navigation?.path === props.path ? undefined : 'none',
         paddingBottom: menuBarDisplayed ? Ui.dimension.header.height + Ui.dimension.menuBar.height : 0,
       },
     ]}>

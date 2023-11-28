@@ -12,11 +12,28 @@ import { useEffect } from 'react';
 import { Auth } from '../auth';
 import Redux from '../redux/redux';
 import { navigationActions } from '../redux/slices/navigation';
-import { NavigationRoutePath } from '../navigation';
+import { InitializationPageIndex, NavigationRoutePath } from '../navigation';
 import Ui from '../ui';
 import { t } from '../translations';
+import * as SplashScreen from 'expo-splash-screen';
+
+SplashScreen.preventAutoHideAsync();
 
 export default function AppRoot() {
+  useEffect(() => {
+    const unsubscribe = Auth.onAuthStateChanged(() => {
+      if (Auth.isSignedIn()) {
+        Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Home));
+      } else {
+        Redux.store.dispatch(navigationActions.jumpToInitialization(InitializationPageIndex.Top));
+      }
+
+      SplashScreen.hideAsync();
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   useEffect(() => {
     const dynamicLinks = FirebaseDynamicLinks();
 

@@ -8,9 +8,8 @@ import { FontAwesome5, Ionicons, MaterialCommunityIcons } from '@expo/vector-ico
 import { t } from '../../translations';
 
 export default function MenuBar() {
-  const navigationRoutePath = useSelector((state: Redux.RootState) => state.navigation.path);
-  const displayed = NavigationRoutePath.getMenuBarDisplayed(navigationRoutePath);
-
+  const navigationRoutePath = useSelector((state: Redux.RootState) => state.navigation?.path);
+  const displayed = navigationRoutePath ? NavigationRoutePath.getMenuBarDisplayed(navigationRoutePath) : false;
   const getColor = (path: NavigationRoutePath) => path === navigationRoutePath ? Ui.color.main : Ui.color.gray;
 
   return (

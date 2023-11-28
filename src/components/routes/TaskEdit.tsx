@@ -21,7 +21,7 @@ import ButtonRow from '../input/ButtonRow';
 
 export default function TaskEdit() {
   const navigation = useSelector((state: Redux.RootState) => state.navigation);
-  const displayed = navigation.path === NavigationRoutePath.TaskEdit;
+  const displayed = navigation?.path === NavigationRoutePath.TaskEdit;
   const tasks = useSelector((state: Redux.RootState) => state.tasks);
   const targetTaskId = displayed ? (navigation.params.targetTaskId ?? null) : null;
   const targetTask = useMemo(() => targetTaskId ? tasks.find((v) => v.id === targetTaskId) : null, [tasks, targetTaskId]);

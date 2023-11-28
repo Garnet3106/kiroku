@@ -9,6 +9,10 @@ GoogleSignin.configure({
 export namespace Auth {
   const auth = FirebaseAuth();
 
+  export function onAuthStateChanged(listener: FirebaseAuthTypes.AuthListenerCallback): () => void {
+    return auth.onAuthStateChanged(listener);
+  }
+
   export function isSignedIn(): boolean {
     return auth.currentUser !== null;
   }

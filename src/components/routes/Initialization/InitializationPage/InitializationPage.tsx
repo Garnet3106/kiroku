@@ -21,7 +21,7 @@ export type InitializationPageProps = {
 
 export default function InitializationPage(props: InitializationPageProps) {
   const navigation = useSelector((state: Redux.RootState) => state.navigation);
-  const pageIndex = navigation.params && navigation.params.pageIndex;
+  const pageIndex = navigation !== null && navigation.params && navigation.params.pageIndex;
   const displayed = pageIndex === props.pageIndex;
 
   const previousButton = props.previous !== undefined && (

@@ -27,19 +27,21 @@ export default function AppRoot() {
           Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Home));
         })
         .catch((error) => {
-          if (typeof error?.message === 'string' && error.message.includes('[auth/invalid-action-code]')) {
+          if (error.message.includes('[auth/invalid-action-code]')) {
             Ui.showToast(t('init.emailLogin.toast.invalidAuthLink'), {
               backgroundColor: Ui.color.red,
               avoidMenuBar: false,
               showsLong: true,
             });
-          } else {
-            Ui.showToast(t('init.emailLogin.toast.failedToAuthWithEmail'), {
-              backgroundColor: Ui.color.red,
-              avoidMenuBar: false,
-              showsLong: true,
-            });
+
+            return;
           }
+
+          Ui.showToast(t('init.emailLogin.toast.failedToAuthWithEmail'), {
+            backgroundColor: Ui.color.red,
+            avoidMenuBar: false,
+            showsLong: true,
+          });
         });
     }
 

@@ -1,5 +1,6 @@
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import FirebaseAuth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import { Storage, StorageKey } from './storage';
 
 GoogleSignin.configure({
   webClientId: '570741164338-qe9ite0h49ihaclb3neafml0ejpk0k2c.apps.googleusercontent.com',
@@ -40,12 +41,19 @@ export namespace Auth {
     };
 
     await auth.sendSignInLinkToEmail(email, actionCodeSettings);
+    await Storage.setItem(StorageKey.EmailForLinkAuth, email);
   }
 
   export async function trySignInWithEmailLink(link: string) {
     if (Auth.isSignInWithEmailLink(link)) {
-      // fix email
-      await Auth.signInWithEmailLink('', link);
+      const email = await Storage.getItem(StorageKey.EmailForLinkAuth);
+
+      if (email === null) {
+        throw new Error('[auth/email-not-found]');
+      }
+
+      await Auth.signInWithEmailLink(email, link);
+      await Storage.removeItem(StorageKey.EmailForLinkAuth);
     }
   }
 

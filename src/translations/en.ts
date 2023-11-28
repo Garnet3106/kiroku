@@ -56,6 +56,8 @@ const en: TranslationDictionaryData = {
       },
       toast: {
         sentAuthMail: 'Authentication mail has been sent. Please check your mailbox.',
+        loggedIn: 'You\'re now logged in.',
+        invalidAuthLink: 'Authentication link is invalid.',
         failedToAuthWithEmail: 'Failed to authenticate with email. Please try again.',
       },
     },

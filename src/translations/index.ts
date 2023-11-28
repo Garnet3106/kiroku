@@ -59,6 +59,8 @@ export type TranslationDictionaryData = {
       },
       toast: {
         sentAuthMail: string,
+        loggedIn: string,
+        invalidAuthLink: string,
         failedToAuthWithEmail: string,
       },
     },

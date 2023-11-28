@@ -56,6 +56,8 @@ const ja: TranslationDictionaryData = {
       },
       toast: {
         sentAuthMail: '認証メールを送信しました。メールボックスを確認してください。',
+        loggedIn: 'ログインしました。',
+        invalidAuthLink: '認証リンクが無効です。',
         failedToAuthWithEmail: 'メール認証に失敗しました。再度お試しください。',
       },
     },

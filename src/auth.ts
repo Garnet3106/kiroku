@@ -1,5 +1,5 @@
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import FirebaseAuth from '@react-native-firebase/auth';
+import FirebaseAuth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
 GoogleSignin.configure({
   webClientId: '570741164338-qe9ite0h49ihaclb3neafml0ejpk0k2c.apps.googleusercontent.com',
@@ -40,6 +40,21 @@ export namespace Auth {
     };
 
     await auth.sendSignInLinkToEmail(email, actionCodeSettings);
+  }
+
+  export async function trySignInWithEmailLink(link: string) {
+    if (Auth.isSignInWithEmailLink(link)) {
+      // fix email
+      await Auth.signInWithEmailLink('', link);
+    }
+  }
+
+  export function isSignInWithEmailLink(emailLink: string): boolean {
+    return auth.isSignInWithEmailLink(emailLink);
+  }
+
+  export async function signInWithEmailLink(email: string, emailLink: string): Promise<FirebaseAuthTypes.UserCredential> {
+    return await auth.signInWithEmailLink(email, emailLink);
   }
 
   export async function signOut(): Promise<void> {

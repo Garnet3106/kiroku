@@ -19,7 +19,7 @@ export default function Settings() {
       title={t('appSettings.appSettings')}
       scrollable
     >
-      <ContentTitle text={t('settings.account')} insertBottomMargin />
+      <ContentTitle text={t('appSettings.yourAccount')} insertBottomMargin />
       <RectangleButtonList buttons={[
         {
           text: t('appSettings.nickname'),

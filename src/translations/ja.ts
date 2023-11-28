@@ -183,6 +183,7 @@ const ja: TranslationDictionaryData = {
   },
   appSettings: {
     appSettings: 'アプリ設定',
+    yourAccount: 'アカウント',
     nickname: 'ニックネーム',
     logout: 'ログアウト',
     dialog: {

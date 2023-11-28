@@ -183,6 +183,7 @@ const en: TranslationDictionaryData = {
   },
   appSettings: {
     appSettings: 'App Settings',
+    yourAccount: 'Your Account',
     nickname: 'Nickname',
     logout: 'Logout',
     dialog: {

@@ -178,6 +178,7 @@ export type TranslationDictionaryData = {
   },
   appSettings: {
     appSettings: string,
+    yourAccount: string,
     nickname: string,
     logout: string,
     dialog: {

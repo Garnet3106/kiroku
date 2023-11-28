@@ -52,7 +52,10 @@ export default function Settings() {
 
     Auth.signOut()
       .then(() => {
-        Ui.showToast(t('appSettings.toast.loggedOut'));
+        Ui.showToast(t('appSettings.toast.loggedOut'), {
+          avoidMenuBar: false,
+        });
+
         Redux.store.dispatch(navigationActions.jumpToInitialization(InitializationPageIndex.Top));
       })
       .catch(() => {

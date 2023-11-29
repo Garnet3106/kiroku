@@ -48,8 +48,10 @@ export default function Dropdown(props: DropdownProps) {
     ));
 
     options = (
-      <ScrollView style={styles.options}>
-        {optionItems}
+      <ScrollView style={styles.optionsContainer}>
+        <View style={styles.options}>
+          {optionItems}
+        </View>
       </ScrollView>
     );
   }
@@ -103,17 +105,19 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: Ui.dimension.margin,
   },
-  options: {
-    backgroundColor: Ui.color.white,
-    borderColor: Ui.color.border.lightGray,
-    borderRadius: Ui.dimension.border.radius,
-    borderWidth: Ui.dimension.border.width,
+  optionsContainer: {
     maxHeight: 250,
     overflow: 'hidden',
     position: 'absolute',
     top: 55,
     width: '100%',
     zIndex: 10000,
+  },
+  options: {
+    borderColor: Ui.color.border.lightGray,
+    borderRadius: Ui.dimension.border.radius,
+    borderWidth: Ui.dimension.border.width,
+    overflow: 'hidden',
   },
   optionItem: {
     padding: Ui.dimension.margin,

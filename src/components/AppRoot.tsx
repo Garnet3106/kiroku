@@ -16,16 +16,24 @@ import { InitializationPageIndex, NavigationRoutePath } from '../navigation';
 import Ui from '../ui';
 import { t } from '../translations';
 import * as SplashScreen from 'expo-splash-screen';
+import { Database } from '../database';
+import { userActions } from '../redux/slices/user';
 
 SplashScreen.preventAutoHideAsync();
 
 export default function AppRoot() {
   useEffect(() => {
-    const unsubscribe = Auth.onAuthStateChanged(() => {
+    const unsubscribe = Auth.onAuthStateChanged(async () => {
       if (Auth.isSignedIn()) {
         Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Home));
       } else {
         Redux.store.dispatch(navigationActions.jumpToInitialization(InitializationPageIndex.Top));
+      }
+
+      const user = await Database.getUser();
+
+      if (user) {
+        Redux.store.dispatch(userActions.set(user));
       }
 
       SplashScreen.hideAsync();

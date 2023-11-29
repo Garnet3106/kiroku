@@ -9,8 +9,10 @@ import Redux from '../../redux/redux';
 import { navigationActions } from '../../redux/slices/navigation';
 import Dialog from 'react-native-dialog';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 export default function Settings() {
+  const user = useSelector((state: Redux.RootState) => state.user);
   const [logoutDialogVisibility, setLogoutDialogVisibility] = useState(false);
 
   return (
@@ -23,6 +25,7 @@ export default function Settings() {
       <RectangleButtonList buttons={[
         {
           text: t('appSettings.nickname'),
+          caption: user?.nickname ?? 'N/A',
           onPress: () => {},
         },
         {

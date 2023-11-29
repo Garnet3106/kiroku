@@ -17,6 +17,10 @@ export namespace Auth {
     return auth.currentUser !== null;
   }
 
+  export function getUid(): string | null {
+    return auth.currentUser?.uid ?? null;
+  }
+
   export async function signInWithGoogle(): Promise<void> {
     const user = await GoogleSignin.signIn();
     const idToken = user.idToken;
@@ -75,3 +79,7 @@ export namespace Auth {
     }
   }
 }
+
+export type User = {
+  nickname: string,
+};

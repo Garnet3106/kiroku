@@ -1,10 +1,11 @@
-import { GestureResponderEvent, StyleProp, StyleSheet, Text, TextStyle, ViewStyle } from 'react-native';
+import { GestureResponderEvent, StyleProp, StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native';
 import Ui from '../../ui';
 import { ReactNode } from 'react';
 import PressableHighlight from '../pressable/PressableHighlight';
 
 export type RectangleButtonProps = Ui.LayoutProps & {
   text: string,
+  caption?: string,
   color?: string,
   pressedColor?: string,
   whiteBackground?: boolean,
@@ -12,6 +13,7 @@ export type RectangleButtonProps = Ui.LayoutProps & {
   disabled?: boolean,
   style?: StyleProp<ViewStyle>,
   textStyle?: StyleProp<TextStyle>,
+  captionStyle?: StyleProp<TextStyle>,
   onPress?: (event: GestureResponderEvent) => void,
 };
 
@@ -29,6 +31,15 @@ export default function RectangleButton(props: RectangleButtonProps) {
   } else {
     pressedColor = Ui.color.pressed.main;
   }
+
+  const caption = props.caption && (
+    <Text style={[
+      styles.caption,
+      props.captionStyle,
+    ]}>
+      {props.caption}
+    </Text>
+  );
 
   return (
     <PressableHighlight
@@ -48,17 +59,20 @@ export default function RectangleButton(props: RectangleButtonProps) {
       ]}
       onPress={props.disabled ? undefined : props.onPress}
     >
-      {props.icon}
-      <Text style={[
-        styles.text,
-        {
-          color: props.whiteBackground ? color : Ui.color.white,
-          marginLeft: props.icon ? 8 : 0,
-        },
-        props.textStyle,
-      ]}>
-        {props.text}
-      </Text>
+      <View style={styles.textContainer}>
+        {props.icon}
+        <Text style={[
+          styles.text,
+          {
+            color: props.whiteBackground ? color : Ui.color.white,
+            marginLeft: props.icon ? 8 : 0,
+          },
+          props.textStyle,
+        ]}>
+          {props.text}
+        </Text>
+      </View>
+      {caption}
     </PressableHighlight>
   );
 }
@@ -73,8 +87,17 @@ const styles = StyleSheet.create({
     padding: 12,
     width: '100%',
   },
+  textContainer: {
+    alignItems: 'center',
+    display: 'flex',
+    flexDirection: 'row',
+  },
   text: {
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  caption: {
+    color: Ui.color.main,
+    marginLeft: Ui.dimension.margin / 2,
   },
 });

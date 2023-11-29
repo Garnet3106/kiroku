@@ -19,7 +19,7 @@ export default function RectangleButtonList(props: RectangleButtonListProps) {
           borderColor: Ui.color.border.lightGray,
           borderRadius: 0,
           borderWidth: 0,
-          justifyContent: 'flex-start',
+          justifyContent: 'space-between',
         },
         eachButton.style,
       ]}

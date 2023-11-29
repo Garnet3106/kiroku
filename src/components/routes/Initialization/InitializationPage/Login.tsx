@@ -8,8 +8,11 @@ import { t } from '../../../../translations';
 import { Auth } from '../../../../auth';
 import Redux from '../../../../redux/redux';
 import { navigationActions } from '../../../../redux/slices/navigation';
+import { useState } from 'react';
 
 export default function Login() {
+  const [buttonsDisabled, setButtonsDisabled] = useState(false);
+
   return (
     <InitializationPage
       pageIndex={InitializationPageIndex.Login}
@@ -21,11 +24,13 @@ export default function Login() {
       <RectangleButton
         text={t('serviceLinking.google')}
         icon={<FontAwesome name='google' color={Ui.color.white} size={22} />}
+        disabled={buttonsDisabled}
         onPress={signInWithGoogle}
       />
       <RectangleButton
         text={t('serviceLinking.emailAddress')}
         icon={<Feather name='mail' color={Ui.color.white} size={22} style={{ top: 3 }} />}
+        disabled={buttonsDisabled}
         style={{ marginTop: Ui.dimension.margin }}
         onPress={() => Redux.store.dispatch(navigationActions.jumpToInitialization(InitializationPageIndex.EmailLogin))}
       />
@@ -33,10 +38,13 @@ export default function Login() {
   );
 
   function signInWithGoogle() {
+    setButtonsDisabled(true);
+
     Auth.signInWithGoogle()
       .then(() => {
         Ui.showToast(t('init.login.toast.loggedIn'));
         Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Home));
+        setButtonsDisabled(false);
       })
       .catch(() => {
         Ui.showToast(t('init.login.toast.failedToLogin'), {
@@ -44,6 +52,8 @@ export default function Login() {
           avoidMenuBar: false,
           showsLong: true,
         });
+
+        setButtonsDisabled(false);
       });
   }
 }

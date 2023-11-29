@@ -44,7 +44,7 @@ export default function AppRoot() {
           Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Home));
         })
         .catch((error) => {
-          if (error.message.includes('[auth/invalid-action-code]')) {
+          if (typeof error?.message === 'string' && error.message.includes('[auth/invalid-action-code]')) {
             Ui.showToast(t('init.emailLogin.toast.invalidAuthLink'), {
               backgroundColor: Ui.color.red,
               avoidMenuBar: false,

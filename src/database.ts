@@ -68,7 +68,7 @@ export namespace Database {
         },
       ];
     } else {
-      const snapshot = await firestore.collection('tasks').doc(uid).collection('items').get();
+      const snapshot = await firestore.collection('users').doc(uid).collection('tasks').get();
 
       return snapshot.docs.map((eachSnapshot) => {
         const data = eachSnapshot.data();

@@ -3,7 +3,7 @@ import { NavigationRoutePath } from '../../navigation';
 import RouteContainer from '../RouteContainer';
 import Dropdown from '../input/Dropdown';
 import Named from '../input/Named';
-import { DayOfWeek, TaskCategory, TaskInterval, TaskIntervalDaysOfWeek, TaskIntervalType, TaskTargetTime, TaskWorkingDate } from '../../task';
+import { DayOfWeek, TaskCategory, TaskInterval, TaskIntervalDaysOfWeek, TaskIntervalType, TaskTargetTime } from '../../task';
 import ContentArea from '../ContentArea';
 import TextInput from '../input/TextInput';
 import RectangleButton from '../input/RectangleButton';

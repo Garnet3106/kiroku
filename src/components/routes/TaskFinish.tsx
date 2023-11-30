@@ -12,14 +12,14 @@ import Redux from '../../redux/redux';
 import { navigationActions } from '../../redux/slices/navigation';
 import { t } from '../../translations';
 import { useSelector } from 'react-redux';
-import { workingResultActions } from '../../redux/slices/workingResult';
-import { TaskWorkingLog } from '../../task';
+import { workResultActions } from '../../redux/slices/workResult';
+import { TaskWorkLog } from '../../task';
 
 export default function TaskFinish() {
-  const workingResult = useSelector((state: Redux.RootState) => state.workingResult);
+  const workResult = useSelector((state: Redux.RootState) => state.workResult);
   const [concentrationLevel, setConcentrationLevel] = useState(0);
 
-  if (!workingResult) {
+  if (!workResult) {
     return;
   }
 
@@ -56,7 +56,7 @@ export default function TaskFinish() {
               {t('taskFinish.properties.workingTime')}
             </Text>
             <Text style={styles.propertyData}>
-              {t('taskFinish.properties.mins', { min: workingResult.workingTime })}
+              {t('taskFinish.properties.mins', { min: workResult.workingTime })}
             </Text>
           </View>
           <ContentSeparator color={Ui.color.border.lightGray} style={{ marginBottom: Ui.dimension.margin / 2 }} />
@@ -65,7 +65,7 @@ export default function TaskFinish() {
               {t('taskFinish.properties.recessTime')}
             </Text>
             <Text style={styles.propertyData}>
-              {t('taskFinish.properties.mins', { min: workingResult.recessTime })}
+              {t('taskFinish.properties.mins', { min: workResult.recessTime })}
             </Text>
           </View>
           <ContentSeparator color={Ui.color.border.lightGray} style={{ marginBottom: Ui.dimension.margin / 2 }} />
@@ -91,21 +91,21 @@ export default function TaskFinish() {
   );
 
   function onPressCloseButton() {
-    const workingLog: TaskWorkingLog | null = workingResult ? {
-      taskId: workingResult.task.id,
-      startedAt: workingResult.startedAt,
-      targetTime: workingResult.task.targetTime,
-      workingTime: workingResult.workingTime,
-      recessTime: workingResult.recessTime,
+    const workLog: TaskWorkLog | null = workResult ? {
+      taskId: workResult.task.id,
+      startedAt: workResult.startedAt,
+      targetTime: workResult.task.targetTime,
+      workingTime: workResult.workingTime,
+      recessTime: workResult.recessTime,
       points,
       concentrationLevel: concentrationLevel === 0 ? undefined : concentrationLevel,
     } : null;
 
     // implement async storage
-    console.log(workingLog);
+    console.log(workLog);
 
     setConcentrationLevel(0);
-    Redux.store.dispatch(workingResultActions.unset());
+    Redux.store.dispatch(workResultActions.unset());
     Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Home));
   }
 }

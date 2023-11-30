@@ -3,7 +3,7 @@ import { navigationSlice } from './slices/navigation';
 import { taskInProgressSlice } from './slices/taskInProgress';
 import { tasksSlice } from './slices/tasks';
 import { userSlice } from './slices/user';
-import { workingResultSlice } from './slices/workingResult';
+import { workResultSlice } from './slices/workResult';
 
 namespace Redux {
   const reducer = combineReducers({
@@ -11,7 +11,7 @@ namespace Redux {
     taskInProgress: taskInProgressSlice.reducer,
     tasks: tasksSlice.reducer,
     user: userSlice.reducer,
-    workingResult: workingResultSlice.reducer,
+    workResult: workResultSlice.reducer,
   });
 
   export type RootState = ReturnType<typeof reducer>;

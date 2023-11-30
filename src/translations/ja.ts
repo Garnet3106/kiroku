@@ -133,7 +133,9 @@ const ja: TranslationDictionaryData = {
     dialog: {
       taskMgmt: '作業管理',
       doYouReallyDeleteTask: '「%{taskTitle}」を削除しますか？',
+      doYouWantToArchive: '作業をアーカイブしますか？\n\n※アーカイブしなかった場合、作業履歴を含む作業データが削除されます。',
       delete: '削除',
+      archive: 'アーカイブ',
       cancel: 'キャンセル',
     },
     toast: {

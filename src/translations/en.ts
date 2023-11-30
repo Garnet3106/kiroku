@@ -133,7 +133,9 @@ const en: TranslationDictionaryData = {
     dialog: {
       taskMgmt: 'Task Management',
       doYouReallyDeleteTask: 'Do you really delete "%{taskTitle}"?',
+      doYouWantToArchive: 'Do you want to archive this task?\n\n* If not archived, task data including work logs will be deleted.',
       delete: 'DELETE',
+      archive: 'ARCHIVE',
       cancel: 'CANCEL',
     },
     toast: {

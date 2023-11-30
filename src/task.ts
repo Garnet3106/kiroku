@@ -23,6 +23,7 @@ export type Task = {
   // Specify seconds between 0 and 86400.
   startTime?: Seconds,
   recessInterval?: Seconds,
+  // add archived
 };
 
 export enum TaskCategory {

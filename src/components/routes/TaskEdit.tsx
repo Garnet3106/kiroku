@@ -100,6 +100,7 @@ export default function TaskEdit() {
   }, [displayed]);
 
   const [deleteDialogVisibility, setDeleteDialogVisibility] = useState(false);
+  const [archiveDialogVisibility, setArchiveDialogVisibility] = useState(false);
 
   return (
     <RouteContainer path={NavigationRoutePath.TaskEdit} title={containerTitle}>
@@ -186,12 +187,29 @@ export default function TaskEdit() {
           {t('taskEdit.dialog.taskMgmt')}
         </Dialog.Title>
         <Dialog.Description>
-          {t('taskEdit.dialog.doYouReallyDeleteTask', { taskTitle: '作業タイトル' })}
+          {t('taskEdit.dialog.doYouReallyDeleteTask', { taskTitle: targetTask?.title ?? title })}
         </Dialog.Description>
         <Dialog.Button label={t('taskEdit.dialog.cancel')} onPress={() => setDeleteDialogVisibility(false)} />
         <Dialog.Button label={t('taskEdit.dialog.delete')} onPress={() => {
           setDeleteDialogVisibility(false);
+          setArchiveDialogVisibility(true);
+        }} />
+      </Dialog.Container>
+      <Dialog.Container visible={archiveDialogVisibility}>
+        <Dialog.Title>
+          {t('taskEdit.dialog.taskMgmt')}
+        </Dialog.Title>
+        <Dialog.Description>
+          {t('taskEdit.dialog.doYouWantToArchive', { taskTitle: targetTask?.title ?? title })}
+        </Dialog.Description>
+        <Dialog.Button label={t('taskEdit.dialog.cancel')} onPress={() => setArchiveDialogVisibility(false)} />
+        <Dialog.Button label={t('taskEdit.dialog.delete')} onPress={() => {
+          setArchiveDialogVisibility(false);
           deleteTask();
+        }} />
+        <Dialog.Button label={t('taskEdit.dialog.archive')} onPress={() => {
+          setArchiveDialogVisibility(false);
+          // archiveTask();
         }} />
       </Dialog.Container>
     </RouteContainer>

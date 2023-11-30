@@ -128,7 +128,9 @@ export type TranslationDictionaryData = {
     dialog: {
       taskMgmt: string,
       doYouReallyDeleteTask: string,
+      doYouWantToArchive: string,
       delete: string,
+      archive: string,
       cancel: string,
     },
     toast: {

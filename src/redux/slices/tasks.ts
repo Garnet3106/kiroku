@@ -1,48 +1,9 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { DayOfWeek, Seconds, Task, TaskCategory, TaskIntervalType } from '../../task';
-import uuid from 'react-native-uuid';
-
-const initialState: Task[] = [
-  {
-    id: uuid.v4() as string,
-    title: 'FE勉強',
-    category: TaskCategory.Study,
-    targetTime: 60,
-    workingDate: {
-      start: Seconds.now() / 1000,
-      interval: {
-        type: TaskIntervalType.Day,
-        interval: 1,
-      },
-    },
-  },
-  {
-    id: uuid.v4() as string,
-    title: '受験勉強',
-    category: TaskCategory.Study,
-    targetTime: 100,
-    workingDate: {
-      start: Seconds.now() / 1000,
-      interval: {
-        type: TaskIntervalType.Week,
-        interval: 2,
-        days: {
-          [DayOfWeek.Monday]: false,
-          [DayOfWeek.Tuesday]: false,
-          [DayOfWeek.Wednesday]: false,
-          [DayOfWeek.Thursday]: false,
-          [DayOfWeek.Friday]: false,
-          [DayOfWeek.Saturday]: false,
-          [DayOfWeek.Sunday]: false,
-        },
-      },
-    },
-  },
-];
+import { Task } from '../../task';
 
 export const tasksSlice = createSlice({
   name: 'tasks',
-  initialState,
+  initialState: [] as Task[],
   reducers: {
     set: (_state, action: PayloadAction<Task[]>) => action.payload,
     add: (state, action: PayloadAction<Task>) => [...state, action.payload],

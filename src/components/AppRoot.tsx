@@ -18,6 +18,7 @@ import { t } from '../translations';
 import * as SplashScreen from 'expo-splash-screen';
 import { Database } from '../database';
 import { userActions } from '../redux/slices/user';
+import { tasksActions } from '../redux/slices/tasks';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -34,6 +35,12 @@ export default function AppRoot() {
 
       if (user) {
         Redux.store.dispatch(userActions.set(user));
+      }
+
+      const tasks = await Database.getTasks();
+
+      if (tasks) {
+        Redux.store.dispatch(tasksActions.set(tasks));
       }
 
       SplashScreen.hideAsync();

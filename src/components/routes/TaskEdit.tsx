@@ -18,6 +18,7 @@ import { useSelector } from 'react-redux';
 import { tasksActions } from '../../redux/slices/tasks';
 import Uuid from 'react-native-uuid';
 import ButtonRow from '../input/ButtonRow';
+import { Database } from '../../database';
 
 export default function TaskEdit() {
   const navigation = useSelector((state: Redux.RootState) => state.navigation);
@@ -26,6 +27,7 @@ export default function TaskEdit() {
   const targetTaskId = displayed ? (navigation.params.targetTaskId ?? null) : null;
   const targetTask = useMemo(() => targetTaskId ? tasks.find((v) => v.id === targetTaskId) : null, [tasks, targetTaskId]);
   const containerTitle = targetTaskId ? t('taskEdit.taskEdit') : t('taskEdit.taskReg');
+  const [saveButtonDisabled, setSaveButtonDisabled] = useState(false);
 
   const categoryOptions = TaskCategory.enumerate().map((v) => ({
     uniqueId: v,
@@ -97,6 +99,8 @@ export default function TaskEdit() {
     setIntervalDaysOfWeek(
       targetTask && targetTask.workingDate.interval.type === TaskIntervalType.Week ? convertDaysOfWeekToArray(targetTask.workingDate.interval.days) : [],
     );
+
+    setSaveButtonDisabled(false);
   }, [displayed]);
 
   const [deleteDialogVisibility, setDeleteDialogVisibility] = useState(false);
@@ -180,7 +184,7 @@ export default function TaskEdit() {
             />
           )
         }
-        <RectangleButton text={t('taskEdit.save')} onPress={onPressSaveButton} />
+        <RectangleButton text={t('taskEdit.save')} disabled={saveButtonDisabled} onPress={onPressSaveButton} />
       </ContentArea>
       <Dialog.Container visible={deleteDialogVisibility}>
         <Dialog.Title>
@@ -233,7 +237,9 @@ export default function TaskEdit() {
     Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Management));
   }
 
-  function onPressSaveButton() {
+  async function onPressSaveButton() {
+    setSaveButtonDisabled(true);
+
     const id = targetTaskId ? targetTaskId : Uuid.v4() as string;
 
     const targetTimeNumber = typeof targetTime === 'number' ? targetTime : customTargetTime;
@@ -270,10 +276,27 @@ export default function TaskEdit() {
       recessInterval: 0,
     };
 
-    const action = targetTaskId ? tasksActions.edit(task) : tasksActions.add(task);
-    Redux.store.dispatch(action);
-    Ui.showToast(t('taskEdit.toast.taskWasSaved'));
-    Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Management));
+    let succeeded = true;
+
+    if (targetTask) {
+      Redux.store.dispatch(tasksActions.update(task));
+      await Database.updateTask(task).catch(() => succeeded = false);
+    } else {
+      Redux.store.dispatch(tasksActions.create(task));
+      await Database.createTask(task).catch(() => succeeded = false);
+    }
+
+    if (succeeded) {
+      Ui.showToast(t('taskEdit.toast.taskWasSaved'));
+      Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Management));
+    } else {
+      Ui.showToast(t('taskEdit.toast.failedToSaveTask'), {
+        backgroundColor: Ui.color.red,
+        showsLong: true,
+      });
+
+      setSaveButtonDisabled(false);
+    }
   }
 }
 

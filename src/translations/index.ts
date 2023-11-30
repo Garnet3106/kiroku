@@ -136,6 +136,7 @@ export type TranslationDictionaryData = {
     toast: {
       taskWasDeleted: string,
       taskWasSaved: string,
+      failedToSaveTask: string,
     },
   },
   taskInProgress: {

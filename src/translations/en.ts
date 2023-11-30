@@ -141,6 +141,7 @@ const en: TranslationDictionaryData = {
     toast: {
       taskWasDeleted: 'Task was deleted.',
       taskWasSaved: 'Task was saved.',
+      failedToSaveTask: 'Failed to save task. Please try again.',
     },
   },
   taskInProgress: {

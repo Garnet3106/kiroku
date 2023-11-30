@@ -1,7 +1,7 @@
 import FirebaseFirestore from '@react-native-firebase/firestore';
 import { Auth, User } from './auth';
 import env from './env';
-import { DayOfWeek, Seconds, Task, TaskCategory, TaskIntervalType } from './task';
+import { DayOfWeek, Seconds, Task, TaskCategory, TaskIntervalType, UnidentifiedTask } from './task';
 import uuid from 'react-native-uuid';
 
 export namespace Database {
@@ -80,11 +80,51 @@ export namespace Database {
           targetTime: data.targetTime,
           workingDate: {
             start: data.workingDateStart,
-            interval: data.workingDateInterval,
+            interval: JSON.parse(data.workingDateInterval),
           },
           startTime: data.startTime,
           recessInterval: data.recessInterval,
         };
+      });
+    }
+  }
+
+  export async function createTask(task: UnidentifiedTask): Promise<void> {
+    const uid = Auth.getUid();
+
+    if (!uid) {
+      throw 'auth/user-not-signed-in';
+    }
+
+    if (!env.preventDatabaseAccesses) {
+      await firestore.collection('users').doc(uid).collection('tasks').add({
+        title: task.title,
+        category: task.category,
+        targetTime: task.targetTime,
+        workingDateStart: task.workingDate.start,
+        workingDateInterval: JSON.stringify(task.workingDate.interval),
+        startTime: task.startTime,
+        recessInterval: task.recessInterval,
+      });
+    }
+  }
+
+  export async function updateTask(task: Task): Promise<void> {
+    const uid = Auth.getUid();
+
+    if (!uid) {
+      throw 'auth/user-not-signed-in';
+    }
+
+    if (!env.preventDatabaseAccesses) {
+      await firestore.collection('users').doc(uid).collection('tasks').doc(task.id).update({
+        title: task.title,
+        category: task.category,
+        targetTime: task.targetTime,
+        workingDateStart: task.workingDate.start,
+        workingDateInterval: JSON.stringify(task.workingDate.interval),
+        startTime: task.startTime,
+        recessInterval: task.recessInterval,
       });
     }
   }

@@ -6,8 +6,8 @@ export const tasksSlice = createSlice({
   initialState: [] as Task[],
   reducers: {
     set: (_state, action: PayloadAction<Task[]>) => action.payload,
-    add: (state, action: PayloadAction<Task>) => [...state, action.payload],
-    edit: (state, action: PayloadAction<Task>) => {
+    create: (state, action: PayloadAction<Task>) => [...state, action.payload],
+    update: (state, action: PayloadAction<Task>) => {
       const newState = [...state];
       const index = newState.findIndex((v) => v.id === action.payload.id);
 

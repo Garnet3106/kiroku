@@ -14,8 +14,7 @@ export namespace Seconds {
   }
 }
 
-export type Task = {
-  id: string,
+export type UnidentifiedTask = {
   title: string,
   category: TaskCategory,
   targetTime: Minutes,
@@ -23,6 +22,10 @@ export type Task = {
   // Specify seconds between 0 and 86400.
   startTime?: Seconds,
   recessInterval?: Seconds,
+};
+
+export type Task = UnidentifiedTask & {
+  id: string,
 };
 
 export enum TaskCategory {

@@ -179,7 +179,7 @@ const en: TranslationDictionaryData = {
       mins: '%{min} mins',
     },
     letsRecordYourConcentrationLevel: 'Let\'s record your concentration level.',
-    close: 'Close',
+    save: 'Save',
   },
   appSettings: {
     appSettings: 'App Settings',

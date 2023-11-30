@@ -179,7 +179,7 @@ const ja: TranslationDictionaryData = {
       mins: '%{min}分',
     },
     letsRecordYourConcentrationLevel: '今回の集中度を記録しましょう。',
-    close: '閉じる',
+    save: '保存',
   },
   appSettings: {
     appSettings: 'アプリ設定',

@@ -174,7 +174,7 @@ export type TranslationDictionaryData = {
       mins: string,
     },
     letsRecordYourConcentrationLevel: string,
-    close: string,
+    save: string,
   },
   appSettings: {
     appSettings: string,

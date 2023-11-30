@@ -84,7 +84,7 @@ export default function TaskFinish() {
           <View style={styles.concentrationLevel}>
             {concentrationLevels}
           </View>
-          <RectangleButton text={t('taskFinish.close')} onPress={onPressCloseButton} />
+          <RectangleButton text={t('taskFinish.save')} onPress={onPressCloseButton} />
         </ContentArea>
       </View>
     </RouteContainer>

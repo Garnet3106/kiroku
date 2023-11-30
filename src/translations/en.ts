@@ -142,6 +142,7 @@ const en: TranslationDictionaryData = {
       taskWasDeleted: 'Task was deleted.',
       taskWasSaved: 'Task was saved.',
       failedToSaveTask: 'Failed to save task. Please try again.',
+      failedToDeleteTask: 'Failed to delete task. Please try again.',
     },
   },
   taskInProgress: {

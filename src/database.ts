@@ -128,4 +128,16 @@ export namespace Database {
       });
     }
   }
+
+  export async function deleteTask(taskId: string): Promise<void> {
+    const uid = Auth.getUid();
+
+    if (!uid) {
+      throw 'auth/user-not-signed-in';
+    }
+
+    if (!env.preventDatabaseAccesses) {
+      await firestore.collection('users').doc(uid).collection('tasks').doc(taskId).delete();
+    }
+  }
 }

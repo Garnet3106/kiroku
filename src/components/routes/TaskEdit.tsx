@@ -27,7 +27,7 @@ export default function TaskEdit() {
   const targetTaskId = displayed ? (navigation.params.targetTaskId ?? null) : null;
   const targetTask = useMemo(() => targetTaskId ? tasks.find((v) => v.id === targetTaskId) : null, [tasks, targetTaskId]);
   const containerTitle = targetTaskId ? t('taskEdit.taskEdit') : t('taskEdit.taskReg');
-  const [saveButtonDisabled, setSaveButtonDisabled] = useState(false);
+  const [buttonsDisabled, setButtonsDisabled] = useState(false);
 
   const categoryOptions = TaskCategory.enumerate().map((v) => ({
     uniqueId: v,
@@ -100,7 +100,7 @@ export default function TaskEdit() {
       targetTask && targetTask.workingDate.interval.type === TaskIntervalType.Week ? convertDaysOfWeekToArray(targetTask.workingDate.interval.days) : [],
     );
 
-    setSaveButtonDisabled(false);
+    setButtonsDisabled(false);
   }, [displayed]);
 
   const [deleteDialogVisibility, setDeleteDialogVisibility] = useState(false);
@@ -179,12 +179,13 @@ export default function TaskEdit() {
               color={Ui.color.red}
               pressedColor={Ui.color.pressed.redOnWhite}
               whiteBackground
+              disabled={buttonsDisabled}
               insertBottomMargin
               onPress={() => setDeleteDialogVisibility(true)}
             />
           )
         }
-        <RectangleButton text={t('taskEdit.save')} disabled={saveButtonDisabled} onPress={onPressSaveButton} />
+        <RectangleButton text={t('taskEdit.save')} disabled={buttonsDisabled} onPress={onPressSaveButton} />
       </ContentArea>
       <Dialog.Container visible={deleteDialogVisibility}>
         <Dialog.Title>
@@ -231,14 +232,34 @@ export default function TaskEdit() {
     return typedMap;
   }
 
-  function deleteTask() {
-    Ui.showToast(t('taskEdit.toast.taskWasDeleted'));
-    targetTaskId && Redux.store.dispatch(tasksActions.delete(targetTaskId));
-    Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Management));
+  async function deleteTask() {
+    if (!targetTaskId) {
+      console.warn('task-edit/task-id-not-found');
+      return;
+    }
+
+    setButtonsDisabled(true);
+
+    let succeeded = true;
+
+    await Database.deleteTask(targetTaskId).catch(() => succeeded = false);
+
+    if (succeeded) {
+      targetTaskId && Redux.store.dispatch(tasksActions.delete(targetTaskId));
+      Ui.showToast(t('taskEdit.toast.taskWasDeleted'));
+      Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Management));
+    } else {
+      Ui.showToast(t('taskEdit.toast.failedToDeleteTask'), {
+        backgroundColor: Ui.color.red,
+        showsLong: true,
+      });
+
+      setButtonsDisabled(false);
+    }
   }
 
   async function onPressSaveButton() {
-    setSaveButtonDisabled(true);
+    setButtonsDisabled(true);
 
     const id = targetTaskId ? targetTaskId : Uuid.v4() as string;
 
@@ -279,14 +300,14 @@ export default function TaskEdit() {
     let succeeded = true;
 
     if (targetTask) {
-      Redux.store.dispatch(tasksActions.update(task));
       await Database.updateTask(task).catch(() => succeeded = false);
     } else {
-      Redux.store.dispatch(tasksActions.create(task));
       await Database.createTask(task).catch(() => succeeded = false);
     }
 
     if (succeeded) {
+      const action = targetTask ? tasksActions.update(task) : tasksActions.create(task);
+      Redux.store.dispatch(action);
       Ui.showToast(t('taskEdit.toast.taskWasSaved'));
       Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Management));
     } else {
@@ -295,7 +316,7 @@ export default function TaskEdit() {
         showsLong: true,
       });
 
-      setSaveButtonDisabled(false);
+      setButtonsDisabled(false);
     }
   }
 }

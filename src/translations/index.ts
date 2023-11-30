@@ -137,6 +137,7 @@ export type TranslationDictionaryData = {
       taskWasDeleted: string,
       taskWasSaved: string,
       failedToSaveTask: string,
+      failedToDeleteTask: string,
     },
   },
   taskInProgress: {

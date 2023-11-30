@@ -141,7 +141,8 @@ const ja: TranslationDictionaryData = {
     toast: {
       taskWasDeleted: '作業が削除されました。',
       taskWasSaved: '作業が保存されました。',
-      failedToSaveTask: '作業の保存に失敗しました。再度お試しください。'
+      failedToSaveTask: '作業の保存に失敗しました。再度お試しください。',
+      failedToDeleteTask: '作業の削除に失敗しました。再度お試しください。',
     },
   },
   taskInProgress: {

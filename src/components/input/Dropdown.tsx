@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 12,
+    padding: 10,
   },
   text: {
     fontSize: 18,
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     maxHeight: 250,
     overflow: 'hidden',
     position: 'absolute',
-    top: 55,
+    top: 52,
     width: '100%',
     zIndex: 10000,
   },

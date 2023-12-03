@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
-    padding: 12,
+    padding: 10,
     width: '100%',
   },
   textContainer: {

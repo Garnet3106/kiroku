@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     borderColor: Ui.color.main,
     borderRadius: Ui.dimension.border.radius,
     borderWidth: Ui.dimension.border.width,
-    padding: 12,
+    padding: 10,
     width: '100%',
   },
   text: {

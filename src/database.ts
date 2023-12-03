@@ -1,11 +1,15 @@
 import FirebaseFirestore from '@react-native-firebase/firestore';
 import { Auth, User } from './auth';
 import env from './env';
-import { DayOfWeek, Seconds, Task, TaskCategory, TaskIntervalType, UnidentifiedTask } from './task';
+import { DayOfWeek, Seconds, Task, TaskCategory, TaskIntervalType, TaskWorkLog, UnidentifiedTask } from './task';
 import uuid from 'react-native-uuid';
 
 export namespace Database {
   const firestore = FirebaseFirestore();
+
+  firestore.settings({
+    ignoreUndefinedProperties: true,
+  });
 
   export async function getUser(): Promise<User | null> {
     const uid = Auth.getUid();
@@ -138,6 +142,26 @@ export namespace Database {
 
     if (!env.preventDatabaseAccesses) {
       await firestore.collection('users').doc(uid).collection('tasks').doc(taskId).delete();
+    }
+  }
+
+  export async function createWorkLog(workLog: TaskWorkLog): Promise<void> {
+    const uid = Auth.getUid();
+
+    if (!uid) {
+      throw 'auth/user-not-signed-in';
+    }
+
+    if (!env.preventDatabaseAccesses) {
+      await firestore.collection('users').doc(uid).collection('workLogs').add({
+        task: firestore.doc(`users/${uid}/tasks/${workLog.taskId}`),
+        startedAt: workLog.startedAt,
+        targetTime: workLog.targetTime,
+        workingTime: workLog.workingTime,
+        recessTime: workLog.recessTime,
+        points: workLog.points,
+        concentrationLevel: workLog.concentrationLevel,
+      });
     }
   }
 }

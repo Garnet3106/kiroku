@@ -184,6 +184,10 @@ const en: TranslationDictionaryData = {
     },
     letsRecordYourConcentrationLevel: 'Let\'s record your concentration level.',
     save: 'Save',
+    toast: {
+      workLogWasSaved: 'Work log was saved.',
+      failedToSaveWorkLog: 'Failed to save work log. Please try again.',
+    },
   },
   appSettings: {
     appSettings: 'App Settings',

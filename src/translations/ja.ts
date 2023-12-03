@@ -184,6 +184,10 @@ const ja: TranslationDictionaryData = {
     },
     letsRecordYourConcentrationLevel: '今回の集中度を記録しましょう。',
     save: '保存',
+    toast: {
+      workLogWasSaved: '作業履歴を保存しました。',
+      failedToSaveWorkLog: '作業履歴を保存できませんでした。再度お試しください。',
+    },
   },
   appSettings: {
     appSettings: 'アプリ設定',

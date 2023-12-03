@@ -13,7 +13,7 @@ import { navigationActions } from '../../redux/slices/navigation';
 import { t } from '../../translations';
 import { useSelector } from 'react-redux';
 import { workResultActions } from '../../redux/slices/workResult';
-import { TaskWorkLog } from '../../task';
+import { Database } from '../../database';
 
 export default function TaskFinish() {
   const workResult = useSelector((state: Redux.RootState) => state.workResult);
@@ -90,8 +90,17 @@ export default function TaskFinish() {
     </RouteContainer>
   );
 
-  function onPressCloseButton() {
-    const workLog: TaskWorkLog | null = workResult ? {
+  async function onPressCloseButton() {
+    if (!workResult) {
+      Ui.showToast(t('taskFinish.toast.failedToSaveWorkLog'), {
+        backgroundColor: Ui.color.red,
+        showsLong: true,
+      });
+
+      return;
+    }
+
+    const workLog = {
       taskId: workResult.task.id,
       startedAt: workResult.startedAt,
       targetTime: workResult.task.targetTime,
@@ -99,14 +108,23 @@ export default function TaskFinish() {
       recessTime: workResult.recessTime,
       points,
       concentrationLevel: concentrationLevel === 0 ? undefined : concentrationLevel,
-    } : null;
+    };
 
-    // implement async storage
-    console.log(workLog);
+    let succeeded = true;
+    await Database.createWorkLog(workLog).catch((e) => {console.log(e);succeeded = false});
 
     setConcentrationLevel(0);
-    Redux.store.dispatch(workResultActions.unset());
-    Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Home));
+
+    if (succeeded) {
+      Ui.showToast(t('taskFinish.toast.workLogWasSaved'));
+      Redux.store.dispatch(workResultActions.unset());
+      Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Home));
+    } else {
+      Ui.showToast(t('taskFinish.toast.failedToSaveWorkLog'), {
+        backgroundColor: Ui.color.red,
+        showsLong: true,
+      });
+    }
   }
 }
 

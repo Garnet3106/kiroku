@@ -179,6 +179,10 @@ export type TranslationDictionaryData = {
     },
     letsRecordYourConcentrationLevel: string,
     save: string,
+    toast: {
+      workLogWasSaved: string,
+      failedToSaveWorkLog: string,
+    },
   },
   appSettings: {
     appSettings: string,

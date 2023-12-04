@@ -35,7 +35,7 @@ export namespace Auth {
 
   export async function sendSignInLinkToEmail(email: string): Promise<void> {
     const actionCodeSettings = {
-      url: 'https://kiroku.garnet.works/auth_failure',
+      url: 'https://kiroku.garnet.works/auth',
       handleCodeInApp: true,
       iOS: {
         bundleId: 'works.garnet.kiroku',

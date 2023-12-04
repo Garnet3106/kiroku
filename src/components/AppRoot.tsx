@@ -75,7 +75,7 @@ export default function AppRoot() {
             showsLong: true,
           });
         });
-    }
+    };
 
     dynamicLinks.getInitialLink().then((link) => {
       if (link) {

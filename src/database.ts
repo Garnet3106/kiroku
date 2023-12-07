@@ -153,7 +153,7 @@ export namespace Database {
     }
 
     if (!env.preventDatabaseAccesses) {
-      await firestore.collection('users').doc(uid).collection('workLogs').add({
+      await firestore.collection('users').doc(uid).collection('tasks').doc(workLog.taskId).collection('workLogs').add({
         task: firestore.doc(`users/${uid}/tasks/${workLog.taskId}`),
         startedAt: workLog.startedAt,
         targetTime: workLog.targetTime,

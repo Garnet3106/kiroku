@@ -86,6 +86,7 @@ const en: TranslationDictionaryData = {
     done: '%{progress} done',
     taskItem: {
       minutesLeft: '%{min} mins left',
+      completed: 'Completed',
       startTask: 'Task Start',
       dialog: {
         doYouReallyTackle: 'Do you really tackle "%{taskTitle}" now?',

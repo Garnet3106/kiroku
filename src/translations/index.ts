@@ -89,6 +89,7 @@ export type TranslationDictionaryData = {
     done: string,
     taskItem: {
       minutesLeft: string,
+      completed: string,
       startTask: string,
       dialog: {
         doYouReallyTackle: string,

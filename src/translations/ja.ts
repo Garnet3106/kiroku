@@ -86,6 +86,7 @@ const ja: TranslationDictionaryData = {
     done: '%{progress} 完了',
     taskItem: {
       minutesLeft: '残り%{min}分',
+      completed: '完了',
       startTask: '作業開始',
       dialog: {
         doYouReallyTackle: '「%{taskTitle}」を開始しますか？',

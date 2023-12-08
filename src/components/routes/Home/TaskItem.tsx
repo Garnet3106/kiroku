@@ -21,8 +21,11 @@ export default function TaskItem(props: TaskItemProps) {
   const taskInProgress = useSelector((state: Redux.RootState) => state.taskInProgress);
   const inProgress = props.task.id === taskInProgress?.id;
   const isOtherTaskInProgress = taskInProgress && !inProgress;
+
   const dailyWorkingStats = useSelector((state: Redux.RootState) => state.dailyWorkingStats);
   const workingStats = dailyWorkingStats ? (dailyWorkingStats.tasks[props.task.id] ?? null) : null;
+  const remainingMinutes = (workingStats?.targetTime ?? 0) - (workingStats?.totalWorkingTime ?? 0);
+
   const [startDialogVisibility, setStartDialogVisibility] = useState(false);
 
   let color = Ui.color.gray;
@@ -56,7 +59,13 @@ export default function TaskItem(props: TaskItemProps) {
             fontWeight: inProgress ? 'bold' : undefined,
           },
         ]}>
-          {t('home.taskItem.minutesLeft', { min: props.task.targetTime - (workingStats?.totalWorkingTime ?? 0) })}
+          {
+            remainingMinutes > 0 ? (
+              t('home.taskItem.minutesLeft', { min: remainingMinutes })
+            ) : (
+              t('home.taskItem.completed')
+            )
+          }
         </Text>
         <Entypo
           name='chevron-right'

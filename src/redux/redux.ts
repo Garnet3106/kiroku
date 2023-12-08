@@ -8,7 +8,7 @@ import { workResultSlice } from './slices/workResult';
 
 namespace Redux {
   const reducer = combineReducers({
-    dailyWorkStats: dailyWorkingStatsSlice.reducer,
+    dailyWorkingStats: dailyWorkingStatsSlice.reducer,
     navigation: navigationSlice.reducer,
     taskInProgress: taskInProgressSlice.reducer,
     tasks: tasksSlice.reducer,

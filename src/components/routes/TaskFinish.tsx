@@ -111,6 +111,7 @@ export default function TaskFinish() {
     };
 
     let succeeded = true;
+    // todo: async with redux
     await Database.createWorkLog(workLog).catch(() => succeeded = false);
 
     setConcentrationLevel(0);

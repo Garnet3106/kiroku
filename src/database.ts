@@ -113,7 +113,6 @@ export namespace Database {
     }
   }
 
-  // fix: accepts unidentified task and returns a new id
   export async function updateTask(task: Task): Promise<void> {
     const uid = Auth.getUid();
 

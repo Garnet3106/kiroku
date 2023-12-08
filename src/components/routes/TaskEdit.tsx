@@ -261,8 +261,6 @@ export default function TaskEdit() {
   async function onPressSaveButton() {
     setButtonsDisabled(true);
 
-    const id = targetTaskId ? targetTaskId : Uuid.v4() as string;
-
     const targetTimeNumber = typeof targetTime === 'number' ? targetTime : customTargetTime;
     let taskIntervalObject: TaskInterval;
 
@@ -285,7 +283,7 @@ export default function TaskEdit() {
 
     // add property specifications
     const task = {
-      id,
+      id: targetTaskId,
       title,
       category,
       targetTime: targetTimeNumber,
@@ -299,7 +297,6 @@ export default function TaskEdit() {
 
     let succeeded = true;
 
-    // fix
     if (targetTask) {
       await Database.updateTask(task).catch(() => succeeded = false);
     } else {

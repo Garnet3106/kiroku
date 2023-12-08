@@ -145,12 +145,14 @@ export namespace Database {
     }
   }
 
-  export async function createWorkLog(workLog: TaskWorkLog): Promise<void> {
+  export async function createWorkLog(workLog: TaskWorkLog, workingStats: DailyWorkingStats | undefined): Promise<DailyWorkingStats> {
     const uid = Auth.getUid();
 
     if (!uid) {
       throw 'auth/user-not-signed-in';
     }
+
+    const newWorkingStats = generateWorkingStats(workLog, workingStats);
 
     if (!env.preventDatabaseAccesses) {
       const taskDate = workLog.startedAt === 0 ? 0 : Math.floor(workLog.startedAt / 3600 / 24);
@@ -165,14 +167,14 @@ export namespace Database {
         concentrationLevel: workLog.concentrationLevel,
       });
 
-      const workingStatsDoc = firestore.collection('users').doc(uid).collection('workingStats').doc(String(taskDate));
-      const workingStats = (await workingStatsDoc.get()).data();
-      await workingStatsDoc.set(generateWorkingStats(workLog, workingStats));
+      await firestore.collection('users').doc(uid).collection('workingStats').doc(String(taskDate)).set(newWorkingStats);
     }
+
+    return newWorkingStats;
   }
 
   // add concentration level avarage
-  function generateWorkingStats(workLog: TaskWorkLog, workingStats: FirebaseFirestoreTypes.DocumentData | undefined): object {
+  function generateWorkingStats(workLog: TaskWorkLog, workingStats: DailyWorkingStats | undefined): DailyWorkingStats {
     if (!workingStats) {
       return {
         tasks: {
@@ -188,7 +190,7 @@ export namespace Database {
       };
     }
 
-    const tasks = workingStats.tasks;
+    const tasks = {...workingStats.tasks};
     const targetTask = tasks[workLog.taskId];
 
     tasks[workLog.taskId] = targetTask ? {

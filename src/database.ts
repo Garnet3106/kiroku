@@ -1,7 +1,7 @@
 import FirebaseFirestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 import { Auth, User } from './auth';
 import env from './env';
-import { DayOfWeek, Seconds, Task, TaskCategory, TaskIntervalType, TaskWorkLog, UnidentifiedTask } from './task';
+import { DailyWorkingStatTasks, DailyWorkingStats, DayOfWeek, Seconds, Task, TaskCategory, TaskIntervalType, TaskWorkLog, UnidentifiedTask } from './task';
 import uuid from 'react-native-uuid';
 
 export namespace Database {
@@ -167,12 +167,12 @@ export namespace Database {
 
       const workingStatsDoc = firestore.collection('users').doc(uid).collection('workingStats').doc(String(taskDate));
       const workingStats = (await workingStatsDoc.get()).data();
-      await workingStatsDoc.set(getWorkingStats(workLog, workingStats));
+      await workingStatsDoc.set(generateWorkingStats(workLog, workingStats));
     }
   }
 
   // add concentration level avarage
-  function getWorkingStats(workLog: TaskWorkLog, workingStats: FirebaseFirestoreTypes.DocumentData | undefined): object {
+  function generateWorkingStats(workLog: TaskWorkLog, workingStats: FirebaseFirestoreTypes.DocumentData | undefined): object {
     if (!workingStats) {
       return {
         tasks: {
@@ -217,5 +217,55 @@ export namespace Database {
       totalWorkingTime,
       totalRecessTime,
     };
+  }
+
+  export async function initializeDailyWorkingStats(tasks: Task[], date: number): Promise<DailyWorkingStats> {
+    const uid = Auth.getUid();
+
+    if (!uid) {
+      throw 'auth/user-not-signed-in';
+    }
+
+    const taskStats: DailyWorkingStatTasks = {};
+    let totalTargetTime = 0;
+
+    tasks.forEach((eachTask) => {
+      taskStats[eachTask.id] = {
+        targetTime: eachTask.targetTime,
+        totalWorkingTime: 0,
+        totalRecessTime: 0,
+      };
+
+      totalTargetTime += eachTask.targetTime;
+    });
+
+    const initial: DailyWorkingStats = {
+      tasks: taskStats,
+      totalTargetTime,
+      totalWorkingTime: 0,
+      totalRecessTime: 0,
+    };
+
+    if (!env.preventDatabaseAccesses) {
+      await firestore.collection('users').doc(uid).collection('workingStats').doc(String(date)).set(initial);
+    }
+
+    return initial;
+  }
+
+  export async function getDailyWorkingStats(date: number): Promise<DailyWorkingStats | null> {
+    const uid = Auth.getUid();
+
+    if (!uid) {
+      throw 'auth/user-not-signed-in';
+    }
+
+    if (!env.preventDatabaseAccesses) {
+      const collection = firestore.collection('users').doc(uid).collection('workingStats');
+      const workingStats = (await collection.doc(String(date)).get()).data();
+      return workingStats as DailyWorkingStats ?? null;
+    } else {
+      return null;
+    }
   }
 }

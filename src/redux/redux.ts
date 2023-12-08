@@ -1,4 +1,5 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { dailyWorkingStatsSlice } from './slices/dailyWorkingStats';
 import { navigationSlice } from './slices/navigation';
 import { taskInProgressSlice } from './slices/taskInProgress';
 import { tasksSlice } from './slices/tasks';
@@ -7,6 +8,7 @@ import { workResultSlice } from './slices/workResult';
 
 namespace Redux {
   const reducer = combineReducers({
+    dailyWorkStats: dailyWorkingStatsSlice.reducer,
     navigation: navigationSlice.reducer,
     taskInProgress: taskInProgressSlice.reducer,
     tasks: tasksSlice.reducer,

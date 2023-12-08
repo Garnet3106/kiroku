@@ -122,3 +122,18 @@ export type TaskWorkLog = {
   points: number,
   concentrationLevel?: number,
 };
+
+export type DailyWorkingStats = {
+  tasks: DailyWorkingStatTasks,
+  totalTargetTime: number,
+  totalWorkingTime: number,
+  totalRecessTime: number,
+};
+
+export type DailyWorkingStatTasks = {
+  [key: string]: {
+    targetTime: number,
+    totalWorkingTime: number,
+    totalRecessTime: number,
+  },
+};

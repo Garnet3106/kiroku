@@ -19,6 +19,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { Database } from '../database';
 import { userActions } from '../redux/slices/user';
 import { tasksActions } from '../redux/slices/tasks';
+import { dailyWorkingStatsActions } from '../redux/slices/dailyWorkingStats';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -42,6 +43,10 @@ export default function AppRoot() {
       if (tasks) {
         Redux.store.dispatch(tasksActions.set(tasks));
       }
+
+      const date = Math.floor(Date.now() / 1000 / 3600 / 24);
+      const dailyWorkingStats = await Database.getDailyWorkingStats(date) ?? await Database.initializeDailyWorkingStats(tasks ?? [], date);
+      Redux.store.dispatch(dailyWorkingStatsActions.set(dailyWorkingStats));
 
       SplashScreen.hideAsync();
     });

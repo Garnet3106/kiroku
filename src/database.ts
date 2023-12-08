@@ -1,4 +1,4 @@
-import FirebaseFirestore from '@react-native-firebase/firestore';
+import FirebaseFirestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 import { Auth, User } from './auth';
 import env from './env';
 import { DayOfWeek, Seconds, Task, TaskCategory, TaskIntervalType, TaskWorkLog, UnidentifiedTask } from './task';
@@ -113,6 +113,7 @@ export namespace Database {
     }
   }
 
+  // fix: accepts unidentified task and returns a new id
   export async function updateTask(task: Task): Promise<void> {
     const uid = Auth.getUid();
 
@@ -153,6 +154,8 @@ export namespace Database {
     }
 
     if (!env.preventDatabaseAccesses) {
+      const taskDate = workLog.startedAt === 0 ? 0 : Math.floor(workLog.startedAt / 3600 / 24);
+
       await firestore.collection('users').doc(uid).collection('tasks').doc(workLog.taskId).collection('workLogs').add({
         task: firestore.doc(`users/${uid}/tasks/${workLog.taskId}`),
         startedAt: workLog.startedAt,
@@ -162,6 +165,58 @@ export namespace Database {
         points: workLog.points,
         concentrationLevel: workLog.concentrationLevel,
       });
+
+      const workingStatsDoc = firestore.collection('users').doc(uid).collection('workingStats').doc(String(taskDate));
+      const workingStats = (await workingStatsDoc.get()).data();
+      await workingStatsDoc.set(getWorkingStats(workLog, workingStats));
     }
+  }
+
+  // add concentration level avarage
+  function getWorkingStats(workLog: TaskWorkLog, workingStats: FirebaseFirestoreTypes.DocumentData | undefined): object {
+    if (!workingStats) {
+      return {
+        tasks: {
+          [workLog.taskId]: {
+            targetTime: workLog.targetTime,
+            totalWorkingTime: workLog.workingTime,
+            totalRecessTime: workLog.recessTime,
+          },
+        },
+        totalTargetTime: workLog.targetTime,
+        totalWorkingTime: workLog.workingTime,
+        totalRecessTime: workLog.recessTime,
+      };
+    }
+
+    const tasks = workingStats.tasks;
+    const targetTask = tasks[workLog.taskId];
+
+    tasks[workLog.taskId] = targetTask ? {
+      targetTime: workLog.targetTime,
+      totalWorkingTime: targetTask.totalWorkingTime + workLog.workingTime,
+      totalRecessTime: targetTask.totalRecessTime + workLog.recessTime,
+    } : {
+      targetTime: workLog.targetTime,
+      totalWorkingTime: workLog.workingTime,
+      totalRecessTime: workLog.recessTime,
+    };
+
+    let totalTargetTime = 0;
+    let totalWorkingTime = 0;
+    let totalRecessTime = 0;
+
+    Object.values(tasks).forEach((eachTask: any) => {
+      totalTargetTime += eachTask.targetTime;
+      totalWorkingTime += eachTask.totalWorkingTime;
+      totalRecessTime += eachTask.totalRecessTime;
+    });
+
+    return {
+      tasks,
+      totalTargetTime,
+      totalWorkingTime,
+      totalRecessTime,
+    };
   }
 }

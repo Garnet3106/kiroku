@@ -111,7 +111,7 @@ export default function TaskFinish() {
     };
 
     let succeeded = true;
-    await Database.createWorkLog(workLog).catch((e) => {console.log(e);succeeded = false});
+    await Database.createWorkLog(workLog).catch(() => succeeded = false);
 
     setConcentrationLevel(0);
 

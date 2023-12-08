@@ -299,6 +299,7 @@ export default function TaskEdit() {
 
     let succeeded = true;
 
+    // fix
     if (targetTask) {
       await Database.updateTask(task).catch(() => succeeded = false);
     } else {

@@ -3,6 +3,7 @@ import { I18n, Scope } from 'i18n-js';
 import en from './en';
 import ja from './ja';
 import { DayOfWeek, TaskCategory, TaskSortStyle } from '../task';
+import env from '../env';
 
 export enum Language {
   English = 'en',
@@ -212,7 +213,7 @@ export type TranslationDictionaryData = {
 export const translations: TranslationDictionary = { en, ja };
 
 const i18n = new I18n(translations);
-i18n.locale = getLocales()[0].languageCode;
+i18n.locale = env.languageCode ?? getLocales()[0].languageCode;
 
 function translate(key: Scope, options?: object): string {
   return i18n.t(key, options);

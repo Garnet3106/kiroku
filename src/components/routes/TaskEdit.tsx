@@ -16,7 +16,6 @@ import { StyleSheet, Text, View } from 'react-native';
 import { t } from '../../translations';
 import { useSelector } from 'react-redux';
 import { tasksActions } from '../../redux/slices/tasks';
-import Uuid from 'react-native-uuid';
 import ButtonRow from '../input/ButtonRow';
 import { Database } from '../../database';
 

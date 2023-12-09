@@ -2,7 +2,6 @@ import FirebaseFirestore from '@react-native-firebase/firestore';
 import { Auth, User } from './auth';
 import env from './env';
 import { DailyWorkingStats, DayOfWeek, Seconds, Task, TaskCategory, TaskIntervalType, TaskWorkLog, UnidentifiedTask } from './task';
-import uuid from 'react-native-uuid';
 
 export namespace Database {
   const firestore = FirebaseFirestore();
@@ -40,7 +39,7 @@ export namespace Database {
     if (env.preventDatabaseAccesses) {
       return [
         {
-          id: uuid.v4() as string,
+          id: '0',
           title: 'FE勉強',
           category: TaskCategory.Study,
           targetTime: 60,
@@ -53,7 +52,7 @@ export namespace Database {
           },
         },
         {
-          id: uuid.v4() as string,
+          id: '1',
           title: '受験勉強',
           category: TaskCategory.Study,
           targetTime: 100,

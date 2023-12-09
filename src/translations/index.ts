@@ -18,6 +18,7 @@ export type TranslationDictionaryData = {
   },
   task: {
     categories: { [category in TaskCategory]: string },
+    dayOfWeek: { [day in DayOfWeek]: string },
     sortStyles: { [sortStyle in TaskSortStyle]: string },
   },
   menuBar: {
@@ -123,7 +124,6 @@ export type TranslationDictionaryData = {
     day: string,
     week: string,
     every: string,
-    dayOfWeek: { [day in DayOfWeek]: string },
     delete: string,
     save: string,
     dialog: {

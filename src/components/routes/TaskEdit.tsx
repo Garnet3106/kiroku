@@ -66,7 +66,7 @@ export default function TaskEdit() {
 
   const intervalDayOfWeekOptions = DayOfWeek.enumerate().map((_value, index) => ({
     uniqueId: index,
-    text: t(`taskEdit.dayOfWeek.${index}`),
+    text: t(`task.dayOfWeek.${index}`),
   }));
 
   const [category, setCategory] = useState(TaskCategory.Uncategorized);

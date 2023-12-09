@@ -12,6 +12,15 @@ const en: TranslationDictionaryData = {
       [TaskCategory.Reading]: 'Reading',
       [TaskCategory.Study]: 'Study',
     },
+    dayOfWeek: {
+      [DayOfWeek.Monday]: 'Mon.',
+      [DayOfWeek.Tuesday]: 'Tue.',
+      [DayOfWeek.Wednesday]: 'Wed.',
+      [DayOfWeek.Thursday]: 'Thu.',
+      [DayOfWeek.Friday]: 'Fri.',
+      [DayOfWeek.Saturday]: 'Sat.',
+      [DayOfWeek.Sunday]: 'Sun.',
+    },
     sortStyles: {
       [TaskSortStyle.Name]: 'Sort by name',
       [TaskSortStyle.WorkingDay]: 'Sort by working date',
@@ -120,15 +129,6 @@ const en: TranslationDictionaryData = {
     day: 'Day',
     week: 'Week',
     every: 'Every %{value}',
-    dayOfWeek: {
-      [DayOfWeek.Monday]: 'Mon.',
-      [DayOfWeek.Tuesday]: 'Tue.',
-      [DayOfWeek.Wednesday]: 'Wed.',
-      [DayOfWeek.Thursday]: 'Thu.',
-      [DayOfWeek.Friday]: 'Fri.',
-      [DayOfWeek.Saturday]: 'Sat.',
-      [DayOfWeek.Sunday]: 'Sun.',
-    },
     delete: 'Delete',
     save: 'Save',
     dialog: {

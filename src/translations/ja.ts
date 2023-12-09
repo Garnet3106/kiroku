@@ -12,6 +12,15 @@ const ja: TranslationDictionaryData = {
       [TaskCategory.Reading]: '読書',
       [TaskCategory.Study]: '勉強',
     },
+    dayOfWeek: {
+      [DayOfWeek.Monday]: '月',
+      [DayOfWeek.Tuesday]: '火',
+      [DayOfWeek.Wednesday]: '水',
+      [DayOfWeek.Thursday]: '木',
+      [DayOfWeek.Friday]: '金',
+      [DayOfWeek.Saturday]: '土',
+      [DayOfWeek.Sunday]: '日',
+    },
     sortStyles: {
       [TaskSortStyle.Name]: '名前順',
       [TaskSortStyle.WorkingDay]: '作業日が近い順',
@@ -120,15 +129,6 @@ const ja: TranslationDictionaryData = {
     day: '日おき',
     week: '週おき',
     every: '%{value}',
-    dayOfWeek: {
-      [DayOfWeek.Monday]: '月曜日',
-      [DayOfWeek.Tuesday]: '火曜日',
-      [DayOfWeek.Wednesday]: '水曜日',
-      [DayOfWeek.Thursday]: '木曜日',
-      [DayOfWeek.Friday]: '金曜日',
-      [DayOfWeek.Saturday]: '土曜日',
-      [DayOfWeek.Sunday]: '日曜日',
-    },
     delete: '削除',
     save: '保存',
     dialog: {

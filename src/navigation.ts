@@ -18,7 +18,14 @@ export enum NavigationRoutePath {
 
 export namespace NavigationRoutePath {
   export function getMenuBarDisplayed(path: NavigationRoutePath): boolean {
-    return path !== NavigationRoutePath.Initialization;
+    switch (path) {
+      case NavigationRoutePath.Initialization:
+      case NavigationRoutePath.TaskFinish:
+        return false;
+
+      default:
+        return true;
+    }
   }
 }
 

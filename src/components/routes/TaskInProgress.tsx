@@ -232,7 +232,7 @@ export default function TaskInProgress() {
     Redux.store.dispatch(taskInProgressActions.finish());
     Redux.store.dispatch(result ? workResultActions.set(result) : workResultActions.unset());
     Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.TaskFinish));
-    Ui.showToast(t('taskInProgress.toast.finishedWorking'));
+    Ui.showToast(t('taskInProgress.toast.finishedWorking'), { avoidMenuBar: false });
   }
 }
 

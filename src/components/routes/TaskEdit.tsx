@@ -3,7 +3,7 @@ import { NavigationRoutePath } from '../../navigation';
 import RouteContainer from '../RouteContainer';
 import Dropdown from '../input/Dropdown';
 import Named from '../input/Named';
-import { DayOfWeek, TaskCategory, TaskInterval, TaskIntervalDaysOfWeek, TaskIntervalType, TaskTargetTime } from '../../task';
+import { DailyWorkingStats, DayOfWeek, TaskCategory, TaskInterval, TaskIntervalDaysOfWeek, TaskIntervalType, TaskTargetTime } from '../../task';
 import ContentArea from '../ContentArea';
 import TextInput from '../input/TextInput';
 import RectangleButton from '../input/RectangleButton';
@@ -242,7 +242,10 @@ export default function TaskEdit() {
 
     let succeeded = true;
 
-    await Database.deleteTask(targetTaskId).catch(() => succeeded = false);
+    const tasks = Redux.store.getState().tasks;
+    const workingStats = Redux.store.getState().dailyWorkingStats ?? DailyWorkingStats.getInitial(tasks);
+    const newWorkingStats = DailyWorkingStats.removeTask(workingStats, targetTaskId);
+    await Database.deleteTask(targetTaskId, newWorkingStats).catch(() => succeeded = false);
 
     if (succeeded) {
       targetTaskId && Redux.store.dispatch(tasksActions.delete(targetTaskId));
@@ -281,9 +284,11 @@ export default function TaskEdit() {
         break;
     }
 
+    const newTaskId = Database.generateTaskId();
+
     // add property specifications
-    const task = {
-      id: targetTaskId,
+    const newTask = {
+      id: targetTaskId ?? newTaskId,
       title,
       category,
       targetTime: targetTimeNumber,
@@ -297,14 +302,18 @@ export default function TaskEdit() {
 
     let succeeded = true;
 
+    const tasks = Redux.store.getState().tasks;
+    const workingStats = Redux.store.getState().dailyWorkingStats ?? DailyWorkingStats.getInitial(tasks);
+    const newWorkingStats = DailyWorkingStats.addOrUpdateTask(workingStats, newTask);
+
     if (targetTask) {
-      await Database.updateTask(task).catch(() => succeeded = false);
+      await Database.updateTask(newTask, newWorkingStats).catch(() => succeeded = false);
     } else {
-      await Database.createTask(task).catch(() => succeeded = false);
+      await Database.createTask(newTaskId, newTask, newWorkingStats).catch(() => succeeded = false);
     }
 
     if (succeeded) {
-      const action = targetTask ? tasksActions.update(task) : tasksActions.create(task);
+      const action = targetTask ? tasksActions.update(newTask) : tasksActions.create(newTask);
       Redux.store.dispatch(action);
       Ui.showToast(t('taskEdit.toast.taskWasSaved'));
       Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Management));

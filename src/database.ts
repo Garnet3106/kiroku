@@ -1,7 +1,7 @@
-import FirebaseFirestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
+import FirebaseFirestore from '@react-native-firebase/firestore';
 import { Auth, User } from './auth';
 import env from './env';
-import { DailyWorkingStatTasks, DailyWorkingStats, DayOfWeek, Seconds, Task, TaskCategory, TaskIntervalType, TaskWorkLog, UnidentifiedTask } from './task';
+import { DailyWorkingStats, DayOfWeek, Seconds, Task, TaskCategory, TaskIntervalType, TaskWorkLog, UnidentifiedTask } from './task';
 import uuid from 'react-native-uuid';
 
 export namespace Database {
@@ -24,6 +24,10 @@ export namespace Database {
       const data = (await firestore.collection('users').doc(uid).get()).data();
       return data === undefined ? null : { nickname: data.nickname };
     }
+  }
+
+  export function generateTaskId(): string {
+    return firestore.collection('a').doc().id;
   }
 
   export async function getTasks(): Promise<Task[] | null> {
@@ -93,7 +97,7 @@ export namespace Database {
     }
   }
 
-  export async function createTask(task: UnidentifiedTask): Promise<void> {
+  export async function createTask(taskId: string, task: UnidentifiedTask, workingStats: DailyWorkingStats): Promise<void> {
     const uid = Auth.getUid();
 
     if (!uid) {
@@ -101,7 +105,7 @@ export namespace Database {
     }
 
     if (!env.preventDatabaseAccesses) {
-      await firestore.collection('users').doc(uid).collection('tasks').add({
+      await firestore.collection('users').doc(uid).collection('tasks').doc(taskId).set({
         title: task.title,
         category: task.category,
         targetTime: task.targetTime,
@@ -111,9 +115,11 @@ export namespace Database {
         recessInterval: task.recessInterval,
       });
     }
+
+    await setTodaysWorkingStats(workingStats);
   }
 
-  export async function updateTask(task: Task): Promise<void> {
+  export async function updateTask(task: Task, workingStats: DailyWorkingStats): Promise<void> {
     const uid = Auth.getUid();
 
     if (!uid) {
@@ -131,9 +137,11 @@ export namespace Database {
         recessInterval: task.recessInterval,
       });
     }
+
+    await setTodaysWorkingStats(workingStats);
   }
 
-  export async function deleteTask(taskId: string): Promise<void> {
+  export async function deleteTask(taskId: string, workingStats: DailyWorkingStats): Promise<void> {
     const uid = Auth.getUid();
 
     if (!uid) {
@@ -143,20 +151,18 @@ export namespace Database {
     if (!env.preventDatabaseAccesses) {
       await firestore.collection('users').doc(uid).collection('tasks').doc(taskId).delete();
     }
+
+    await setTodaysWorkingStats(workingStats);
   }
 
-  export async function createWorkLog(workLog: TaskWorkLog, workingStats: DailyWorkingStats | undefined): Promise<DailyWorkingStats> {
+  export async function createWorkLog(workLog: TaskWorkLog, workingStats: DailyWorkingStats): Promise<void> {
     const uid = Auth.getUid();
 
     if (!uid) {
       throw 'auth/user-not-signed-in';
     }
 
-    const newWorkingStats = generateWorkingStats(workLog, workingStats);
-
     if (!env.preventDatabaseAccesses) {
-      const taskDate = workLog.startedAt === 0 ? 0 : Math.floor(workLog.startedAt / 3600 / 24);
-
       await firestore.collection('users').doc(uid).collection('tasks').doc(workLog.taskId).collection('workLogs').add({
         task: firestore.doc(`users/${uid}/tasks/${workLog.taskId}`),
         startedAt: workLog.startedAt,
@@ -166,93 +172,23 @@ export namespace Database {
         points: workLog.points,
         concentrationLevel: workLog.concentrationLevel,
       });
-
-      await firestore.collection('users').doc(uid).collection('workingStats').doc(String(taskDate)).set(newWorkingStats);
     }
 
-    return newWorkingStats;
+    await setTodaysWorkingStats(workingStats);
   }
 
-  // add concentration level avarage
-  function generateWorkingStats(workLog: TaskWorkLog, workingStats: DailyWorkingStats | undefined): DailyWorkingStats {
-    if (!workingStats) {
-      return {
-        tasks: {
-          [workLog.taskId]: {
-            targetTime: workLog.targetTime,
-            totalWorkingTime: workLog.workingTime,
-            totalRecessTime: workLog.recessTime,
-          },
-        },
-        totalTargetTime: workLog.targetTime,
-        totalWorkingTime: workLog.workingTime,
-        totalRecessTime: workLog.recessTime,
-      };
-    }
-
-    const tasks = {...workingStats.tasks};
-    const targetTask = tasks[workLog.taskId];
-
-    tasks[workLog.taskId] = targetTask ? {
-      targetTime: workLog.targetTime,
-      totalWorkingTime: targetTask.totalWorkingTime + workLog.workingTime,
-      totalRecessTime: targetTask.totalRecessTime + workLog.recessTime,
-    } : {
-      targetTime: workLog.targetTime,
-      totalWorkingTime: workLog.workingTime,
-      totalRecessTime: workLog.recessTime,
-    };
-
-    let totalTargetTime = 0;
-    let totalWorkingTime = 0;
-    let totalRecessTime = 0;
-
-    Object.values(tasks).forEach((eachTask: any) => {
-      totalTargetTime += eachTask.targetTime;
-      totalWorkingTime += eachTask.totalWorkingTime;
-      totalRecessTime += eachTask.totalRecessTime;
-    });
-
-    return {
-      tasks,
-      totalTargetTime,
-      totalWorkingTime,
-      totalRecessTime,
-    };
-  }
-
-  export async function initializeDailyWorkingStats(tasks: Task[], date: number): Promise<DailyWorkingStats> {
+  async function setTodaysWorkingStats(workingStats: DailyWorkingStats): Promise<void> {
     const uid = Auth.getUid();
 
     if (!uid) {
       throw 'auth/user-not-signed-in';
     }
 
-    const taskStats: DailyWorkingStatTasks = {};
-    let totalTargetTime = 0;
-
-    tasks.forEach((eachTask) => {
-      taskStats[eachTask.id] = {
-        targetTime: eachTask.targetTime,
-        totalWorkingTime: 0,
-        totalRecessTime: 0,
-      };
-
-      totalTargetTime += eachTask.targetTime;
-    });
-
-    const initial: DailyWorkingStats = {
-      tasks: taskStats,
-      totalTargetTime,
-      totalWorkingTime: 0,
-      totalRecessTime: 0,
-    };
-
     if (!env.preventDatabaseAccesses) {
-      await firestore.collection('users').doc(uid).collection('workingStats').doc(String(date)).set(initial);
+      // comonnize date
+      const date = Math.floor(Date.now() / 1000 / 3600 / 24);
+      await firestore.collection('users').doc(uid).collection('workingStats').doc(String(date)).set(workingStats);
     }
-
-    return initial;
   }
 
   export async function getDailyWorkingStats(date: number): Promise<DailyWorkingStats | null> {

@@ -20,6 +20,7 @@ import { Database } from '../database';
 import { userActions } from '../redux/slices/user';
 import { tasksActions } from '../redux/slices/tasks';
 import { dailyWorkingStatsActions } from '../redux/slices/dailyWorkingStats';
+import { DailyWorkingStats } from '../task';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -45,7 +46,7 @@ export default function AppRoot() {
       }
 
       const date = Math.floor(Date.now() / 1000 / 3600 / 24);
-      const dailyWorkingStats = await Database.getDailyWorkingStats(date) ?? await Database.initializeDailyWorkingStats(tasks ?? [], date);
+      const dailyWorkingStats = await Database.getDailyWorkingStats(date) ?? DailyWorkingStats.getInitial(tasks ?? []);
       Redux.store.dispatch(dailyWorkingStatsActions.set(dailyWorkingStats));
 
       SplashScreen.hideAsync();

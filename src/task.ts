@@ -123,12 +123,88 @@ export type TaskWorkLog = {
   concentrationLevel?: number,
 };
 
+// add concentration level avarage
 export type DailyWorkingStats = {
   tasks: DailyWorkingStatTasks,
   totalTargetTime: number,
   totalWorkingTime: number,
   totalRecessTime: number,
 };
+
+export namespace DailyWorkingStats {
+  export function getInitial(tasks: Task[]): DailyWorkingStats {
+    const workingStatsOfTasks: DailyWorkingStatTasks = {};
+
+    tasks.forEach((eachTask) => {
+      workingStatsOfTasks[eachTask.id] = {
+        targetTime: eachTask.targetTime,
+        totalWorkingTime: 0,
+        totalRecessTime: 0,
+      };
+    });
+
+    return calculate(workingStatsOfTasks);
+  }
+
+  export function addOrUpdateTask(workingStats: DailyWorkingStats, task: Task): DailyWorkingStats {
+    const tasks = {...workingStats.tasks};
+    const targetTask = tasks[task.id];
+
+    tasks[task.id] = targetTask ? {
+      targetTime: task.targetTime,
+      totalWorkingTime: targetTask.totalWorkingTime,
+      totalRecessTime: targetTask.totalRecessTime,
+    } : {
+      targetTime: task.targetTime,
+      totalWorkingTime: 0,
+      totalRecessTime: 0,
+    };
+
+    return calculate(tasks);
+  }
+
+  export function removeTask(workingStats: DailyWorkingStats, taskId: string): DailyWorkingStats {
+    const tasks = {...workingStats.tasks};
+    delete tasks[taskId];
+    return calculate(tasks);
+  }
+
+  export function addWorkLog(workingStats: DailyWorkingStats, workLog: TaskWorkLog): DailyWorkingStats {
+    const tasks = {...workingStats.tasks};
+    const targetTask = tasks[workLog.taskId];
+
+    tasks[workLog.taskId] = targetTask ? {
+      targetTime: workLog.targetTime,
+      totalWorkingTime: targetTask.totalWorkingTime + workLog.workingTime,
+      totalRecessTime: targetTask.totalRecessTime + workLog.recessTime,
+    } : {
+      targetTime: workLog.targetTime,
+      totalWorkingTime: workLog.workingTime,
+      totalRecessTime: workLog.recessTime,
+    };
+
+    return calculate(tasks);
+  }
+
+  export function calculate(tasks: DailyWorkingStatTasks): DailyWorkingStats {
+    let totalTargetTime = 0;
+    let totalWorkingTime = 0;
+    let totalRecessTime = 0;
+
+    Object.values(tasks).forEach((eachTask: any) => {
+      totalTargetTime += eachTask.targetTime;
+      totalWorkingTime += eachTask.totalWorkingTime;
+      totalRecessTime += eachTask.totalRecessTime;
+    });
+
+    return {
+      tasks,
+      totalTargetTime,
+      totalWorkingTime,
+      totalRecessTime,
+    };
+  }
+}
 
 export type DailyWorkingStatTasks = {
   [key: string]: {

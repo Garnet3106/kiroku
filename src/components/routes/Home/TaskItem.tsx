@@ -23,6 +23,7 @@ export default function TaskItem(props: TaskItemProps) {
   const isOtherTaskInProgress = taskInProgress && !inProgress;
 
   const dailyWorkingStats = useSelector((state: Redux.RootState) => state.dailyWorkingStats);
+  // comonnize as a function
   const workingStats = dailyWorkingStats ? (dailyWorkingStats.tasks[props.task.id] ?? null) : null;
   const remainingMinutes = (workingStats?.targetTime ?? 0) - (workingStats?.totalWorkingTime ?? 0);
 

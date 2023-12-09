@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux';
 import { workResultActions } from '../../redux/slices/workResult';
 import { Database } from '../../database';
 import { dailyWorkingStatsActions } from '../../redux/slices/dailyWorkingStats';
+import { DailyWorkingStats } from '../../task';
 
 export default function TaskFinish() {
   const workResult = useSelector((state: Redux.RootState) => state.workResult);
@@ -112,15 +113,18 @@ export default function TaskFinish() {
     };
 
     let succeeded = true;
-    const workingStats = Redux.store.getState().dailyWorkingStats;
-    const newDailyWorkingStats = await Database.createWorkLog(workLog, workingStats ?? undefined).catch(() => succeeded = false);
+
+    const tasks = Redux.store.getState().tasks;
+    const workingStats = Redux.store.getState().dailyWorkingStats ?? DailyWorkingStats.getInitial(tasks);
+    const newWorkingStats = DailyWorkingStats.addWorkLog(workingStats, workLog);
+    await Database.createWorkLog(workLog, newWorkingStats).catch(() => succeeded = false);
 
     setConcentrationLevel(0);
 
-    if (succeeded && typeof newDailyWorkingStats !== 'boolean') {
+    if (succeeded) {
       Ui.showToast(t('taskFinish.toast.workLogWasSaved'));
       Redux.store.dispatch(workResultActions.unset());
-      Redux.store.dispatch(dailyWorkingStatsActions.set(newDailyWorkingStats));
+      Redux.store.dispatch(dailyWorkingStatsActions.set(newWorkingStats));
       Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Home));
     } else {
       Ui.showToast(t('taskFinish.toast.failedToSaveWorkLog'), {

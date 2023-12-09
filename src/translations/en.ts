@@ -114,6 +114,13 @@ const en: TranslationDictionaryData = {
   taskMgmt: {
     taskMgmt: 'Task Management',
     newTask: 'New Task',
+    taskItem: {
+      mins: '%{min}m',
+      everyWeeksOn: 'Every %{interval}w on %{daysOfWeek}',
+      daily: 'Daily',
+      everyDays: 'Every %{interval}d',
+      remindRecess: 'Remind recess',
+    },
   },
   taskEdit: {
     taskReg: 'Task Registration',

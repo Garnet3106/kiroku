@@ -5,7 +5,8 @@ import ContentArea from '../../ContentArea';
 import Redux from '../../../redux/redux';
 import { navigationActions } from '../../../redux/slices/navigation';
 import { NavigationRoutePath } from '../../../navigation';
-import { Task } from '../../../task';
+import { DayOfWeek, Task, TaskIntervalType } from '../../../task';
+import { t } from '../../../translations';
 
 export type TaskItemProps = Ui.LayoutProps & {
   task: Task,
@@ -13,7 +14,7 @@ export type TaskItemProps = Ui.LayoutProps & {
 };
 
 export default function TaskItem(props: TaskItemProps) {
-  const descriptions = ['毎週火曜日', '120分', '休憩あり'];
+  const descriptions = getDescription();
 
   return (
     <ContentArea
@@ -38,6 +39,33 @@ export default function TaskItem(props: TaskItemProps) {
       <Entypo name='chevron-right' color={Ui.color.gray} size={30} />
     </ContentArea>
   );
+
+  function getDescription(): string[] {
+    const descriptions = [];
+    descriptions.push(t('taskMgmt.taskItem.mins', { min: props.task.targetTime }));
+
+    const interval = props.task.workingDate.interval.interval;
+
+    switch (props.task.workingDate.interval.type) {
+      case TaskIntervalType.Day:
+        descriptions.push(interval === 1 ? t('taskMgmt.taskItem.daily') : t('taskMgmt.taskItem.everyDays', { interval }));
+        break;
+
+      case TaskIntervalType.Week: {
+        const daysOfWeek = props.task.workingDate.interval.days;
+        const translatedDaysOfWeek = DayOfWeek.enumerate().filter((v) => daysOfWeek[v]).map((v) => t(`task.dayOfWeek.${v}`)).join('');
+
+        if (interval === 1) {
+          descriptions.push(translatedDaysOfWeek);
+        } else {
+          descriptions.push(t('taskMgmt.taskItem.everyWeeksOn', { interval, daysOfWeek: translatedDaysOfWeek }));
+        }
+      } break;
+    }
+
+    props.task.recessInterval !== undefined && descriptions.push(t('taskMgmt.taskItem.remindRecess'));
+    return descriptions;
+  }
 
   function onPress() {
     Redux.store.dispatch(navigationActions.jumpToWithParams({

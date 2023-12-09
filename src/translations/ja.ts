@@ -114,6 +114,13 @@ const ja: TranslationDictionaryData = {
   taskMgmt: {
     taskMgmt: '作業管理',
     newTask: '新規作業',
+    taskItem: {
+      mins: '%{min}分',
+      everyWeeksOn: '%{interval}週おき%{daysOfWeek}',
+      daily: '毎日',
+      everyDays: '%{interval}日おき',
+      remindRecess: '休憩通知あり',
+    },
   },
   taskEdit: {
     taskReg: '作業登録',

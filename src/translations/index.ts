@@ -109,6 +109,13 @@ export type TranslationDictionaryData = {
   taskMgmt: {
     taskMgmt: string,
     newTask: string,
+    taskItem: {
+      mins: string,
+      everyWeeksOn: string,
+      daily: string,
+      everyDays: string,
+      remindRecess: string,
+    },
   },
   taskEdit: {
     taskReg: string,

@@ -13,6 +13,7 @@ import { taskInProgressActions } from '../../redux/slices/taskInProgress';
 import { useSelector } from 'react-redux';
 import { Seconds } from '../../task';
 import { workResultActions } from '../../redux/slices/workResult';
+import { Storage, StorageKey } from '../../storage';
 
 const progressBarHeight = 13;
 
@@ -26,10 +27,10 @@ export default function TaskInProgress() {
   const [finishDialogVisibility, setFinishDialogVisibility] = useState(false);
 
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
-  const [timestampLogs, setTimestampLogs] = useState<Seconds[]>([]);
 
   useEffect(() => {
     if (taskInProgress) {
+      Storage.setItem(StorageKey.TaskInProgress, JSON.stringify(taskInProgress));
       const interval = setInterval(() => setElapsedSeconds(Seconds.now() - taskInProgress.startedAt), 1000);
       return () => clearInterval(interval);
     }
@@ -172,7 +173,7 @@ export default function TaskInProgress() {
       return 0;
     }
 
-    const timestamps = [taskInProgress.startedAt, ...timestampLogs, Seconds.now()];
+    const timestamps = [taskInProgress.startedAt, ...taskInProgress.timestampLogs, Seconds.now()];
     let total = 0;
     let start = 0;
 
@@ -188,10 +189,10 @@ export default function TaskInProgress() {
   }
 
   function calculateLatestRecessSeconds(): Seconds {
-    if (!taskInProgress || !taskInProgress.stopped || timestampLogs.length === 0) {
+    if (!taskInProgress || !taskInProgress.stopped || taskInProgress.timestampLogs.length === 0) {
       return 0;
     } else {
-      return Seconds.now() - timestampLogs[timestampLogs.length - 1];
+      return Seconds.now() - taskInProgress.timestampLogs[taskInProgress.timestampLogs.length - 1];
     }
   }
 
@@ -208,14 +209,12 @@ export default function TaskInProgress() {
   }
 
   function stop() {
-    setTimestampLogs((state) => [...state, Seconds.now()]);
-    Redux.store.dispatch(taskInProgressActions.stop());
+    Redux.store.dispatch(taskInProgressActions.stop(Seconds.now()));
     Ui.showToast(t('taskInProgress.toast.stoppedWorking'));
   }
 
   function resume() {
-    setTimestampLogs((state) => [...state, Seconds.now()]);
-    Redux.store.dispatch(taskInProgressActions.resume());
+    Redux.store.dispatch(taskInProgressActions.resume(Seconds.now()));
     Ui.showToast(t('taskInProgress.toast.resumedWorking'));
   }
 
@@ -228,8 +227,8 @@ export default function TaskInProgress() {
     } : null;
 
     setElapsedSeconds(0);
-    setTimestampLogs([]);
     Redux.store.dispatch(taskInProgressActions.finish());
+    Storage.removeItem(StorageKey.TaskInProgress);
     Redux.store.dispatch(result ? workResultActions.set(result) : workResultActions.unset());
     Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.TaskFinish));
     Ui.showToast(t('taskInProgress.toast.finishedWorking'), { avoidMenuBar: false });

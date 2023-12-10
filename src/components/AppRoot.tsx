@@ -23,6 +23,8 @@ import { dailyWorkingStatsActions } from '../redux/slices/dailyWorkingStats';
 import { DailyWorkingStats } from '../task';
 import env from '../env';
 import { useSelector } from 'react-redux';
+import { Storage, StorageKey } from '../storage';
+import { taskInProgressActions } from '../redux/slices/taskInProgress';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -72,6 +74,14 @@ export default function AppRoot() {
     setLanguage(newLanguage);
     setLanguageForRerendering(newLanguage);
   }, [language]);
+
+  useEffect(() => {
+    Storage.getItem(StorageKey.TaskInProgress).then((taskInProgress) => {
+      if (taskInProgress) {
+        Redux.store.dispatch(taskInProgressActions.set(JSON.parse(taskInProgress)));
+      }
+    });
+  }, []);
 
   useEffect(() => {
     const dynamicLinks = FirebaseDynamicLinks();

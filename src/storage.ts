@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export enum StorageKey {
   EmailForLinkAuth = 'email-for-link-auth',
+  TaskInProgress = 'task-in-progress',
 }
 
 export namespace Storage {

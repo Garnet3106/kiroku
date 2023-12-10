@@ -9,7 +9,7 @@ import TaskInProgress from './routes/TaskInProgress';
 import TaskFinish from './routes/TaskFinish';
 import FirebaseDynamicLinks from '@react-native-firebase/dynamic-links';
 import { useEffect, useState } from 'react';
-import { Auth } from '../auth';
+import { Auth, User } from '../auth';
 import Redux from '../redux/redux';
 import { navigationActions } from '../redux/slices/navigation';
 import { InitializationPageIndex, NavigationRoutePath } from '../navigation';
@@ -29,27 +29,34 @@ SplashScreen.preventAutoHideAsync();
 export default function AppRoot() {
   useEffect(() => {
     const unsubscribe = Auth.onAuthStateChanged(async () => {
+      const user = await Database.getUser();
+
       if (Auth.isSignedIn()) {
-        Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Home));
+        if (user) {
+          Redux.store.dispatch(userActions.set(user));
+
+          const tasks = await Database.getTasks();
+
+          if (tasks) {
+            Redux.store.dispatch(tasksActions.set(tasks));
+          }
+
+          const date = Math.floor(Date.now() / 1000 / 3600 / 24);
+          const dailyWorkingStats = await Database.getDailyWorkingStats(date) ?? DailyWorkingStats.getInitial(tasks ?? []);
+          Redux.store.dispatch(dailyWorkingStatsActions.set(dailyWorkingStats));
+          Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Home));
+        } else {
+          Ui.showToast('INTERNAL USER ERROR', {
+            backgroundColor: Ui.color.red,
+            showsLong: true,
+            avoidMenuBar: false,
+          });
+
+          Redux.store.dispatch(navigationActions.jumpToInitialization(InitializationPageIndex.Top));
+        }
       } else {
         Redux.store.dispatch(navigationActions.jumpToInitialization(InitializationPageIndex.Top));
       }
-
-      const user = await Database.getUser();
-
-      if (user) {
-        Redux.store.dispatch(userActions.set(user));
-      }
-
-      const tasks = await Database.getTasks();
-
-      if (tasks) {
-        Redux.store.dispatch(tasksActions.set(tasks));
-      }
-
-      const date = Math.floor(Date.now() / 1000 / 3600 / 24);
-      const dailyWorkingStats = await Database.getDailyWorkingStats(date) ?? DailyWorkingStats.getInitial(tasks ?? []);
-      Redux.store.dispatch(dailyWorkingStatsActions.set(dailyWorkingStats));
 
       SplashScreen.hideAsync();
     });
@@ -61,7 +68,7 @@ export default function AppRoot() {
   const [_languageForRerendering, setLanguageForRerendering] = useState<Language>();
 
   useEffect(() => {
-    const newLanguage = (env.languageCode ?? language ?? Language.defaultValue) as Language;
+    const newLanguage = (env.languageCode ?? language ?? Language.getInitial()) as Language;
     setLanguage(newLanguage);
     setLanguageForRerendering(newLanguage);
   }, [language]);
@@ -72,8 +79,20 @@ export default function AppRoot() {
     const tryToSignIn = (link: string) => {
       Auth.trySignInWithEmailLink(link)
         .then(() => {
-          Ui.showToast(t('init.emailLogin.toast.loggedIn'));
-          Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Home));
+          const user = User.create('User');
+
+          Database.signIn(user)
+            .then(() => {
+              Ui.showToast(t('init.emailLogin.toast.loggedIn'));
+              Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Home));
+            })
+            .catch(() => {
+              Ui.showToast(t('init.emailLogin.toast.loggedIn'), {
+                backgroundColor: Ui.color.red,
+                showsLong: true,
+                avoidMenuBar: false,
+              });
+            });
         })
         .catch((error) => {
           if (typeof error?.message === 'string' && error.message.includes('[auth/invalid-action-code]')) {

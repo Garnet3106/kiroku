@@ -22,7 +22,7 @@ export namespace Auth {
     return auth.currentUser?.uid ?? null;
   }
 
-  export async function signInWithGoogle(): Promise<void> {
+  export async function signInWithGoogle(): Promise<FirebaseAuthTypes.User> {
     const user = await GoogleSignin.signIn();
     const idToken = user.idToken;
 
@@ -31,7 +31,7 @@ export namespace Auth {
     }
 
     const credential = FirebaseAuth.GoogleAuthProvider.credential(idToken);
-    await auth.signInWithCredential(credential);
+    return (await auth.signInWithCredential(credential)).user;
   }
 
   export async function sendSignInLinkToEmail(email: string): Promise<void> {
@@ -85,3 +85,12 @@ export type User = {
   nickname: string,
   language: Language,
 };
+
+export namespace User {
+  export function create(nickname?: string): User {
+    return {
+      nickname: nickname ?? 'User',
+      language: Language.getInitial(),
+    };
+  }
+}

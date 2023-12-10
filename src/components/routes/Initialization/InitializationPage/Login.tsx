@@ -5,10 +5,11 @@ import InitializationPage from './InitializationPage';
 import { Feather, FontAwesome } from '@expo/vector-icons';
 import { StyleSheet, Text } from 'react-native';
 import { t } from '../../../../translations';
-import { Auth } from '../../../../auth';
+import { Auth, User } from '../../../../auth';
 import Redux from '../../../../redux/redux';
 import { navigationActions } from '../../../../redux/slices/navigation';
 import { useState } from 'react';
+import { Database } from '../../../../database';
 
 export default function Login() {
   const [buttonsDisabled, setButtonsDisabled] = useState(false);
@@ -41,10 +42,18 @@ export default function Login() {
     setButtonsDisabled(true);
 
     Auth.signInWithGoogle()
-      .then(() => {
-        Ui.showToast(t('init.login.toast.loggedIn'));
-        Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Home));
-        setButtonsDisabled(false);
+      .then((user) => {
+        Database.signIn(User.create(user.displayName ?? undefined))
+          .then(() => {
+            Ui.showToast(t('init.login.toast.loggedIn'));
+            Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Home));
+            setButtonsDisabled(false);
+          })
+          .catch(() => Ui.showToast('INTERNAL USER ERROR', {
+            backgroundColor: Ui.color.red,
+            showsLong: true,
+            avoidMenuBar: false,
+          }));
       })
       .catch(() => {
         Ui.showToast(t('init.login.toast.failedToLogin'), {

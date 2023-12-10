@@ -11,6 +11,22 @@ export namespace Database {
     ignoreUndefinedProperties: true,
   });
 
+  export async function signIn(user: User): Promise<void> {
+    const uid = Auth.getUid();
+
+    if (!uid) {
+      return;
+    }
+
+    if (!env.preventDatabaseAccesses) {
+      const doc = firestore.collection('users').doc(uid);
+
+      if (!(await doc.get()).exists) {
+        await doc.set(user);
+      }
+    }
+  }
+
   export async function getUser(): Promise<User | null> {
     const uid = Auth.getUid();
 
@@ -25,6 +41,7 @@ export namespace Database {
       };
     } else {
       const data = (await firestore.collection('users').doc(uid).get()).data();
+
       return data === undefined ? null : {
         nickname: data.nickname,
         language: data.language,

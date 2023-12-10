@@ -21,17 +21,28 @@ export default function Settings() {
       title={t('appSettings.appSettings')}
       scrollable
     >
-      <ContentTitle text={t('appSettings.yourAccount')} insertBottomMargin />
+      <ContentTitle text={t('appSettings.yourProfile')} insertBottomMargin />
+      <RectangleButtonList
+        buttons={[
+          {
+            text: t('appSettings.nickname'),
+            caption: user?.nickname ?? 'N/A',
+            onPress: () => {},
+          },
+          {
+            text: t('appSettings.logout'),
+            textStyle: { color: Ui.color.red },
+            onPress: () => setLogoutDialogVisibility(true),
+          },
+        ]}
+        insertBottomMargin
+      />
+      <ContentTitle text={t('appSettings.display')} insertBottomMargin />
       <RectangleButtonList buttons={[
         {
-          text: t('appSettings.nickname'),
-          caption: user?.nickname ?? 'N/A',
+          text: t('appSettings.lang'),
+          caption: user ? t(`lang.${user.language}`) : 'N/A',
           onPress: () => {},
-        },
-        {
-          text: t('appSettings.logout'),
-          textStyle: { color: Ui.color.red },
-          onPress: () => setLogoutDialogVisibility(true),
         },
       ]} />
       <Dialog.Container visible={logoutDialogVisibility}>

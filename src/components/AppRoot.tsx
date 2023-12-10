@@ -8,19 +8,21 @@ import TaskEdit from './routes/TaskEdit';
 import TaskInProgress from './routes/TaskInProgress';
 import TaskFinish from './routes/TaskFinish';
 import FirebaseDynamicLinks from '@react-native-firebase/dynamic-links';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Auth } from '../auth';
 import Redux from '../redux/redux';
 import { navigationActions } from '../redux/slices/navigation';
 import { InitializationPageIndex, NavigationRoutePath } from '../navigation';
 import Ui from '../ui';
-import { t } from '../translations';
+import { Language, setLanguage, t } from '../translations';
 import * as SplashScreen from 'expo-splash-screen';
 import { Database } from '../database';
 import { userActions } from '../redux/slices/user';
 import { tasksActions } from '../redux/slices/tasks';
 import { dailyWorkingStatsActions } from '../redux/slices/dailyWorkingStats';
 import { DailyWorkingStats } from '../task';
+import env from '../env';
+import { useSelector } from 'react-redux';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -54,6 +56,15 @@ export default function AppRoot() {
 
     return () => unsubscribe();
   }, []);
+
+  const language = useSelector((state: Redux.RootState) => state.user?.language);
+  const [_languageForRerendering, setLanguageForRerendering] = useState<Language>();
+
+  useEffect(() => {
+    const newLanguage = (env.languageCode ?? language ?? Language.defaultValue) as Language;
+    setLanguage(newLanguage);
+    setLanguageForRerendering(newLanguage);
+  }, [language]);
 
   useEffect(() => {
     const dynamicLinks = FirebaseDynamicLinks();

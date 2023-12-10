@@ -1,7 +1,12 @@
 import { TranslationDictionaryData } from '.';
+import { Language } from './lang';
 import { DayOfWeek, TaskCategory, TaskSortStyle } from '../task';
 
 const ja: TranslationDictionaryData = {
+  lang: {
+    [Language.English]: '英語',
+    [Language.Japanese]: '日本語',
+  },
   app: {
     name: 'キロク',
     slogan: 'キャッチコピーが入ります',
@@ -199,9 +204,11 @@ const ja: TranslationDictionaryData = {
   },
   appSettings: {
     appSettings: 'アプリ設定',
-    yourAccount: 'アカウント',
+    yourProfile: 'プロフィール',
     nickname: 'ニックネーム',
     logout: 'ログアウト',
+    display: '表示',
+    lang: '言語',
     dialog: {
       doYouReallyLogout: 'ログアウトしますか？',
       logout: 'ログアウト',

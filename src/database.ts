@@ -2,6 +2,7 @@ import FirebaseFirestore from '@react-native-firebase/firestore';
 import { Auth, User } from './auth';
 import env from './env';
 import { DailyWorkingStats, DayOfWeek, Seconds, Task, TaskCategory, TaskIntervalType, TaskWorkLog, UnidentifiedTask } from './task';
+import { Language } from './translations';
 
 export namespace Database {
   const firestore = FirebaseFirestore();
@@ -18,10 +19,16 @@ export namespace Database {
     }
 
     if (env.preventDatabaseAccesses) {
-      return { nickname: 'John' };
+      return {
+        nickname: 'John',
+        language: Language.English,
+      };
     } else {
       const data = (await firestore.collection('users').doc(uid).get()).data();
-      return data === undefined ? null : { nickname: data.nickname };
+      return data === undefined ? null : {
+        nickname: data.nickname,
+        language: data.language,
+      };
     }
   }
 

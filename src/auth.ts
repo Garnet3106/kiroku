@@ -1,6 +1,7 @@
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import FirebaseAuth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { Storage, StorageKey } from './storage';
+import { Language } from './translations';
 
 GoogleSignin.configure({
   webClientId: '570741164338-qe9ite0h49ihaclb3neafml0ejpk0k2c.apps.googleusercontent.com',
@@ -82,4 +83,5 @@ export namespace Auth {
 
 export type User = {
   nickname: string,
+  language: Language,
 };

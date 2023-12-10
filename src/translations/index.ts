@@ -1,18 +1,14 @@
-import { getLocales } from 'expo-localization';
 import { I18n, Scope } from 'i18n-js';
 import en from './en';
 import ja from './ja';
 import { DayOfWeek, TaskCategory, TaskSortStyle } from '../task';
 import env from '../env';
-
-export enum Language {
-  English = 'en',
-  Japanese = 'ja',
-}
+import { Language } from './lang';
 
 export type TranslationDictionary = { [lang in Language]: TranslationDictionaryData };
 
 export type TranslationDictionaryData = {
+  lang: { [lang in Language]: string },
   app: {
     name: string,
     slogan: string,
@@ -195,9 +191,11 @@ export type TranslationDictionaryData = {
   },
   appSettings: {
     appSettings: string,
-    yourAccount: string,
+    yourProfile: string,
     nickname: string,
     logout: string,
+    display: string,
+    lang: string,
     dialog: {
       doYouReallyLogout: string,
       logout: string,
@@ -213,10 +211,13 @@ export type TranslationDictionaryData = {
 export const translations: TranslationDictionary = { en, ja };
 
 const i18n = new I18n(translations);
-i18n.locale = env.languageCode ?? getLocales()[0].languageCode;
+
+export function setLanguage(lang: Language) {
+  i18n.locale = env.languageCode ?? lang;
+}
 
 function translate(key: Scope, options?: object): string {
   return i18n.t(key, options);
 }
 
-export { translate as t };
+export { Language, translate as t };

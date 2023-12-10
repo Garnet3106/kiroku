@@ -1,7 +1,12 @@
 import { TranslationDictionaryData } from '.';
+import { Language } from './lang';
 import { DayOfWeek, TaskCategory, TaskSortStyle } from '../task';
 
 const en: TranslationDictionaryData = {
+  lang: {
+    [Language.English]: 'English',
+    [Language.Japanese]: 'Japanese',
+  },
   app: {
     name: 'kiroku',
     slogan: 'Slogan Here',
@@ -199,9 +204,11 @@ const en: TranslationDictionaryData = {
   },
   appSettings: {
     appSettings: 'App Settings',
-    yourAccount: 'Your Account',
+    yourProfile: 'Your Profile',
     nickname: 'Nickname',
     logout: 'Logout',
+    display: 'Display',
+    lang: 'Language',
     dialog: {
       doYouReallyLogout: 'Do you really logout?',
       logout: 'LOGOUT',

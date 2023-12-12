@@ -1,4 +1,4 @@
-import { ScrollView, StyleProp, StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native';
+import { Modal, Pressable, ScrollView, StyleProp, StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native';
 import Ui from '../../ui';
 import { Entypo } from '@expo/vector-icons';
 import PressableHighlight from '../pressable/PressableHighlight';
@@ -48,11 +48,15 @@ export default function Dropdown(props: DropdownProps) {
     ));
 
     options = (
-      <ScrollView style={styles.optionsContainer}>
-        <View style={styles.options}>
-          {optionItems}
-        </View>
-      </ScrollView>
+      <Modal transparent>
+        <Pressable style={styles.optionsBackground} onPress={() => setOpen(false)}>
+          <View style={styles.optionsContainer}>
+            <ScrollView style={styles.options}>
+              {optionItems}
+            </ScrollView>
+          </View>
+        </Pressable>
+      </Modal>
     );
   }
 
@@ -105,21 +109,28 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: Ui.dimension.margin,
   },
-  optionsContainer: {
-    maxHeight: 250,
-    overflow: 'hidden',
-    position: 'absolute',
-    top: 52,
+  optionsBackground: {
+    alignItems: 'center',
+    backgroundColor: Ui.color.transparentBackground,
+    display: 'flex',
+    height: '100%',
+    justifyContent: 'center',
+    paddingHorizontal: Ui.dimension.margin * 2,
     width: '100%',
-    zIndex: 10000,
+  },
+  optionsContainer: {
+    maxHeight: '60%',
+    width: '100%',
   },
   options: {
+    backgroundColor: Ui.color.white,
     borderColor: Ui.color.border.lightGray,
     borderRadius: Ui.dimension.border.radius,
     borderWidth: Ui.dimension.border.width,
     overflow: 'hidden',
   },
   optionItem: {
+    borderRadius: Ui.dimension.border.radius,
     padding: Ui.dimension.margin,
   },
   optionItemText: {

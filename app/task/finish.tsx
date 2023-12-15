@@ -120,8 +120,6 @@ export default function () {
     const newWorkingStats = DailyWorkingStats.addWorkLog(workingStats, workLog);
     await Database.createWorkLog(workLog, newWorkingStats).catch(() => succeeded = false);
 
-    setConcentrationLevel(0);
-
     if (succeeded) {
       Ui.showToast(t('taskFinish.toast.workLogWasSaved'));
       Redux.store.dispatch(workResultActions.unset());

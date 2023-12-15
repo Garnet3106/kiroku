@@ -68,38 +68,16 @@ export default function () {
     text: t(`task.dayOfWeek.${index}`),
   }));
 
-  const [category, setCategory] = useState(TaskCategory.Uncategorized);
-  const [title, setTitle] = useState('');
-  const [targetTime, setTargetTime] = useState<string | number>();
-  const [customTargetTime, setCustomTargetTime] = useState<number>(TaskTargetTime.minimumUnit);
-  const [intervalType, setIntervalType] = useState(TaskIntervalType.Day);
-  const [interval, setInterval] = useState<number>(1);
-  const [intervalDaysOfWeek, setIntervalDaysOfWeek] = useState<DayOfWeek[]>([]);
-
-  useEffect(() => {
-    setCategory(targetTask ? targetTask.category : TaskCategory.Uncategorized);
-    setTitle(targetTask ? targetTask.title : '');
-    setCustomTargetTime(TaskTargetTime.minimumUnit);
-
-    if (targetTask) {
-      const matchedTargetTime = targetTimeOptions.find((v) => v.uniqueId === targetTask.targetTime);
-
-      if (matchedTargetTime) {
-        setTargetTime(matchedTargetTime.uniqueId);
-      } else {
-        setTargetTime('custom');
-        setCustomTargetTime(targetTask.targetTime);
-      }
-    }
-
-    setIntervalType(targetTask ? targetTask.workingDate.interval.type : TaskIntervalType.Day);
-    setInterval(targetTask ? targetTask.workingDate.interval.interval : 1);
-    setIntervalDaysOfWeek(
-      targetTask && targetTask.workingDate.interval.type === TaskIntervalType.Week ? convertDaysOfWeekToArray(targetTask.workingDate.interval.days) : [],
-    );
-
-    setButtonsDisabled(false);
-  }, []);
+  const matchedTargetTime = useMemo(() => targetTask ? targetTimeOptions.find((v) => v.uniqueId === targetTask.targetTime) : undefined, [targetTask?.id]);
+  const [category, setCategory] = useState(targetTask ? targetTask.category : TaskCategory.Uncategorized);
+  const [title, setTitle] = useState(targetTask ? targetTask.title : '');
+  const [targetTime, setTargetTime] = useState<string | number>(matchedTargetTime ? matchedTargetTime.uniqueId : 'custom');
+  const [customTargetTime, setCustomTargetTime] = useState<number>(targetTask ? targetTask.targetTime : TaskTargetTime.minimumUnit);
+  const [intervalType, setIntervalType] = useState(targetTask ? targetTask.workingDate.interval.type : TaskIntervalType.Day);
+  const [interval, setInterval] = useState<number>(targetTask ? targetTask.workingDate.interval.interval : 1);
+  const [intervalDaysOfWeek, setIntervalDaysOfWeek] = useState<DayOfWeek[]>(
+    targetTask && targetTask.workingDate.interval.type === TaskIntervalType.Week ? convertDaysOfWeekToArray(targetTask.workingDate.interval.days) : [],
+  );
 
   const [deleteDialogVisibility, setDeleteDialogVisibility] = useState(false);
   const [archiveDialogVisibility, setArchiveDialogVisibility] = useState(false);

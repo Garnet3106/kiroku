@@ -1,13 +1,11 @@
 import { ReactNode } from 'react';
 import { ColorValue, ScrollView, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
-import { NavigationRoutePath } from '../navigation';
-import { useSelector } from 'react-redux';
-import Redux from '../redux/redux';
 import Ui from '../ui';
 import { t } from '../translations';
+import { getDisplayed } from './MenuBar/MenuBar';
+import { usePathname } from 'expo-router';
 
 export type RouteContainerProps = {
-  path: NavigationRoutePath,
   title?: string,
   backgroundColor?: ColorValue,
   headerDisabled?: boolean,
@@ -18,8 +16,7 @@ export type RouteContainerProps = {
 };
 
 export default function RouteContainer(props: RouteContainerProps) {
-  const navigation = useSelector((state: Redux.RootState) => state.navigation);
-  const menuBarDisplayed = navigation ? NavigationRoutePath.getMenuBarDisplayed(navigation.path) : false;
+  const pathname = usePathname();
   const title = props.title ?? t('app.name');
 
   const header = !props.headerDisabled && (
@@ -59,10 +56,7 @@ export default function RouteContainer(props: RouteContainerProps) {
     <View style={[
       styles.container,
       props.style,
-      {
-        display: navigation?.path === props.path ? undefined : 'none',
-        paddingBottom: menuBarDisplayed ? Ui.dimension.header.height + Ui.dimension.menuBar.height : 0,
-      },
+      { paddingBottom: getDisplayed(pathname) ? Ui.dimension.header.height + Ui.dimension.menuBar.height : 0 },
     ]}>
       {header}
       {body}

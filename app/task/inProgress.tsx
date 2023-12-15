@@ -1,23 +1,24 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { NavigationRoutePath } from '../../navigation';
-import ContentArea from '../ContentArea';
-import RouteContainer from '../RouteContainer';
+import ContentArea from '../../src/components/ContentArea';
+import RouteContainer from '../../src/components/RouteContainer';
 import { Entypo, Feather, FontAwesome, MaterialIcons } from '@expo/vector-icons';
-import Ui from '../../ui';
-import Redux from '../../redux/redux';
-import { navigationActions } from '../../redux/slices/navigation';
+import Ui from '../../src/ui';
+import Redux from '../../src/redux/redux';
 import { useEffect, useMemo, useState } from 'react';
 import Dialog from 'react-native-dialog';
-import { t } from '../../translations';
-import { taskInProgressActions } from '../../redux/slices/taskInProgress';
+import { t } from '../../src/translations';
+import { taskInProgressActions } from '../../src/redux/slices/taskInProgress';
 import { useSelector } from 'react-redux';
-import { Seconds } from '../../task';
-import { workResultActions } from '../../redux/slices/workResult';
-import { Storage, StorageKey } from '../../storage';
+import { Seconds } from '../../src/task';
+import { workResultActions } from '../../src/redux/slices/workResult';
+import { Storage, StorageKey } from '../../src/storage';
+import { useRouter } from 'expo-router';
 
 const progressBarHeight = 13;
 
-export default function TaskInProgress() {
+export default function () {
+  const router = useRouter();
+
   const tasks = useSelector((state: Redux.RootState) => state.tasks);
   const taskInProgress = useSelector((state: Redux.RootState) => state.taskInProgress);
   const targetTask = useMemo(() => tasks.find((v) => v.id === taskInProgress?.id) ?? null, [tasks, taskInProgress?.id]);
@@ -69,7 +70,7 @@ export default function TaskInProgress() {
   );
 
   return (
-    <RouteContainer path={NavigationRoutePath.TaskInProgress} title={t('taskInProgress.taskInProgress')}>
+    <RouteContainer title={t('taskInProgress.taskInProgress')}>
       <View style={styles.container}>
         <ContentArea style={styles.information}>
           <View style={styles.top}>
@@ -205,7 +206,7 @@ export default function TaskInProgress() {
   }
 
   function minimize() {
-    Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Home));
+    router.replace('/home');
   }
 
   function stop() {
@@ -230,7 +231,7 @@ export default function TaskInProgress() {
     Redux.store.dispatch(taskInProgressActions.finish());
     Storage.removeItem(StorageKey.TaskInProgress);
     Redux.store.dispatch(result ? workResultActions.set(result) : workResultActions.unset());
-    Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.TaskFinish));
+    router.replace('/task/finish');
     Ui.showToast(t('taskInProgress.toast.finishedWorking'), { avoidMenuBar: false });
   }
 }

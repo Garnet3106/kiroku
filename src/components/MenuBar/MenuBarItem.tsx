@@ -1,17 +1,19 @@
 import { ReactNode } from 'react';
 import { ColorValue, Pressable, StyleSheet, Text, View } from 'react-native';
 import Redux from '../../redux/redux';
-import { navigationActions } from '../../redux/slices/navigation';
-import { NavigationRoute } from '../../navigation';
+import { Href } from 'expo-router/build/link/href';
+import { useRouter } from 'expo-router';
 
 export type MenuBarItemProps = {
   text: string,
   textColor?: ColorValue,
   icon: ReactNode,
-  route: NavigationRoute,
+  route: Href,
 };
 
 export default function MenuBarItem(props: MenuBarItemProps) {
+  const router = useRouter();
+
   return (
     <Pressable style={styles.container} onPress={onPress}>
       <View style={styles.icon}>
@@ -27,7 +29,7 @@ export default function MenuBarItem(props: MenuBarItemProps) {
   );
 
   function onPress() {
-    Redux.store.dispatch(navigationActions.jumpToWithParams(props.route));
+    router.replace(props.route);
   }
 }
 

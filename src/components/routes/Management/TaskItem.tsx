@@ -3,10 +3,9 @@ import Ui from '../../../ui';
 import { Entypo } from '@expo/vector-icons';
 import ContentArea from '../../ContentArea';
 import Redux from '../../../redux/redux';
-import { navigationActions } from '../../../redux/slices/navigation';
-import { NavigationRoutePath } from '../../../navigation';
 import { DayOfWeek, Task, TaskIntervalType } from '../../../task';
 import { t } from '../../../translations';
+import { useRouter } from 'expo-router';
 
 export type TaskItemProps = Ui.LayoutProps & {
   task: Task,
@@ -14,6 +13,7 @@ export type TaskItemProps = Ui.LayoutProps & {
 };
 
 export default function TaskItem(props: TaskItemProps) {
+  const router = useRouter();
   const descriptions = getDescription();
 
   return (
@@ -23,7 +23,7 @@ export default function TaskItem(props: TaskItemProps) {
         { marginBottom: props.insertBottomMargin ? Ui.dimension.margin : undefined },
         props.style,
       ]}
-      onPress={onPress}
+      onPress={() => router.replace(`/task/${props.task.id}/edit`)}
     >
       <View style={styles.content}>
         <Entypo name='book' color={Ui.color.black} size={20} top={3} style={{ marginRight: 2 }} />
@@ -65,15 +65,6 @@ export default function TaskItem(props: TaskItemProps) {
 
     props.task.recessInterval !== undefined && descriptions.push(t('taskMgmt.taskItem.remindRecess'));
     return descriptions;
-  }
-
-  function onPress() {
-    Redux.store.dispatch(navigationActions.jumpToWithParams({
-      path: NavigationRoutePath.TaskEdit,
-      params: {
-        targetTaskId: props.task.id,
-      },
-    }));
   }
 }
 

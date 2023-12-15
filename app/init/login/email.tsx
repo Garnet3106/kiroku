@@ -1,25 +1,21 @@
 import { useState } from 'react';
-import { Auth } from '../../../../auth';
-import { InitializationPageIndex } from '../../../../navigation';
-import { t } from '../../../../translations';
-import Ui from '../../../../ui';
-import TextInput from '../../../input/TextInput';
-import InitializationPage from './InitializationPage';
-import Named from '../../../input/Named';
-import RectangleButton from '../../../input/RectangleButton';
+import { Auth } from '../../../src/auth';
+import { t } from '../../../src/translations';
+import Ui from '../../../src/ui';
+import TextInput from '../../../src/components/input/TextInput';
+import InitializationPage from '../../../src/components/InitializationPage';
+import Named from '../../../src/components/input/Named';
+import RectangleButton from '../../../src/components/input/RectangleButton';
 import Dialog from 'react-native-dialog';
 
-export default function EmailLogin() {
+export default function () {
   const [email, setEmail] = useState('');
   const [authMailSent, setAuthMailSent] = useState(false);
   const [emailConfirmationVisibility, setEmailConfirmationVisibility] = useState(false);
   const [sendButtonDisabled, setSendButtonDisabled] = useState(false);
 
   return (
-    <InitializationPage
-      pageIndex={InitializationPageIndex.EmailLogin}
-      previous={InitializationPageIndex.Login}
-    >
+    <InitializationPage previous='/init/login'>
       <Named title={t('init.emailLogin.emailAddress')} required insertBottomMargin>
         <TextInput value={email} onChangeText={(text) => setEmail(text)} placeholder={t('init.emailLogin.emailAddressExample')} />
       </Named>

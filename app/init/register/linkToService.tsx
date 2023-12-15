@@ -1,19 +1,16 @@
-import { InitializationPageIndex } from '../../../../navigation';
-import Ui from '../../../../ui';
-import RectangleButton from '../../../input/RectangleButton';
-import InitializationPage from './InitializationPage';
+import Ui from '../../../src/ui';
+import RectangleButton from '../../../src/components/input/RectangleButton';
+import InitializationPage from '../../../src/components/InitializationPage';
 import { Feather, FontAwesome } from '@expo/vector-icons';
-import Redux from '../../../../redux/redux';
-import { navigationActions } from '../../../../redux/slices/navigation';
 import { StyleSheet, Text } from 'react-native';
-import { t } from '../../../../translations';
+import { t } from '../../../src/translations';
+import { useRouter } from 'expo-router';
 
-export default function RegistrationServiceLinking() {
+export default function () {
+  const router = useRouter();
+
   return (
-    <InitializationPage
-      pageIndex={InitializationPageIndex.RegistrationServiceLinking}
-      previous={InitializationPageIndex.RegistrationNickname}
-    >
+    <InitializationPage previous='/init'>
       <Text style={styles.message}>
         {t('init.serviceLinking.chooseLinkingService')}
       </Text>
@@ -28,7 +25,7 @@ export default function RegistrationServiceLinking() {
         text={t('serviceLinking.emailAddress')}
         icon={<Feather name='mail' color={Ui.color.white} size={22} style={{ top: 3 }} />}
         style={{ marginTop: Ui.dimension.margin }}
-        onPress={() => Redux.store.dispatch(navigationActions.jumpToInitialization(InitializationPageIndex.RegistrationEmail))}
+        onPress={() => router.replace('/init/register/email')}
       />
     </InitializationPage>
   );

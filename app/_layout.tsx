@@ -1,12 +1,13 @@
-import { StatusBar } from 'expo-status-bar';
 import { Provider } from 'react-redux';
-import Redux from './src/redux/redux';
+import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import AppRoot from './src/components/AppRoot';
 import { RootSiblingParent } from 'react-native-root-siblings';
-import Ui from './src/ui';
+import Ui from '../src/ui';
+import Redux from '../src/redux/redux';
+import { Slot } from 'expo-router';
+import MenuBar from '../src/components/MenuBar/MenuBar';
 
-export default function App() {
+export default function () {
   return (
     <Provider store={Redux.store}>
       <StatusBar style='dark' backgroundColor={Ui.color.white} />
@@ -14,7 +15,8 @@ export default function App() {
         {/* Specify flexGrow not to prevent scroll in ScrollView. */}
         <SafeAreaView style={{ flexGrow: 1 }}>
           <RootSiblingParent>
-            <AppRoot />
+            <Slot />
+            <MenuBar />
           </RootSiblingParent>
         </SafeAreaView>
       </SafeAreaProvider>

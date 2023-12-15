@@ -1,23 +1,24 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { NavigationRoutePath } from '../../navigation';
-import ContentArea from '../ContentArea';
-import RouteContainer from '../RouteContainer';
-import Ui from '../../ui';
-import ContentSeparator from '../ContentSeparator';
+import ContentArea from '../../src/components/ContentArea';
+import RouteContainer from '../../src/components/RouteContainer';
+import Ui from '../../src/ui';
+import ContentSeparator from '../../src/components/ContentSeparator';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import PressableOpacity from '../pressable/PressableOpacity';
+import PressableOpacity from '../../src/components/pressable/PressableOpacity';
 import { useState } from 'react';
-import RectangleButton from '../input/RectangleButton';
-import Redux from '../../redux/redux';
-import { navigationActions } from '../../redux/slices/navigation';
-import { t } from '../../translations';
+import RectangleButton from '../../src/components/input/RectangleButton';
+import Redux from '../../src/redux/redux';
+import { t } from '../../src/translations';
 import { useSelector } from 'react-redux';
-import { workResultActions } from '../../redux/slices/workResult';
-import { Database } from '../../database';
-import { dailyWorkingStatsActions } from '../../redux/slices/dailyWorkingStats';
-import { DailyWorkingStats } from '../../task';
+import { workResultActions } from '../../src/redux/slices/workResult';
+import { Database } from '../../src/database';
+import { dailyWorkingStatsActions } from '../../src/redux/slices/dailyWorkingStats';
+import { DailyWorkingStats } from '../../src/task';
+import { useRouter } from 'expo-router';
 
-export default function TaskFinish() {
+export default function () {
+  const router = useRouter();
+
   const workResult = useSelector((state: Redux.RootState) => state.workResult);
   const [concentrationLevel, setConcentrationLevel] = useState(0);
 
@@ -43,7 +44,7 @@ export default function TaskFinish() {
   ));
 
   return (
-    <RouteContainer path={NavigationRoutePath.TaskFinish} title={t('taskFinish.taskFinish')}>
+    <RouteContainer title={t('taskFinish.taskFinish')}>
       <View style={styles.container}>
         <ContentArea style={styles.results}>
           <Text style={styles.message}>
@@ -125,7 +126,7 @@ export default function TaskFinish() {
       Ui.showToast(t('taskFinish.toast.workLogWasSaved'));
       Redux.store.dispatch(workResultActions.unset());
       Redux.store.dispatch(dailyWorkingStatsActions.set(newWorkingStats));
-      Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Home));
+      router.replace('/home');
     } else {
       Ui.showToast(t('taskFinish.toast.failedToSaveWorkLog'), {
         backgroundColor: Ui.color.red,
@@ -144,6 +145,7 @@ const styles = StyleSheet.create({
   results: {
     alignItems: 'center',
     display: 'flex',
+    marginBottom: Ui.dimension.margin * 4,
     marginHorizontal: Ui.dimension.margin,
     padding: Ui.dimension.margin * 2,
   },

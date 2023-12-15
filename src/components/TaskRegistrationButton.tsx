@@ -2,12 +2,12 @@ import { StyleSheet, Text } from 'react-native';
 import Ui from '../ui';
 import PressableHighlight from './pressable/PressableHighlight';
 import { Entypo } from '@expo/vector-icons';
-import Redux from '../redux/redux';
-import { navigationActions } from '../redux/slices/navigation';
-import { NavigationRoutePath } from '../navigation';
 import { t } from '../translations';
+import { useRouter } from 'expo-router';
 
 export default function TaskRegistrationButton() {
+  const router = useRouter();
+
   return (
     <PressableHighlight
       underlayColor={{
@@ -15,7 +15,7 @@ export default function TaskRegistrationButton() {
         to: Ui.color.pressed.mainOnWhite,
       }}
       style={styles.container}
-      onPress={() => Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.TaskEdit))}
+      onPress={() => router.replace(`task/new/edit`)}
     >
       <Entypo name='plus' color={Ui.color.main} size={30} top={1} style={{ margin: -4 }} />
       <Text style={styles.text}>

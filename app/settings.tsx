@@ -1,26 +1,23 @@
-import RouteContainer from '../RouteContainer';
-import { InitializationPageIndex, NavigationRoutePath } from '../../navigation';
-import { t } from '../../translations';
-import RectangleButtonList from '../input/RectangleButtonList';
-import ContentTitle from '../ContentTitle';
-import Ui from '../../ui';
-import { Auth } from '../../auth';
-import Redux from '../../redux/redux';
-import { navigationActions } from '../../redux/slices/navigation';
+import RouteContainer from '../src/components/RouteContainer';
+import { t } from '../src/translations';
+import RectangleButtonList from '../src/components/input/RectangleButtonList';
+import ContentTitle from '../src/components/ContentTitle';
+import Ui from '../src/ui';
+import { Auth } from '../src/auth';
+import Redux from '../src/redux/redux';
 import Dialog from 'react-native-dialog';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useRouter } from 'expo-router';
 
-export default function Settings() {
+export default function () {
+  const router = useRouter();
+
   const user = useSelector((state: Redux.RootState) => state.user);
   const [logoutDialogVisibility, setLogoutDialogVisibility] = useState(false);
 
   return (
-    <RouteContainer
-      path={NavigationRoutePath.Settings}
-      title={t('appSettings.appSettings')}
-      scrollable
-    >
+    <RouteContainer title={t('appSettings.appSettings')} scrollable>
       <ContentTitle text={t('appSettings.yourProfile')} insertBottomMargin />
       <RectangleButtonList
         buttons={[
@@ -70,7 +67,7 @@ export default function Settings() {
           avoidMenuBar: false,
         });
 
-        Redux.store.dispatch(navigationActions.jumpToInitialization(InitializationPageIndex.Top));
+        router.replace('/init');
       })
       .catch(() => {
         Ui.showToast(t('appSettings.toast.failedToLogout'), {

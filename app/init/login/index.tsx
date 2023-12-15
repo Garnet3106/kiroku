@@ -1,24 +1,20 @@
-import { InitializationPageIndex, NavigationRoutePath } from '../../../../navigation';
-import Ui from '../../../../ui';
-import RectangleButton from '../../../input/RectangleButton';
-import InitializationPage from './InitializationPage';
+import Ui from '../../../src/ui';
+import RectangleButton from '../../../src/components/input/RectangleButton';
+import InitializationPage from '../../../src/components/InitializationPage';
 import { Feather, FontAwesome } from '@expo/vector-icons';
 import { StyleSheet, Text } from 'react-native';
-import { t } from '../../../../translations';
-import { Auth, User } from '../../../../auth';
-import Redux from '../../../../redux/redux';
-import { navigationActions } from '../../../../redux/slices/navigation';
+import { t } from '../../../src/translations';
+import { Auth, User } from '../../../src/auth';
 import { useState } from 'react';
-import { Database } from '../../../../database';
+import { Database } from '../../../src/database';
+import { useRouter } from 'expo-router';
 
-export default function Login() {
+export default function () {
+  const router = useRouter();
   const [buttonsDisabled, setButtonsDisabled] = useState(false);
 
   return (
-    <InitializationPage
-      pageIndex={InitializationPageIndex.Login}
-      previous={InitializationPageIndex.Top}
-    >
+    <InitializationPage previous='/init'>
       <Text style={styles.message}>
         {t('init.login.chooseServiceToLogin')}
       </Text>
@@ -33,7 +29,7 @@ export default function Login() {
         icon={<Feather name='mail' color={Ui.color.white} size={22} style={{ top: 3 }} />}
         disabled={buttonsDisabled}
         style={{ marginTop: Ui.dimension.margin }}
-        onPress={() => Redux.store.dispatch(navigationActions.jumpToInitialization(InitializationPageIndex.EmailLogin))}
+        onPress={() => router.replace('/init/login/email')}
       />
     </InitializationPage>
   );
@@ -46,7 +42,7 @@ export default function Login() {
         Database.signIn(User.create(user.displayName ?? undefined))
           .then(() => {
             Ui.showToast(t('init.login.toast.loggedIn'));
-            Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Home));
+            router.replace('/home');
             setButtonsDisabled(false);
           })
           .catch(() => Ui.showToast('INTERNAL USER ERROR', {

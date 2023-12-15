@@ -1,31 +1,30 @@
 import { useEffect, useMemo, useState } from 'react';
-import { NavigationRoutePath } from '../../navigation';
-import RouteContainer from '../RouteContainer';
-import Dropdown from '../input/Dropdown';
-import Named from '../input/Named';
-import { DailyWorkingStats, DayOfWeek, TaskCategory, TaskInterval, TaskIntervalDaysOfWeek, TaskIntervalType, TaskTargetTime } from '../../task';
-import ContentArea from '../ContentArea';
-import TextInput from '../input/TextInput';
-import RectangleButton from '../input/RectangleButton';
-import Ui from '../../ui';
+import RouteContainer from '../../../src/components/RouteContainer';
+import Dropdown from '../../../src/components/input/Dropdown';
+import Named from '../../../src/components/input/Named';
+import { DailyWorkingStats, DayOfWeek, TaskCategory, TaskInterval, TaskIntervalDaysOfWeek, TaskIntervalType, TaskTargetTime } from '../../../src/task';
+import ContentArea from '../../../src/components/ContentArea';
+import TextInput from '../../../src/components/input/TextInput';
+import RectangleButton from '../../../src/components/input/RectangleButton';
+import Ui from '../../../src/ui';
 import Dialog from 'react-native-dialog';
-import Redux from '../../redux/redux';
-import { navigationActions } from '../../redux/slices/navigation';
-import ContentSeparator from '../ContentSeparator';
+import Redux from '../../../src/redux/redux';
+import ContentSeparator from '../../../src/components/ContentSeparator';
 import { StyleSheet, Text, View } from 'react-native';
-import { t } from '../../translations';
+import { t } from '../../../src/translations';
 import { useSelector } from 'react-redux';
-import { tasksActions } from '../../redux/slices/tasks';
-import ButtonRow from '../input/ButtonRow';
-import { Database } from '../../database';
+import { tasksActions } from '../../../src/redux/slices/tasks';
+import ButtonRow from '../../../src/components/input/ButtonRow';
+import { Database } from '../../../src/database';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 
-export default function TaskEdit() {
-  const navigation = useSelector((state: Redux.RootState) => state.navigation);
-  const displayed = navigation?.path === NavigationRoutePath.TaskEdit;
+export default function () {
+  const router = useRouter();
+  const searchParams = useLocalSearchParams<{ taskId?: string }>();
+  const taskId = !searchParams.taskId || searchParams.taskId === 'new' ? null : searchParams.taskId;
   const tasks = useSelector((state: Redux.RootState) => state.tasks);
-  const targetTaskId = displayed ? (navigation.params.targetTaskId ?? null) : null;
-  const targetTask = useMemo(() => targetTaskId ? tasks.find((v) => v.id === targetTaskId) : null, [tasks, targetTaskId]);
-  const containerTitle = targetTaskId ? t('taskEdit.taskEdit') : t('taskEdit.taskReg');
+  const targetTask = useMemo(() => taskId ? tasks.find((v) => v.id === taskId) : null, [tasks, taskId]);
+  const containerTitle = taskId ? t('taskEdit.taskEdit') : t('taskEdit.taskReg');
   const [buttonsDisabled, setButtonsDisabled] = useState(false);
 
   const categoryOptions = TaskCategory.enumerate().map((v) => ({
@@ -100,13 +99,13 @@ export default function TaskEdit() {
     );
 
     setButtonsDisabled(false);
-  }, [displayed]);
+  }, []);
 
   const [deleteDialogVisibility, setDeleteDialogVisibility] = useState(false);
   const [archiveDialogVisibility, setArchiveDialogVisibility] = useState(false);
 
   return (
-    <RouteContainer path={NavigationRoutePath.TaskEdit} title={containerTitle}>
+    <RouteContainer title={containerTitle}>
       <ContentArea>
         <Text style={styles.message}>
           {t('taskEdit.whatKindOfTask')}
@@ -232,7 +231,7 @@ export default function TaskEdit() {
   }
 
   async function deleteTask() {
-    if (!targetTaskId) {
+    if (!taskId) {
       console.warn('task-edit/task-id-not-found');
       return;
     }
@@ -243,13 +242,13 @@ export default function TaskEdit() {
 
     const tasks = Redux.store.getState().tasks;
     const workingStats = Redux.store.getState().dailyWorkingStats ?? DailyWorkingStats.getInitial(tasks);
-    const newWorkingStats = DailyWorkingStats.removeTask(workingStats, targetTaskId);
-    await Database.deleteTask(targetTaskId, newWorkingStats).catch(() => succeeded = false);
+    const newWorkingStats = DailyWorkingStats.removeTask(workingStats, taskId);
+    await Database.deleteTask(taskId, newWorkingStats).catch(() => succeeded = false);
 
     if (succeeded) {
-      targetTaskId && Redux.store.dispatch(tasksActions.delete(targetTaskId));
+      taskId && Redux.store.dispatch(tasksActions.delete(taskId));
       Ui.showToast(t('taskEdit.toast.taskWasDeleted'));
-      Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Management));
+      router.replace('/manage');
     } else {
       Ui.showToast(t('taskEdit.toast.failedToDeleteTask'), {
         backgroundColor: Ui.color.red,
@@ -287,7 +286,7 @@ export default function TaskEdit() {
 
     // add property specifications
     const newTask = {
-      id: targetTaskId ?? newTaskId,
+      id: taskId ?? newTaskId,
       title,
       category,
       targetTime: targetTimeNumber,
@@ -315,7 +314,7 @@ export default function TaskEdit() {
       const action = targetTask ? tasksActions.update(newTask) : tasksActions.create(newTask);
       Redux.store.dispatch(action);
       Ui.showToast(t('taskEdit.toast.taskWasSaved'));
-      Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Management));
+      router.replace('/manage');
     } else {
       Ui.showToast(t('taskEdit.toast.failedToSaveTask'), {
         backgroundColor: Ui.color.red,

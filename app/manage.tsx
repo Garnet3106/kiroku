@@ -1,16 +1,15 @@
-import RouteContainer from '../../RouteContainer';
-import { NavigationRoutePath } from '../../../navigation';
-import Dropdown from '../../input/Dropdown';
-import TaskItem from './TaskItem';
-import ContentSeparator from '../../ContentSeparator';
-import { TaskSortStyle } from '../../../task';
+import RouteContainer from '../src/components/RouteContainer';
+import Dropdown from '../src/components/input/Dropdown';
+import TaskItem from '../src/components/routes/Management/TaskItem';
+import ContentSeparator from '../src/components/ContentSeparator';
+import { TaskSortStyle } from '../src/task';
 import { useState } from 'react';
-import TaskRegistrationButton from '../../TaskRegistrationButton';
-import { t } from '../../../translations';
+import TaskRegistrationButton from '../src/components/TaskRegistrationButton';
+import { t } from '../src/translations';
 import { useSelector } from 'react-redux';
-import Redux from '../../../redux/redux';
+import Redux from '../src/redux/redux';
 
-export default function Management() {
+export default function () {
   const tasks = useSelector((state: Redux.RootState) => state.tasks);
 
   const taskItems = tasks.map((eachTask, index) => (
@@ -29,11 +28,7 @@ export default function Management() {
   }));
 
   return (
-    <RouteContainer
-      path={NavigationRoutePath.Management}
-      title={t('taskMgmt.taskMgmt')}
-      containerChildren={<TaskRegistrationButton />}
-    >
+    <RouteContainer title={t('taskMgmt.taskMgmt')} containerChildren={<TaskRegistrationButton />}>
       <Dropdown
         options={sortDropdownOptions}
         selected={sortStyle}

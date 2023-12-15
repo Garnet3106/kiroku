@@ -3,14 +3,13 @@ import Ui from '../../../ui';
 import { Entypo, MaterialIcons } from '@expo/vector-icons';
 import ContentArea from '../../ContentArea';
 import Redux from '../../../redux/redux';
-import { navigationActions } from '../../../redux/slices/navigation';
-import { NavigationRoutePath } from '../../../navigation';
 import Dialog from 'react-native-dialog';
 import { useState } from 'react';
 import { t } from '../../../translations';
 import { Task } from '../../../task';
 import { useSelector } from 'react-redux';
 import { taskInProgressActions } from '../../../redux/slices/taskInProgress';
+import { useRouter } from 'expo-router';
 
 export type TaskItemProps = Ui.LayoutProps & {
   task: Task,
@@ -18,6 +17,8 @@ export type TaskItemProps = Ui.LayoutProps & {
 };
 
 export default function TaskItem(props: TaskItemProps) {
+  const router = useRouter();
+
   const taskInProgress = useSelector((state: Redux.RootState) => state.taskInProgress);
   const inProgress = props.task.id === taskInProgress?.id;
   const isOtherTaskInProgress = taskInProgress && !inProgress;
@@ -103,7 +104,7 @@ export default function TaskItem(props: TaskItemProps) {
     }
 
     if (inProgress) {
-      Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.TaskInProgress));
+      router.replace('/task/inProgress');
       return;
     }
 
@@ -116,7 +117,7 @@ export default function TaskItem(props: TaskItemProps) {
       Ui.showToast(t('home.taskItem.toast.taskStarted'));
     }
 
-    Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.TaskInProgress));
+    router.replace('/task/inProgress');
   }
 }
 

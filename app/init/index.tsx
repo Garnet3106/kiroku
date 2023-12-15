@@ -1,16 +1,22 @@
-import RectangleButton from '../../../input/RectangleButton';
-import Ui from '../../../../ui';
-import Redux from '../../../../redux/redux';
-import { InitializationPageIndex, NavigationRoutePath } from '../../../../navigation';
-import InitializationPage from './InitializationPage';
-import { navigationActions } from '../../../../redux/slices/navigation';
+import RectangleButton from '../../src/components/input/RectangleButton';
+import Ui from '../../src/ui';
+import InitializationPage from '../../src/components/InitializationPage';
 import { Linking, Pressable, StyleSheet, Text, View } from 'react-native';
-import AppLogoJa from '../../../logo/AppLogoJa';
-import { t } from '../../../../translations';
+import AppLogoJa from '../../src/components/logo/AppLogoJa';
+import { t } from '../../src/translations';
+import { useRouter } from 'expo-router';
+import { useEffect } from 'react';
+import * as SplashScreen from 'expo-splash-screen';
 
-export default function Top() {
+export default function () {
+  const router = useRouter();
+
+  useEffect(() => {
+    SplashScreen.hideAsync();
+  }, []);
+
   return (
-    <InitializationPage pageIndex={InitializationPageIndex.Top}>
+    <InitializationPage>
       <View style={styles.top}>
         <Text style={styles.topSlogan}>
           {t('app.slogan')}
@@ -19,12 +25,12 @@ export default function Top() {
       </View>
       <RectangleButton
         text={t('init.top.getStarted')}
-        onPress={() => Redux.store.dispatch(navigationActions.jumpToInitialization(InitializationPageIndex.RegistrationNickname))}
+        onPress={() => router.replace('/init/register/linkToService')}
       />
       <RectangleButton
         text={t('init.top.login')}
         style={{ marginTop: Ui.dimension.margin }}
-        onPress={() => Redux.store.dispatch(navigationActions.jumpToInitialization(InitializationPageIndex.Login))}
+        onPress={() => router.replace('/init/login')}
       />
       <View style={styles.agreements}>
         <Pressable onPress={() => Linking.openURL('http://kiroku.garnet.works/tos')}>

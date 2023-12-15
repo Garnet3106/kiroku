@@ -1,34 +1,26 @@
-import Initialization from './routes/Initialization/Initialization';
-import MenuBar from './MenuBar/MenuBar';
-import Home from './routes/Home/Home';
-import Management from './routes/Management/Management';
-import Performance from './routes/Performance';
-import Settings from './routes/Settings';
-import TaskEdit from './routes/TaskEdit';
-import TaskInProgress from './routes/TaskInProgress';
-import TaskFinish from './routes/TaskFinish';
 import FirebaseDynamicLinks from '@react-native-firebase/dynamic-links';
 import { useEffect, useState } from 'react';
-import { Auth, User } from '../auth';
-import Redux from '../redux/redux';
-import { navigationActions } from '../redux/slices/navigation';
-import { InitializationPageIndex, NavigationRoutePath } from '../navigation';
-import Ui from '../ui';
-import { Language, setLanguage, t } from '../translations';
+import { Auth, User } from '../src/auth';
+import Redux from '../src/redux/redux';
+import Ui from '../src/ui';
+import { Language, setLanguage, t } from '../src/translations';
 import * as SplashScreen from 'expo-splash-screen';
-import { Database } from '../database';
-import { userActions } from '../redux/slices/user';
-import { tasksActions } from '../redux/slices/tasks';
-import { dailyWorkingStatsActions } from '../redux/slices/dailyWorkingStats';
-import { DailyWorkingStats } from '../task';
-import env from '../env';
+import { Database } from '../src/database';
+import { userActions } from '../src/redux/slices/user';
+import { tasksActions } from '../src/redux/slices/tasks';
+import { dailyWorkingStatsActions } from '../src/redux/slices/dailyWorkingStats';
+import { DailyWorkingStats } from '../src/task';
+import env from '../src/env';
 import { useSelector } from 'react-redux';
-import { Storage, StorageKey } from '../storage';
-import { taskInProgressActions } from '../redux/slices/taskInProgress';
+import { Storage, StorageKey } from '../src/storage';
+import { taskInProgressActions } from '../src/redux/slices/taskInProgress';
+import { useRouter } from 'expo-router';
 
 SplashScreen.preventAutoHideAsync();
 
-export default function AppRoot() {
+export default function () {
+  const router = useRouter();
+
   useEffect(() => {
     const unsubscribe = Auth.onAuthStateChanged(async () => {
       const user = await Database.getUser();
@@ -46,7 +38,7 @@ export default function AppRoot() {
           const date = Math.floor(Date.now() / 1000 / 3600 / 24);
           const dailyWorkingStats = await Database.getDailyWorkingStats(date) ?? DailyWorkingStats.getInitial(tasks ?? []);
           Redux.store.dispatch(dailyWorkingStatsActions.set(dailyWorkingStats));
-          Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Home));
+          router.replace('/home');
         } else {
           Ui.showToast('INTERNAL USER ERROR', {
             backgroundColor: Ui.color.red,
@@ -54,13 +46,11 @@ export default function AppRoot() {
             avoidMenuBar: false,
           });
 
-          Redux.store.dispatch(navigationActions.jumpToInitialization(InitializationPageIndex.Top));
+          router.replace('/init');
         }
       } else {
-        Redux.store.dispatch(navigationActions.jumpToInitialization(InitializationPageIndex.Top));
+        router.replace('/init');
       }
-
-      SplashScreen.hideAsync();
     });
 
     return () => unsubscribe();
@@ -94,7 +84,7 @@ export default function AppRoot() {
           Database.signIn(user)
             .then(() => {
               Ui.showToast(t('init.emailLogin.toast.loggedIn'));
-              Redux.store.dispatch(navigationActions.jumpTo(NavigationRoutePath.Home));
+              router.replace('/home');
             })
             .catch(() => {
               Ui.showToast(t('init.emailLogin.toast.loggedIn'), {
@@ -132,18 +122,4 @@ export default function AppRoot() {
     const unsubscribe = dynamicLinks.onLink((link) => tryToSignIn(link.url));
     return () => unsubscribe();
   }, []);
-
-  return (
-    <>
-    <Initialization />
-    <Home />
-    <Performance />
-    <Management />
-    <Settings />
-    <TaskEdit />
-    <TaskInProgress />
-    <TaskFinish />
-    <MenuBar />
-    </>
-  );
 }

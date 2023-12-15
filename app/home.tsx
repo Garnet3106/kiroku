@@ -1,16 +1,17 @@
-import RouteContainer from '../../RouteContainer';
-import { NavigationRoutePath } from '../../../navigation';
+import RouteContainer from '../src/components/RouteContainer';
 import { StyleSheet, Text, View } from 'react-native';
-import ContentArea from '../../ContentArea';
-import Ui from '../../../ui';
-import TaskItem from './TaskItem';
-import ContentTitle from '../../ContentTitle';
-import TaskRegistrationButton from '../../TaskRegistrationButton';
-import { t } from '../../../translations';
+import ContentArea from '../src/components/ContentArea';
+import Ui from '../src/ui';
+import TaskItem from '../src/components/routes/Home/TaskItem';
+import ContentTitle from '../src/components/ContentTitle';
+import TaskRegistrationButton from '../src/components/TaskRegistrationButton';
+import { t } from '../src/translations';
 import { useSelector } from 'react-redux';
-import Redux from '../../../redux/redux';
+import Redux from '../src/redux/redux';
+import * as SplashScreen from 'expo-splash-screen';
+import { useEffect } from 'react';
 
-export default function Home() {
+export default function () {
   const tasks = useSelector((state: Redux.RootState) => state.tasks);
 
   const taskItems = tasks.map((eachTask, index) => (
@@ -21,13 +22,12 @@ export default function Home() {
     />
   ));
 
+  useEffect(() => {
+    SplashScreen.hideAsync();
+  }, []);
+
   return (
-    <RouteContainer
-      path={NavigationRoutePath.Home}
-      title={t('home.home')}
-      scrollable
-      containerChildren={<TaskRegistrationButton />}
-    >
+    <RouteContainer title={t('home.home')} scrollable containerChildren={<TaskRegistrationButton />}>
       <ContentTitle text={t('home.todaysPerf')} insertBottomMargin />
       <ContentArea insertBottomMargin>
       </ContentArea>

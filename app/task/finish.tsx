@@ -95,11 +95,7 @@ export default function () {
 
   async function onPressCloseButton() {
     if (!workResult) {
-      Ui.showToast(t('taskFinish.toast.failedToSaveWorkLog'), {
-        backgroundColor: Ui.color.red,
-        showsLong: true,
-      });
-
+      Ui.showToast(t('taskFinish.toast.failedToSaveWorkLog'), Ui.getErrorToastOptions());
       return;
     }
 
@@ -126,10 +122,7 @@ export default function () {
       Redux.store.dispatch(dailyWorkingStatsActions.set(newWorkingStats));
       router.replace('/home');
     } else {
-      Ui.showToast(t('taskFinish.toast.failedToSaveWorkLog'), {
-        backgroundColor: Ui.color.red,
-        showsLong: true,
-      });
+      Ui.showToast(t('taskFinish.toast.failedToSaveWorkLog'), Ui.getErrorToastOptions());
     }
   }
 }

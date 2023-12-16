@@ -228,11 +228,7 @@ export default function () {
       Ui.showToast(t('taskEdit.toast.taskWasDeleted'));
       router.replace('/manage');
     } else {
-      Ui.showToast(t('taskEdit.toast.failedToDeleteTask'), {
-        backgroundColor: Ui.color.red,
-        showsLong: true,
-      });
-
+      Ui.showToast(t('taskEdit.toast.failedToDeleteTask'), Ui.getErrorToastOptions());
       setButtonsDisabled(false);
     }
   }
@@ -294,11 +290,7 @@ export default function () {
       Ui.showToast(t('taskEdit.toast.taskWasSaved'));
       router.replace('/manage');
     } else {
-      Ui.showToast(t('taskEdit.toast.failedToSaveTask'), {
-        backgroundColor: Ui.color.red,
-        showsLong: true,
-      });
-
+      Ui.showToast(t('taskEdit.toast.failedToSaveTask'), Ui.getErrorToastOptions());
       setButtonsDisabled(false);
     }
   }

@@ -59,12 +59,7 @@ export default function () {
         onSelect={(option) => {
           changeLanguage(option.uniqueId as Language)
             .then(() => Ui.showToast("t('appSettings.toast.langWasChanged')"))
-            .catch(() => {
-              Ui.showToast(t('appSettings.toast.failedToChangeLang'), {
-                backgroundColor: Ui.color.red,
-                showsLong: true,
-              });
-            });
+            .catch(() => Ui.showToast(t('appSettings.toast.failedToChangeLang'), Ui.getErrorToastOptions()));
         }}
       />
       <Dialog.Container visible={logoutDialogVisibility}>
@@ -101,10 +96,7 @@ export default function () {
         router.replace('/init');
       })
       .catch(() => {
-        Ui.showToast(t('appSettings.toast.failedToLogout'), {
-          backgroundColor: Ui.color.red,
-          showsLong: true,
-        });
+        Ui.showToast(t('appSettings.toast.failedToLogout'), Ui.getErrorToastOptions());
       });
   }
 }

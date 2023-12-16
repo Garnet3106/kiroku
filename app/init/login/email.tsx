@@ -60,11 +60,7 @@ export default function () {
         });
       })
       .catch(() => {
-        Ui.showToast(t('init.emailLogin.toast.failedToAuthWithEmail'), {
-          backgroundColor: Ui.color.red,
-          avoidMenuBar: false,
-          showsLong: true,
-        });
+        Ui.showToast(t('init.emailLogin.toast.failedToAuthWithEmail'), [Ui.getErrorToastOptions(), { avoidMenuBar: false }]);
       });
   }
 }

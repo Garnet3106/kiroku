@@ -96,10 +96,7 @@ export default function TaskItem(props: TaskItemProps) {
 
   function onPress() {
     if (isOtherTaskInProgress) {
-      Ui.showToast(t('home.taskItem.toast.finishCurrentTask'), {
-        backgroundColor: Ui.color.red,
-        showsLong: true,
-      });
+      Ui.showToast(t('home.taskItem.toast.finishCurrentTask'), Ui.getErrorToastOptions());
       return;
     }
 

@@ -48,15 +48,33 @@ namespace Ui {
     showsLong?: boolean,
   };
 
-  export function showToast(message: string, options?: ToastOptions) {
-    const bottomMargin = options?.avoidMenuBar === undefined || options?.avoidMenuBar ? dimension.menuBar.height : 0;
+  export const getErrorToastOptions: () => ToastOptions = () => ({
+    backgroundColor: color.red,
+    showsLong: true,
+  });
+
+  export function showToast(message: string, options?: ToastOptions | ToastOptions[]) {
+    const mergedOptions = mergeToastOptions(options);
+    const bottomMargin = mergedOptions?.avoidMenuBar === undefined || mergedOptions?.avoidMenuBar ? dimension.menuBar.height : 0;
 
     Toast.show(message, {
-      backgroundColor: options?.backgroundColor ?? color.main,
-      duration: options?.showsLong ? Toast.durations.LONG : Toast.durations.SHORT,
+      backgroundColor: mergedOptions?.backgroundColor ?? color.main,
+      duration: mergedOptions?.showsLong ? Toast.durations.LONG : Toast.durations.SHORT,
       opacity: 1,
       position: Toast.positions.BOTTOM - bottomMargin,
     });
+  }
+
+  function mergeToastOptions(options?: ToastOptions | ToastOptions[]): ToastOptions | null {
+    if (!options) {
+      return null;
+    }
+
+    if (!Array.isArray(options)) {
+      return options;
+    }
+
+    return options.reduce((previous, current) => Object.assign(previous, current));
   }
 }
 

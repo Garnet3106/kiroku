@@ -40,12 +40,7 @@ export default function () {
           Redux.store.dispatch(dailyWorkingStatsActions.set(dailyWorkingStats));
           router.replace('/home');
         } else {
-          Ui.showToast('INTERNAL USER ERROR', {
-            backgroundColor: Ui.color.red,
-            showsLong: true,
-            avoidMenuBar: false,
-          });
-
+          Ui.showToast('INTERNAL USER ERROR', [Ui.getErrorToastOptions(), { avoidMenuBar: false }]);
           router.replace('/init');
         }
       } else {
@@ -86,30 +81,15 @@ export default function () {
               Ui.showToast(t('init.emailLogin.toast.loggedIn'));
               router.replace('/home');
             })
-            .catch(() => {
-              Ui.showToast(t('init.emailLogin.toast.loggedIn'), {
-                backgroundColor: Ui.color.red,
-                showsLong: true,
-                avoidMenuBar: false,
-              });
-            });
+            .catch(() => Ui.showToast(t('init.emailLogin.toast.loggedIn'), [Ui.getErrorToastOptions(), { avoidMenuBar: false }]));
         })
         .catch((error) => {
           if (typeof error?.message === 'string' && error.message.includes('[auth/invalid-action-code]')) {
-            Ui.showToast(t('init.emailLogin.toast.invalidAuthLink'), {
-              backgroundColor: Ui.color.red,
-              avoidMenuBar: false,
-              showsLong: true,
-            });
-
+            Ui.showToast(t('init.emailLogin.toast.invalidAuthLink'), [Ui.getErrorToastOptions(), { avoidMenuBar: false }]);
             return;
           }
 
-          Ui.showToast(t('init.emailLogin.toast.failedToAuthWithEmail'), {
-            backgroundColor: Ui.color.red,
-            avoidMenuBar: false,
-            showsLong: true,
-          });
+          Ui.showToast(t('init.emailLogin.toast.failedToAuthWithEmail'), [Ui.getErrorToastOptions(), { avoidMenuBar: false }]);
         });
     };
 

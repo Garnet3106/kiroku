@@ -45,19 +45,10 @@ export default function () {
             router.replace('/home');
             setButtonsDisabled(false);
           })
-          .catch(() => Ui.showToast('INTERNAL USER ERROR', {
-            backgroundColor: Ui.color.red,
-            showsLong: true,
-            avoidMenuBar: false,
-          }));
+          .catch(() => Ui.showToast('INTERNAL USER ERROR', [Ui.getErrorToastOptions(), { avoidMenuBar: false }]));
       })
       .catch(() => {
-        Ui.showToast(t('init.login.toast.failedToLogin'), {
-          backgroundColor: Ui.color.red,
-          avoidMenuBar: false,
-          showsLong: true,
-        });
-
+        Ui.showToast(t('init.login.toast.failedToLogin'), [Ui.getErrorToastOptions(), { avoidMenuBar: false }]);
         setButtonsDisabled(false);
       });
   }

@@ -9,7 +9,7 @@ export type ListBoxOption = {
 };
 
 export type ListBoxProps = {
-  displayed: boolean,
+  visible: boolean,
   options: ListBoxOption[],
   onPress?: (event: GestureResponderEvent) => void,
   onSelect?: (uniqueId: string | number) => void,
@@ -36,7 +36,7 @@ export default function ListBox(props: ListBoxProps) {
   ));
 
   return (
-    <Modal transparent visible={props.displayed}>
+    <Modal transparent visible={props.visible}>
       <Pressable
         style={styles.background}
         onPress={(event) => props.onPress && props.onPress(event)}

@@ -19,7 +19,7 @@ export default function Dropdown(props: DropdownProps) {
   const selected = props.options.find((eachOption) => eachOption.uniqueId === props.selected);
   const disabled = !selected;
   const text = !disabled && selected ? selected.text : '―';
-  const [listBoxDisplayed, setListBoxDisplayed] = useState(false);
+  const [listBoxVisibility, setListBoxVisibility] = useState(false);
 
   return (
     <View style={props.containerStyle}>
@@ -36,7 +36,7 @@ export default function Dropdown(props: DropdownProps) {
           styles.textArea,
           props.style,
         ]}
-        onPress={() => setListBoxDisplayed(true)}
+        onPress={() => setListBoxVisibility(true)}
       >
         <Text style={[
           { color: disabled ? Ui.color.gray : Ui.color.black },
@@ -48,9 +48,9 @@ export default function Dropdown(props: DropdownProps) {
         <Entypo name='chevron-down' style={styles.icon} color={Ui.color.gray} size={30}/>
       </PressableHighlight>
       <ListBox
-        displayed={listBoxDisplayed}
+        visible={listBoxVisibility}
         options={props.options}
-        onPress={() => setListBoxDisplayed(false)}
+        onPress={() => setListBoxVisibility(false)}
         onSelect={(uniqueId) => props.onChange && props.onChange(uniqueId)}
       />
     </View>

@@ -1,16 +1,12 @@
-import { Modal, Pressable, ScrollView, StyleProp, StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native';
+import { StyleProp, StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native';
 import Ui from '../../ui';
 import { Entypo } from '@expo/vector-icons';
 import PressableHighlight from '../pressable/PressableHighlight';
 import { useState } from 'react';
-
-export type DropdownOptions = {
-  uniqueId: string | number,
-  text: string,
-};
+import ListBox, { ListBoxOption } from './ListBox';
 
 export type DropdownProps = Ui.LayoutProps & {
-  options: DropdownOptions[],
+  options: ListBoxOption[],
   selected?: string | number,
   onChange?: (uniqueId: string | number) => void,
   containerStyle?: StyleProp<ViewStyle>,
@@ -23,42 +19,7 @@ export default function Dropdown(props: DropdownProps) {
   const selected = props.options.find((eachOption) => eachOption.uniqueId === props.selected);
   const disabled = !selected;
   const text = !disabled && selected ? selected.text : '―';
-  const [open, setOpen] = useState(false);
-
-  let options;
-
-  if (open && props.options) {
-    const optionItems = props.options.map((eachOption) => (
-      <PressableHighlight
-        underlayColor={{
-          from: Ui.color.white,
-          to: Ui.color.pressed.mainOnWhite,
-        }}
-        style={styles.optionItem}
-        onPress={() => {
-          setOpen(false);
-          props.onChange && props.onChange(eachOption.uniqueId);
-        }}
-        key={eachOption.uniqueId}
-      >
-        <Text style={styles.optionItemText}>
-          {eachOption.text}
-        </Text>
-      </PressableHighlight>
-    ));
-
-    options = (
-      <Modal transparent>
-        <Pressable style={styles.optionsBackground} onPress={() => setOpen(false)}>
-          <View style={styles.optionsContainer}>
-            <ScrollView style={styles.options}>
-              {optionItems}
-            </ScrollView>
-          </View>
-        </Pressable>
-      </Modal>
-    );
-  }
+  const [listBoxDisplayed, setListBoxDisplayed] = useState(false);
 
   return (
     <View style={props.containerStyle}>
@@ -75,7 +36,7 @@ export default function Dropdown(props: DropdownProps) {
           styles.textArea,
           props.style,
         ]}
-        onPress={() => setOpen((state) => !state)}
+        onPress={() => setListBoxDisplayed(true)}
       >
         <Text style={[
           { color: disabled ? Ui.color.gray : Ui.color.black },
@@ -86,7 +47,12 @@ export default function Dropdown(props: DropdownProps) {
         </Text>
         <Entypo name='chevron-down' style={styles.icon} color={Ui.color.gray} size={30}/>
       </PressableHighlight>
-      {options}
+      <ListBox
+        displayed={listBoxDisplayed}
+        options={props.options}
+        onPress={() => setListBoxDisplayed(false)}
+        onSelect={(uniqueId) => props.onChange && props.onChange(uniqueId)}
+      />
     </View>
   );
 }
@@ -108,32 +74,5 @@ const styles = StyleSheet.create({
   icon: {
     position: 'absolute',
     right: Ui.dimension.margin,
-  },
-  optionsBackground: {
-    alignItems: 'center',
-    backgroundColor: Ui.color.transparentBackground,
-    display: 'flex',
-    height: '100%',
-    justifyContent: 'center',
-    paddingHorizontal: Ui.dimension.margin * 2,
-    width: '100%',
-  },
-  optionsContainer: {
-    maxHeight: '60%',
-    width: '100%',
-  },
-  options: {
-    backgroundColor: Ui.color.white,
-    borderColor: Ui.color.border.lightGray,
-    borderRadius: Ui.dimension.border.radius,
-    borderWidth: Ui.dimension.border.width,
-    overflow: 'hidden',
-  },
-  optionItem: {
-    borderRadius: Ui.dimension.border.radius,
-    padding: Ui.dimension.margin,
-  },
-  optionItemText: {
-    fontSize: 16,
   },
 });

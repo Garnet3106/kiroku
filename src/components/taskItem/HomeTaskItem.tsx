@@ -1,14 +1,14 @@
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
-import Ui from '../../../ui';
+import Ui from '../../ui';
 import { Entypo, MaterialIcons } from '@expo/vector-icons';
-import ContentArea from '../../ContentArea';
-import Redux from '../../../redux/redux';
+import ContentArea from '../ContentArea';
+import Redux from '../../redux/redux';
 import Dialog from 'react-native-dialog';
 import { useState } from 'react';
-import { t } from '../../../translations';
-import { Task } from '../../../task';
+import { t } from '../../translations';
+import { Task } from '../../task';
 import { useSelector } from 'react-redux';
-import { taskInProgressActions } from '../../../redux/slices/taskInProgress';
+import { taskInProgressActions } from '../../redux/slices/taskInProgress';
 import { useRouter } from 'expo-router';
 
 export type TaskItemProps = Ui.LayoutProps & {

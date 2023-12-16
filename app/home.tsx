@@ -2,7 +2,7 @@ import RouteContainer from '../src/components/RouteContainer';
 import { StyleSheet, Text, View } from 'react-native';
 import ContentArea from '../src/components/ContentArea';
 import Ui from '../src/ui';
-import TaskItem from '../src/components/routes/Home/TaskItem';
+import HomeTaskItem from '../src/components/taskItem/HomeTaskItem';
 import ContentTitle from '../src/components/ContentTitle';
 import TaskRegistrationButton from '../src/components/TaskRegistrationButton';
 import { t } from '../src/translations';
@@ -15,7 +15,7 @@ export default function () {
   const tasks = useSelector((state: Redux.RootState) => state.tasks);
 
   const taskItems = tasks.map((eachTask, index) => (
-    <TaskItem
+    <HomeTaskItem
       task={eachTask}
       insertBottomMargin={index + 1 !== tasks.length}
       key={eachTask.id}

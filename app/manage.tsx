@@ -1,6 +1,6 @@
 import RouteContainer from '../src/components/RouteContainer';
 import Dropdown from '../src/components/input/Dropdown';
-import TaskItem from '../src/components/routes/Management/TaskItem';
+import ManagementTaskItem from '../src/components/taskItem/ManagementTaskItem';
 import ContentSeparator from '../src/components/ContentSeparator';
 import { TaskSortStyle } from '../src/task';
 import { useState } from 'react';
@@ -13,7 +13,7 @@ export default function () {
   const tasks = useSelector((state: Redux.RootState) => state.tasks);
 
   const taskItems = tasks.map((eachTask, index) => (
-    <TaskItem
+    <ManagementTaskItem
       task={eachTask}
       insertBottomMargin={index + 1 !== tasks.length}
       key={eachTask.id}

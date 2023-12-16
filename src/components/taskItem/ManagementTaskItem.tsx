@@ -1,18 +1,17 @@
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
-import Ui from '../../../ui';
+import Ui from '../../ui';
 import { Entypo } from '@expo/vector-icons';
-import ContentArea from '../../ContentArea';
-import Redux from '../../../redux/redux';
-import { DayOfWeek, Task, TaskIntervalType } from '../../../task';
-import { t } from '../../../translations';
+import ContentArea from '../ContentArea';
+import { DayOfWeek, Task, TaskIntervalType } from '../../task';
+import { t } from '../../translations';
 import { useRouter } from 'expo-router';
 
-export type TaskItemProps = Ui.LayoutProps & {
+export type ManagementTaskItemProps = Ui.LayoutProps & {
   task: Task,
   style?: StyleProp<ViewStyle>,
 };
 
-export default function TaskItem(props: TaskItemProps) {
+export default function ManagementTaskItem(props: ManagementTaskItemProps) {
   const router = useRouter();
   const descriptions = getDescription();
 

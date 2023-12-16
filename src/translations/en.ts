@@ -215,6 +215,8 @@ const en: TranslationDictionaryData = {
       cancel: 'CANCEL',
     },
     toast: {
+      langWasChanged: 'Language was changed.',
+      failedToChangeLang: 'Failed to change language.',
       loggedOut: 'You logged out.',
       failedToLogout: 'Failed to logout. Please try again.',
     },

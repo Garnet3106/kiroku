@@ -49,8 +49,22 @@ export namespace Database {
     }
   }
 
+  export async function changeUserLanguage(language: Language): Promise<void> {
+    const uid = Auth.getUid();
+
+    if (!uid) {
+      return;
+    }
+
+    if (!env.preventDatabaseAccesses) {
+      await firestore.collection('users').doc(uid).update({
+        language,
+      });
+    }
+  }
+
   export function generateTaskId(): string {
-    return firestore.collection('a').doc().id;
+    return firestore.collection('_').doc().id;
   }
 
   export async function getTasks(): Promise<Task[] | null> {

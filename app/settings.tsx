@@ -1,5 +1,5 @@
 import RouteContainer from '../src/components/RouteContainer';
-import { t } from '../src/translations';
+import { Language, setLanguage, t } from '../src/translations';
 import RectangleButtonList from '../src/components/input/RectangleButtonList';
 import ContentTitle from '../src/components/ContentTitle';
 import Ui from '../src/ui';
@@ -9,9 +9,19 @@ import Dialog from 'react-native-dialog';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'expo-router';
+import ListBox from '../src/components/input/ListBox';
+import { userActions } from '../src/redux/slices/user';
+import { Database } from '../src/database';
 
 export default function () {
   const router = useRouter();
+
+  const [languageListBoxVisibility, setLanguageListBoxVisibility] = useState(false);
+
+  const languageOptions = Language.enumerate().map((language) => ({
+    uniqueId: language,
+    text: t(`lang.${language}`),
+  }));
 
   const user = useSelector((state: Redux.RootState) => state.user);
   const [logoutDialogVisibility, setLogoutDialogVisibility] = useState(false);
@@ -39,9 +49,24 @@ export default function () {
         {
           text: t('appSettings.lang'),
           caption: user ? t(`lang.${user.language}`) : 'N/A',
-          onPress: () => {},
+          onPress: () => setLanguageListBoxVisibility(true),
         },
       ]} />
+      <ListBox
+        visible={languageListBoxVisibility}
+        options={languageOptions}
+        onPress={() => setLanguageListBoxVisibility(false)}
+        onSelect={(option) => {
+          changeLanguage(option.uniqueId as Language)
+            .then(() => Ui.showToast("t('appSettings.toast.langWasChanged')"))
+            .catch(() => {
+              Ui.showToast(t('appSettings.toast.failedToChangeLang'), {
+                backgroundColor: Ui.color.red,
+                showsLong: true,
+              });
+            });
+        }}
+      />
       <Dialog.Container visible={logoutDialogVisibility}>
         <Dialog.Title>
           {t('appSettings.appSettings')}
@@ -57,6 +82,12 @@ export default function () {
       </Dialog.Container>
     </RouteContainer>
   );
+
+  async function changeLanguage(language: Language): Promise<void> {
+    await Database.changeUserLanguage(language).catch((e: any) => { throw e });
+    setLanguage(language);
+    Redux.store.dispatch(userActions.setLanguage(language));
+  }
 
   function signOut() {
     // add sync process

@@ -202,6 +202,8 @@ export type TranslationDictionaryData = {
       cancel: string,
     },
     toast: {
+      langWasChanged: string,
+      failedToChangeLang: string,
       loggedOut: string,
       failedToLogout: string,
     },

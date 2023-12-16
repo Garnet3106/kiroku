@@ -215,6 +215,8 @@ const ja: TranslationDictionaryData = {
       cancel: 'キャンセル',
     },
     toast: {
+      langWasChanged: '言語を変更しました。',
+      failedToChangeLang: '言語を変更できませんでした。再度お試しください。',
       loggedOut: 'ログアウトしました。',
       failedToLogout: 'ログアウトできませんでした。再度お試しください。',
     },

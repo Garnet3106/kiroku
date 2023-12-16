@@ -12,7 +12,7 @@ export type ListBoxProps = {
   visible: boolean,
   options: ListBoxOption[],
   onPress?: (event: GestureResponderEvent) => void,
-  onSelect?: (uniqueId: string | number) => void,
+  onSelect?: (option: ListBoxOption) => void,
 };
 
 export default function ListBox(props: ListBoxProps) {
@@ -25,7 +25,7 @@ export default function ListBox(props: ListBoxProps) {
       style={styles.item}
       onPress={(event) => {
         props.onPress && props.onPress(event);
-        props.onSelect && props.onSelect(eachOption.uniqueId);
+        props.onSelect && props.onSelect(eachOption);
       }}
       key={eachOption.uniqueId}
     >

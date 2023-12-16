@@ -51,7 +51,7 @@ export default function Dropdown(props: DropdownProps) {
         visible={listBoxVisibility}
         options={props.options}
         onPress={() => setListBoxVisibility(false)}
-        onSelect={(uniqueId) => props.onChange && props.onChange(uniqueId)}
+        onSelect={(option) => props.onChange && props.onChange(option.uniqueId)}
       />
     </View>
   );

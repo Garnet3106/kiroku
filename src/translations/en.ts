@@ -5,7 +5,7 @@ import { DayOfWeek, TaskCategory, TaskSortStyle } from '../task';
 const en: TranslationDictionaryData = {
   lang: {
     [Language.English]: 'English',
-    [Language.Japanese]: 'Japanese',
+    [Language.Japanese]: '日本語',
   },
   app: {
     name: 'kiroku',
